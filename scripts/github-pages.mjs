@@ -20,24 +20,45 @@ const pagesEnv = {
 };
 
 function resolveCommand(command) {
+  return command;
+}
+
+function quoteForCmd(arg) {
+  return `"${String(arg).replace(/"/g, '\\"')}"`;
+}
+
+function spawnCommand(command, args, options = {}) {
   if (process.platform === "win32" && command === "pnpm") {
-    return "pnpm.cmd";
+    return spawnSync(
+      "cmd.exe",
+      ["/d", "/s", "/c", `pnpm ${args.map(quoteForCmd).join(" ")}`],
+      {
+        shell: false,
+        ...options,
+      },
+    );
   }
 
-  return command;
+  return spawnSync(resolveCommand(command), args, {
+    shell: false,
+    ...options,
+  });
 }
 
 function run(command, args, options = {}) {
   const printable = [command, ...args].join(" ");
   console.log(`\n> ${printable}`);
 
-  const result = spawnSync(resolveCommand(command), args, {
+  const result = spawnCommand(command, args, {
     cwd: repoRoot,
     env: pagesEnv,
     stdio: "inherit",
-    shell: false,
     ...options,
   });
+
+  if (result.error) {
+    console.error(result.error);
+  }
 
   if (result.status !== 0) {
     process.exit(result.status ?? 1);
@@ -45,13 +66,16 @@ function run(command, args, options = {}) {
 }
 
 function read(command, args, options = {}) {
-  const result = spawnSync(resolveCommand(command), args, {
+  const result = spawnCommand(command, args, {
     cwd: repoRoot,
     env: pagesEnv,
     encoding: "utf8",
-    shell: false,
     ...options,
   });
+
+  if (result.error) {
+    console.error(result.error);
+  }
 
   if (result.status !== 0) {
     process.exit(result.status ?? 1);
