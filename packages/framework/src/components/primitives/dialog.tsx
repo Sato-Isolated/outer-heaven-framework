@@ -5,7 +5,9 @@ import {
   useId,
   useRef,
   type HTMLAttributes,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
@@ -16,6 +18,25 @@ import {
 } from "../../lib/data-attrs";
 import { Button } from "./button";
 
+const FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])",
+].join(",");
+
+function getFocusableElements(container: HTMLElement | null) {
+  if (!container) {
+    return [];
+  }
+
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+  );
+}
+
 export interface DialogProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title">,
     SemanticProps {
@@ -24,14 +45,20 @@ export interface DialogProps
   title: string;
   description?: string;
   footer?: ReactNode;
+  closeOnBackdrop?: boolean;
+  closeOnEscape?: boolean;
+  initialFocusRef?: RefObject<HTMLElement | null>;
 }
 
 export function Dialog({
   children,
   className,
+  closeOnBackdrop = true,
+  closeOnEscape = true,
   density,
   description,
   footer,
+  initialFocusRef,
   onOpenChange,
   open,
   size,
@@ -43,6 +70,7 @@ export function Dialog({
   const titleId = useId();
   const descriptionId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const previousActiveRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!open) {
@@ -50,25 +78,29 @@ export function Dialog({
     }
 
     const previousOverflow = document.body.style.overflow;
-    const previousActive = document.activeElement as HTMLElement | null;
-
+    previousActiveRef.current = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
-    panelRef.current?.focus();
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (closeOnEscape && event.key === "Escape") {
         onOpenChange?.(false);
       }
     };
 
+    const focusTarget =
+      initialFocusRef?.current ??
+      getFocusableElements(panelRef.current)[0] ??
+      panelRef.current;
+
+    focusTarget?.focus();
     window.addEventListener("keydown", handleEscape);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      previousActive?.focus();
+      previousActiveRef.current?.focus();
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [onOpenChange, open]);
+  }, [closeOnEscape, initialFocusRef, onOpenChange, open]);
 
   if (!open || typeof document === "undefined") {
     return null;
@@ -78,7 +110,7 @@ export function Dialog({
     <div
       className="od-dialog-backdrop"
       onClick={(event) => {
-        if (event.target === event.currentTarget) {
+        if (closeOnBackdrop && event.target === event.currentTarget) {
           onOpenChange?.(false);
         }
       }}
@@ -91,6 +123,34 @@ export function Dialog({
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         className={cn("od-dialog", className)}
+        onKeyDown={(event: ReactKeyboardEvent<HTMLDivElement>) => {
+          if (event.key !== "Tab") {
+            return;
+          }
+
+          const focusableElements = getFocusableElements(panelRef.current);
+
+          if (focusableElements.length === 0) {
+            event.preventDefault();
+            panelRef.current?.focus();
+            return;
+          }
+
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+          const activeElement = document.activeElement;
+
+          if (event.shiftKey && activeElement === firstElement) {
+            event.preventDefault();
+            lastElement?.focus();
+            return;
+          }
+
+          if (!event.shiftKey && activeElement === lastElement) {
+            event.preventDefault();
+            firstElement?.focus();
+          }
+        }}
         {...semanticDataAttributes({ tone, size, state, density })}
         {...props}
       >
@@ -109,7 +169,7 @@ export function Dialog({
           <Button
             iconOnly
             size="sm"
-            variant="ghost"
+            ghost
             tone="muted"
             aria-label="Close dialog"
             onClick={() => onOpenChange?.(false)}
@@ -124,4 +184,3 @@ export function Dialog({
     document.body,
   );
 }
-

@@ -22,6 +22,18 @@
   }
 }
 
+@keyframes od-exit-fade {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 @keyframes od-emphasis-scan {
   from {
     transform: translateX(-120%);
@@ -63,4 +75,3 @@
     scroll-behavior: auto !important;
   }
 }
-

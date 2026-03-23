@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Badge, Kbd } from "@outerhaven/framework";
+import { Badge, Button, Kbd } from "@outerhaven/framework";
 
 export function SiteHeader() {
   return (
@@ -35,19 +35,11 @@ export function SiteHeader() {
             <Kbd>G</Kbd>
             <Kbd>D</Kbd>
           </div>
-          <Link
-            href="/dashboard"
-            className="od-button"
-            data-tone="primary"
-            data-size="sm"
-            data-state="default"
-            data-density="default"
-          >
-            Open Command Deck
-          </Link>
+          <Button asChild tone="primary" size="sm">
+            <Link href="/dashboard">Open Command Deck</Link>
+          </Button>
         </div>
       </div>
     </header>
   );
 }
-

@@ -66,3 +66,17 @@
   --od-focus-ring: 0 0 0 2px color-mix(in oklab, var(--od-color-primary) 60%, transparent);
 }
 
+@media (max-width: 1279px) {
+  :root {
+    --od-shell-cut: 10px;
+    --od-panel-cut: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --od-shell-cut: 8px;
+    --od-panel-cut: 6px;
+  }
+}
+

@@ -7,6 +7,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
   CircleAlert,
+  FileSearch,
   FileStack,
   Filter,
   Radar,
@@ -97,7 +98,7 @@ export function DashboardShowcase() {
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
       <Shell tone="primary" state="active" className="overflow-hidden">
         <div className="u-tactical-grid absolute inset-0 opacity-20" />
-        <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] lg:items-end">
+        <div className="relative grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(220px,0.9fr)] md:items-end lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)]">
           <div className="space-y-5">
             <Badge tone="primary">Command Dashboard / Demo</Badge>
             <div className="space-y-3">
@@ -112,16 +113,9 @@ export function DashboardShowcase() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3 lg:justify-end">
-            <Link
-              href="/"
-              className="od-button"
-              data-tone="muted"
-              data-size="sm"
-              data-state="default"
-              data-density="default"
-            >
-              Return to Overview
-            </Link>
+            <Button asChild tone="muted" size="sm" ghost>
+              <Link href="/">Return to Overview</Link>
+            </Button>
             <Button
               tone="warning"
               size="sm"
@@ -177,16 +171,22 @@ export function DashboardShowcase() {
             <Kbd>R</Kbd>
           </div>
         </div>
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_220px_auto_auto]">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[minmax(0,1.2fr)_220px_auto_auto]">
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search payload or owner"
+            insetLabel="Query"
+            hint="Filter by payload filename or owner tag."
+            prefix={<Filter className="h-4 w-4" />}
             aria-label="Search payloads"
           />
           <Select
             value={sector}
             onChange={(event) => setSector(event.target.value)}
+            insetLabel="Sector"
+            hint="Route the queue to a relay segment."
+            prefix={<Radar className="h-4 w-4" />}
             aria-label="Filter sector"
           >
             <option value="all">All sectors</option>
@@ -198,14 +198,14 @@ export function DashboardShowcase() {
             <Filter className="h-4 w-4" />
             Apply
           </Button>
-          <Button variant="ghost" tone="muted">
+          <Button ghost tone="muted">
             <SlidersHorizontal className="h-4 w-4" />
             Presets
           </Button>
         </div>
       </Panel>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_360px]">
+      <div className="grid gap-6 md:grid-cols-[minmax(0,1.2fr)_300px] lg:grid-cols-[minmax(0,1.35fr)_360px]">
         <div className="grid gap-6">
           <Panel className="gap-6">
             <div className="flex items-start justify-between gap-6">
@@ -229,7 +229,7 @@ export function DashboardShowcase() {
                     <p className="text-sm text-muted">Owner {row.owner}</p>
                   </div>
                   <Badge tone={row.tone}>{row.status}</Badge>
-                  <Button tone="muted" variant="ghost" size="sm">
+                  <Button tone="muted" ghost size="sm">
                     Inspect
                   </Button>
                 </div>
@@ -237,57 +237,65 @@ export function DashboardShowcase() {
             </div>
           </Panel>
 
-          <Dropzone tone="primary" state={uploadState} className="u-scan-pass">
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-              <div className="space-y-4">
-                <p className="u-mono-label text-primary">Dropzone Simulator</p>
-                <h2 className="text-2xl font-semibold text-foreground">
-                  Toggle real primitive states without changing the underlying styles.
-                </h2>
-                <p className="max-w-2xl text-sm leading-6 text-muted">
-                  Use the controls to switch between idle, active, upload, and
-                  success treatments. The visual contract lives in the framework,
-                  not in this page.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Button size="sm" tone="muted" variant="ghost" onClick={() => setUploadState("default")}>
-                    Idle
-                  </Button>
-                  <Button size="sm" tone="primary" onClick={() => setUploadState("active")}>
-                    Armed
-                  </Button>
-                  <Button size="sm" tone="warning" onClick={() => setUploadState("loading")}>
-                    Uploading
-                  </Button>
-                  <Button size="sm" tone="success" onClick={() => setUploadState("success")}>
-                    Success
-                  </Button>
-                  <Button size="sm" tone="danger" onClick={() => setUploadState("error")}>
-                    Error
-                  </Button>
+          <Dropzone
+            tone={
+              uploadState === "success"
+                ? "success"
+                : uploadState === "error"
+                  ? "danger"
+                  : uploadState === "loading"
+                    ? "warning"
+                    : "primary"
+            }
+            state={uploadState}
+            className="u-scan-pass"
+            eyebrow="Dropzone Simulator"
+            title="Toggle real primitive states without changing the underlying styles."
+            description="This example now validates the structured dropzone API instead of treating the primitive as a plain bordered container."
+            hint="Idle, drag-over, uploading, success, and error paths should all remain readable under the same token system."
+            icon={<Upload className="h-6 w-6" />}
+            status={
+              <div className="grid gap-2 text-sm text-muted">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-success" />
+                  Reduced-motion friendly progress sweep
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-primary" />
+                  Bordered overlay surface remains readable
+                </div>
+                <div className="flex items-center gap-2">
+                  <CircleAlert className="h-4 w-4 text-warning" />
+                  Same tone system as badges, buttons, and toasts
                 </div>
               </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-sm text-foreground">
-                  <Upload className="h-5 w-5 text-primary" />
-                  <span>Payload intake channel</span>
-                </div>
-                <div className="grid gap-2 text-sm text-muted">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-success" />
-                    Reduced-motion friendly progress sweep
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4 text-primary" />
-                    Bordered overlay surface remains readable
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CircleAlert className="h-4 w-4 text-warning" />
-                    Same tone system as badges, buttons, and toasts
-                  </div>
-                </div>
+            }
+            actions={
+              <>
+                <Button size="sm" tone="muted" ghost onClick={() => setUploadState("default")}>
+                  Idle
+                </Button>
+                <Button size="sm" tone="primary" onClick={() => setUploadState("active")}>
+                  Armed
+                </Button>
+                <Button size="sm" tone="warning" onClick={() => setUploadState("loading")}>
+                  Uploading
+                </Button>
+                <Button size="sm" tone="success" onClick={() => setUploadState("success")}>
+                  Success
+                </Button>
+                <Button size="sm" tone="danger" onClick={() => setUploadState("error")}>
+                  Error
+                </Button>
+              </>
+            }
+          >
+            <Panel tone="muted" density="compact">
+              <div className="flex items-center gap-3 text-sm text-foreground">
+                <FileSearch className="h-4 w-4 text-primary" />
+                <span>Payload intake channel / structured body slot</span>
               </div>
-            </div>
+            </Panel>
           </Dropzone>
         </div>
 
@@ -380,7 +388,7 @@ export function DashboardShowcase() {
         description="This dialog validates the framework overlay, focus treatment, and action framing without introducing a second visual language."
         footer={
           <>
-            <Button variant="ghost" tone="muted" onClick={() => setDialogOpen(false)}>
+            <Button ghost tone="muted" onClick={() => setDialogOpen(false)}>
               Abort
             </Button>
             <Button

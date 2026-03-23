@@ -2,11 +2,19 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
-  Orbit,
   ShieldCheck,
   Upload,
 } from "lucide-react";
-import { Badge, Divider, Dropzone, Kbd, Panel, Shell } from "@outerhaven/framework";
+import {
+  Badge,
+  Button,
+  CommandHero,
+  Divider,
+  Dropzone,
+  Kbd,
+  Panel,
+  Shell,
+} from "@outerhaven/framework";
 
 const capabilityRows = [
   {
@@ -41,119 +49,82 @@ const supportColumns = [
   },
 ];
 
+const heroReadouts = [
+  {
+    value: "11",
+    label: "Primitives",
+    detail: "One contract across surfaces, inputs, overlays, and signals.",
+  },
+  {
+    value: "5",
+    label: "Semantic Tones",
+    detail: "Primary, success, warning, danger, and muted map directly into Tailwind.",
+  },
+  {
+    value: "1",
+    label: "Stylesheet Entry",
+    detail: "One import brings tokens, theme mapping, motion, and primitive contracts online.",
+  },
+];
+
+const heroMetaItems = [
+  {
+    label: "Framework Name",
+    value: "Outer Heaven Framework",
+  },
+  {
+    label: "Public Layer",
+    value: "`od-*` primitives",
+  },
+  {
+    label: "Tone Set",
+    value: "primary / success / warning / danger / muted",
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="overflow-hidden">
       <section className="relative isolate min-h-[calc(100svh-5rem)] overflow-hidden border-b border-border/60">
         <div className="u-tactical-grid absolute inset-0 opacity-30" />
         <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,_rgb(232_197_84_/_0.18),_transparent_56%)]" />
-        <div className="mx-auto grid w-full max-w-7xl gap-16 px-4 py-16 sm:px-6 lg:min-h-[calc(100svh-5rem)] lg:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)] lg:items-center lg:px-8 lg:py-20">
-          <div className="relative z-10 max-w-3xl space-y-8">
-            <div className="space-y-4">
-              <Badge tone="warning">Outer Heaven Framework / Active Blueprint</Badge>
-              <div className="space-y-5">
-                <p className="u-mono-label text-primary">Command Interface Layer</p>
-                <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-                  Tactical UI for systems that need discipline, not decoration.
-                </h1>
-                <p className="max-w-2xl text-lg leading-8 text-muted">
-                  A reusable Tailwind framework that turns tokens, motion, and
-                  primitive contracts into a command-center interface instead of
-                  a generic dashboard skin.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <Link
-                href="/dashboard"
-                className="od-button"
-                data-tone="primary"
-                data-size="lg"
-                data-state="default"
-                data-density="default"
-              >
-                Enter Demo Deck
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#framework"
-                className="od-button"
-                data-tone="muted"
-                data-size="lg"
-                data-state="default"
-                data-density="default"
-              >
-                View Primitive Contract
-              </Link>
-            </div>
-
-            <Shell
-              tone="primary"
-              state="active"
-              density="compact"
-              className="grid gap-5 bg-transparent md:grid-cols-3"
-            >
-              <div className="space-y-2">
-                <p className="u-mono-label text-primary">Framework Name</p>
-                <p className="text-xl font-semibold text-foreground">Outer Heaven Framework</p>
-              </div>
-              <div className="space-y-2">
-                <p className="u-mono-label text-primary">Public Layer</p>
-                <p className="text-xl font-semibold text-foreground">`od-*` primitives</p>
-              </div>
-              <div className="space-y-2">
-                <p className="u-mono-label text-primary">Tone Set</p>
-                <p className="text-xl font-semibold text-foreground">
-                  primary / success / warning / danger / muted
-                </p>
-              </div>
-            </Shell>
-          </div>
-
-          <div className="relative flex items-center justify-center lg:justify-end">
-            <div className="relative aspect-square w-full max-w-[40rem]">
-              <div className="hero-radar absolute inset-[8%]">
-                <div className="hero-radar-grid absolute inset-0 rounded-full" />
-                <div className="hero-radar-sweep" />
-                <div className="hero-dot left-[26%] top-[30%]" />
-                <div className="hero-dot left-[62%] top-[52%]" />
-                <div className="hero-dot left-[48%] top-[70%]" />
-              </div>
-              <Panel
-                tone="primary"
-                state="active"
-                className="absolute right-0 top-12 w-[min(22rem,88%)]"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="u-mono-label text-primary">Mission Board</p>
-                    <h2 className="mt-2 text-2xl font-semibold text-foreground">
-                      Semantic control over every surface.
-                    </h2>
-                  </div>
-                  <Orbit className="h-6 w-6 text-primary" />
-                </div>
-                <Divider />
-                <div className="grid gap-4">
-                  {capabilityRows.map((row) => (
-                    <div key={row.label} className="space-y-2">
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="text-sm font-medium text-foreground">{row.label}</p>
-                        <span className="signal-bar w-16" />
-                      </div>
-                      <p className="text-sm leading-6 text-muted">{row.detail}</p>
-                    </div>
-                  ))}
-                </div>
-              </Panel>
-            </div>
-          </div>
+        <div className="mx-auto w-full px-4 py-16 sm:px-6 md:py-18 lg:min-h-[calc(100svh-5rem)] lg:px-8 lg:py-20 xl:px-[clamp(2rem,5vw,10rem)]">
+          <CommandHero
+            badge={<Badge tone="warning">Outer Heaven Framework / Active Blueprint</Badge>}
+            eyebrow="Command Interface Layer"
+            title="Tactical UI for systems that need discipline, not decoration."
+            description="A reusable Tailwind framework that turns tokens, motion, and primitive contracts into a command-center interface instead of a generic dashboard skin."
+            primaryAction={(
+              <Button asChild tone="primary" size="lg">
+                <Link href="/dashboard">
+                  Enter Demo Deck
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            )}
+            secondaryAction={(
+              <Button asChild tone="muted" size="lg" ghost>
+                <Link href="#framework">View Primitive Contract</Link>
+              </Button>
+            )}
+            metaItems={heroMetaItems}
+            panel={{
+              label: "Tactical Display 01",
+              stamp: "Live Contract",
+              headline: "One visual language from shell to toast.",
+              rows: capabilityRows.map((row, index) => ({
+                index: `0${index + 1}`,
+                label: row.label,
+                detail: row.detail,
+              })),
+              readouts: heroReadouts,
+            }}
+          />
         </div>
       </section>
 
-      <section id="framework" className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
+      <section id="framework" className="mx-auto w-full max-w-[80rem] px-4 py-20 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] xl:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
           <Shell density="roomy" className="u-scan-pass">
             <p className="u-mono-label text-primary">Implementation Shape</p>
             <h2 className="mt-4 text-3xl font-semibold text-foreground">
@@ -173,7 +144,7 @@ export default function HomePage() {
             </div>
           </Shell>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {supportColumns.map((column) => (
               <Panel key={column.title} tone={column.tone}>
                 <div className="space-y-3">
@@ -189,7 +160,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid w-full max-w-7xl gap-8 px-4 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8">
+      <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8">
         <Dropzone tone="primary" state="active" className="u-scan-pass">
           <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_18rem] md:items-center">
             <div className="space-y-4">
@@ -240,7 +211,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-t border-border/60 bg-background/60">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-16 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8">
+        <div className="mx-auto flex w-full max-w-[80rem] flex-col gap-8 px-4 py-16 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-8">
           <div className="max-w-2xl">
             <p className="u-mono-label text-primary">Live Validation</p>
             <h2 className="mt-4 text-3xl font-semibold text-foreground">
@@ -248,17 +219,12 @@ export default function HomePage() {
               status panels running on the same contract.
             </h2>
           </div>
-          <Link
-            href="/dashboard"
-            className="od-button"
-            data-tone="primary"
-            data-size="lg"
-            data-state="default"
-            data-density="default"
-          >
-            Launch Dashboard Demo
-            <BadgeCheck className="h-4 w-4" />
-          </Link>
+          <Button asChild tone="primary" size="lg">
+            <Link href="/dashboard">
+              Launch Dashboard Demo
+              <BadgeCheck className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
     </main>

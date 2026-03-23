@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type CSSProperties,
   type HTMLAttributes,
@@ -28,14 +29,17 @@ export interface ToastProps
   duration?: number;
   onDismiss?: () => void;
   action?: ReactNode;
+  pauseOnHover?: boolean;
+  showProgress?: boolean;
 }
 
 interface ToastRecord extends ToastProps {
   id: string;
+  closing?: boolean;
 }
 
 interface ToastContextValue {
-  push: (toast: Omit<ToastRecord, "id">) => void;
+  push: (toast: Omit<ToastRecord, "id" | "closing">) => void;
   dismiss: (id: string) => void;
 }
 
@@ -44,25 +48,68 @@ const ToastContext = createContext<ToastContextValue | null>(null);
 export function Toast({
   action,
   className,
+  closing,
   density,
   description,
   duration = 4200,
   onDismiss,
+  pauseOnHover = true,
+  showProgress = true,
   size = "md",
   state = "open",
   title,
   tone = "muted",
   ...props
-}: ToastProps) {
+}: ToastProps & { closing?: boolean }) {
+  const remainingRef = useRef(duration);
+  const startedAtRef = useRef<number | null>(null);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    remainingRef.current = duration;
+  }, [duration]);
+
+  useEffect(() => {
+    if (!onDismiss || paused || state !== "open") {
+      return;
+    }
+
+    startedAtRef.current = window.performance.now();
+    const timeout = window.setTimeout(() => onDismiss(), remainingRef.current);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [onDismiss, paused, state]);
+
   return (
     <div
       role="status"
-      className={cn("od-toast", className)}
+      className={cn(
+        "od-toast",
+        (closing || state !== "open") && "od-toast-closing",
+        className,
+      )}
       style={
         {
           "--od-toast-duration": `${duration}ms`,
         } as CSSProperties
       }
+      onMouseEnter={() => {
+        if (pauseOnHover && state === "open") {
+          if (startedAtRef.current !== null) {
+            const elapsed = window.performance.now() - startedAtRef.current;
+            remainingRef.current = Math.max(0, remainingRef.current - elapsed);
+            startedAtRef.current = null;
+          }
+          setPaused(true);
+        }
+      }}
+      onMouseLeave={() => {
+        if (pauseOnHover && state === "open") {
+          setPaused(false);
+        }
+      }}
       {...semanticDataAttributes({ tone, size, state, density })}
       {...props}
     >
@@ -79,7 +126,7 @@ export function Toast({
           <Button
             iconOnly
             size="sm"
-            variant="ghost"
+            ghost
             tone={tone}
             aria-label="Dismiss toast"
             onClick={onDismiss}
@@ -88,38 +135,58 @@ export function Toast({
           </Button>
         ) : null}
       </div>
-      <div aria-hidden="true" className="od-toast-progress" />
+      {showProgress && state === "open" ? (
+        <div aria-hidden="true" className="od-toast-progress" />
+      ) : null}
     </div>
   );
 }
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastRecord[]>([]);
-
-  const dismiss = useCallback((id: string) => {
-    setToasts((current) => current.filter((toast) => toast.id !== id));
-  }, []);
-
-  const push = useCallback((toast: Omit<ToastRecord, "id">) => {
-    const id = crypto.randomUUID();
-    setToasts((current) => [...current, { ...toast, id }]);
-  }, []);
+  const closeTimeoutsRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
-    if (toasts.length === 0) {
-      return;
-    }
-
-    const timers = toasts.map((toast) =>
-      window.setTimeout(() => dismiss(toast.id), toast.duration ?? 4200),
-    );
+    const closeTimeouts = closeTimeoutsRef.current;
 
     return () => {
-      for (const timer of timers) {
-        window.clearTimeout(timer);
+      for (const timeout of closeTimeouts.values()) {
+        window.clearTimeout(timeout);
       }
     };
-  }, [dismiss, toasts]);
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((current) => current.filter((toast) => toast.id !== id));
+    const timeout = closeTimeoutsRef.current.get(id);
+
+    if (timeout) {
+      window.clearTimeout(timeout);
+      closeTimeoutsRef.current.delete(id);
+    }
+  }, []);
+
+  const dismiss = useCallback((id: string) => {
+    setToasts((current) =>
+      current.map((toast) =>
+        toast.id === id ? { ...toast, closing: true } : toast,
+      ),
+    );
+
+    const existingTimeout = closeTimeoutsRef.current.get(id);
+
+    if (existingTimeout) {
+      window.clearTimeout(existingTimeout);
+    }
+
+    const timeout = window.setTimeout(() => removeToast(id), 180);
+    closeTimeoutsRef.current.set(id, timeout);
+  }, [removeToast]);
+
+  const push = useCallback((toast: Omit<ToastRecord, "id" | "closing">) => {
+    const id = crypto.randomUUID();
+    setToasts((current) => [...current, { ...toast, id, closing: false }]);
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -134,7 +201,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div className="od-toast-viewport" aria-live="polite" aria-atomic="true">
         {toasts.map((toast) => (
-          <Toast key={toast.id} {...toast} onDismiss={() => dismiss(toast.id)} />
+          <Toast
+            key={toast.id}
+            {...toast}
+            closing={toast.closing}
+            state={toast.closing ? "disabled" : "open"}
+            onDismiss={() => dismiss(toast.id)}
+          />
         ))}
       </div>
     </ToastContext.Provider>
@@ -155,11 +228,10 @@ export function toneToast(
   tone: Tone,
   title: string,
   description: string,
-): Omit<ToastRecord, "id"> {
+): Omit<ToastRecord, "id" | "closing"> {
   return {
     tone,
     title,
     description,
   };
 }
-
