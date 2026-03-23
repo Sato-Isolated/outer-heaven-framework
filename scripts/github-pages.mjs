@@ -24,7 +24,13 @@ function resolveCommand(command) {
 }
 
 function quoteForCmd(arg) {
-  return `"${String(arg).replace(/"/g, '\\"')}"`;
+  const value = String(arg);
+
+  if (!/[\s"]/u.test(value)) {
+    return value;
+  }
+
+  return `"${value.replace(/"/g, '\\"')}"`;
 }
 
 function spawnCommand(command, args, options = {}) {
