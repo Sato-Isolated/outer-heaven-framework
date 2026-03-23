@@ -19,15 +19,23 @@ const pagesEnv = {
   GITHUB_PAGES_REPO: repoName,
 };
 
+function resolveCommand(command) {
+  if (process.platform === "win32" && command === "pnpm") {
+    return "pnpm.cmd";
+  }
+
+  return command;
+}
+
 function run(command, args, options = {}) {
   const printable = [command, ...args].join(" ");
   console.log(`\n> ${printable}`);
 
-  const result = spawnSync(command, args, {
+  const result = spawnSync(resolveCommand(command), args, {
     cwd: repoRoot,
     env: pagesEnv,
     stdio: "inherit",
-    shell: process.platform === "win32",
+    shell: false,
     ...options,
   });
 
@@ -37,11 +45,11 @@ function run(command, args, options = {}) {
 }
 
 function read(command, args, options = {}) {
-  const result = spawnSync(command, args, {
+  const result = spawnSync(resolveCommand(command), args, {
     cwd: repoRoot,
     env: pagesEnv,
     encoding: "utf8",
-    shell: process.platform === "win32",
+    shell: false,
     ...options,
   });
 
