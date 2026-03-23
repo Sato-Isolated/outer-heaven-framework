@@ -113,11 +113,9 @@ export function Toast({
       {...semanticDataAttributes({ tone, size, state, density })}
       {...props}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-2">
-          <p className="u-mono-label" style={{ color: "var(--od-tone-text)" }}>
-            Signal Relay
-          </p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-2">
+          <p className="u-mono-label u-tone-text">Signal Relay</p>
           <p className="text-sm font-semibold text-foreground">{title}</p>
           {description ? <p className="text-sm text-muted">{description}</p> : null}
           {action ? <div className="pt-1">{action}</div> : null}

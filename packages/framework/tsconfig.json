@@ -3,7 +3,8 @@
   "compilerOptions": {
     "incremental": false,
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

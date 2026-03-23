@@ -7,10 +7,25 @@
 }
 
 @layer utilities {
+  .u-tone-text {
+    color: var(--od-tone-text);
+  }
+
   .u-mono-label {
     font-family: var(--od-font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .u-tone-text {
+      color: var(--od-tone-text);
+    }
+
+    .u-mono-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+    }
   }
 }

@@ -10,6 +10,7 @@ import {
   type State,
   type Tone,
 } from "../../lib/data-attrs";
+import { FieldShell } from "./field-shell";
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "prefix">,
@@ -65,35 +66,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   }
 
   return (
-    <div className={cn("od-field", className)}>
-      <div className="od-control-wrap">
-        {prefix ? <span className="od-control-prefix">{prefix}</span> : null}
-        {insetLabel ? (
-          <span className="od-control-inset-label">{insetLabel}</span>
-        ) : null}
+    <FieldShell
+      className={className}
+      controlKind="input"
+      hint={hint}
+      insetLabel={insetLabel}
+      message={message}
+      prefix={prefix}
+      tone={resolvedTone}
+    >
         <input
           ref={ref}
           className="od-input"
           aria-invalid={invalid || undefined}
-          data-has-prefix={prefix ? "true" : undefined}
-          data-has-label={insetLabel ? "true" : undefined}
           {...semanticProps}
           {...props}
         />
-      </div>
-      {hint || message ? (
-        <div className="od-control-meta">
-          {hint ? <p className="od-control-hint">{hint}</p> : null}
-          {message ? (
-            <p
-              className="od-control-message"
-              data-tone={resolvedTone ?? "muted"}
-            >
-              {message}
-            </p>
-          ) : null}
-        </div>
-      ) : null}
-    </div>
+    </FieldShell>
   );
 });

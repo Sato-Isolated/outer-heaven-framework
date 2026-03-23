@@ -1,14 +1,25 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { useRef, useState } from "react";
+import { ActivityFeed } from "../../compositions/activity-feed";
+import { CommandHeader } from "../../compositions/command-header";
 import { CommandHero } from "../../compositions/command-hero";
+import { FilterStrip } from "../../compositions/filter-strip";
+import { InspectorPanel } from "../../compositions/inspector-panel";
+import { MissionQueue } from "../../compositions/mission-queue";
+import { StatGrid } from "../../compositions/stat-grid";
 import { Badge } from "../badge";
 import { Button } from "../button";
+import { Checkbox } from "../checkbox";
 import { Dialog } from "../dialog";
 import { Dropzone } from "../dropzone";
 import { Input } from "../input";
 import { Panel } from "../panel";
 import { Select } from "../select";
 import { ToastProvider, toneToast, useToast } from "../toast";
+import { Switch } from "../switch";
+import { Tabs, TabsList, TabsPanel, TabsTrigger } from "../tabs";
+import { Textarea } from "../textarea";
+import { Tooltip } from "../tooltip";
 
 describe("primitive contracts", () => {
   it("renders a button with the public od contract", () => {
@@ -59,6 +70,21 @@ describe("primitive contracts", () => {
     expect(button).toHaveAttribute("aria-label", "Close panel");
   });
 
+  it("keeps direct button icons as first-class content", () => {
+    render(
+      <Button tone="primary">
+        <svg aria-hidden="true" viewBox="0 0 16 16">
+          <path d="M2 8h12" />
+        </svg>
+        Route signal
+      </Button>,
+    );
+
+    const button = screen.getByRole("button", { name: "Route signal" });
+
+    expect(button.querySelector("svg")).not.toBeNull();
+  });
+
   it("supports asChild for link-style button rendering", () => {
     render(
       <Button asChild tone="primary" size="sm">
@@ -96,10 +122,41 @@ describe("primitive contracts", () => {
       />,
     );
 
-    expect(screen.getByText("Query")).toHaveClass("od-control-inset-label");
-    expect(screen.getByText("/").parentElement).toHaveClass("od-control-prefix");
-    expect(screen.getByText("Search by filename.")).toHaveClass("od-control-hint");
-    expect(screen.getByText("Invalid route.")).toHaveClass("od-control-message");
+    expect(screen.getByText("Query")).toHaveClass("od-field-label");
+    expect(screen.getByText("/").parentElement).toHaveClass("od-field-adornment");
+    expect(screen.getByText("/").closest(".od-field-control")).toHaveAttribute(
+      "data-control-kind",
+      "input",
+    );
+    expect(document.querySelector(".od-field-body")).not.toBeNull();
+    expect(screen.getByText("Search by filename.")).toHaveClass("od-field-hint");
+    expect(screen.getByText("Invalid route.")).toHaveClass("od-field-message");
+  });
+
+  it("renders textarea chrome helpers and invalid state", () => {
+    render(
+      <Textarea
+        aria-label="Operator note"
+        prefix={<span aria-hidden="true">/</span>}
+        insetLabel="Note"
+        hint="Extended mission copy."
+        message="Field review required."
+        invalid
+      />,
+    );
+
+    const textarea = screen.getByRole("textbox", { name: "Operator note" });
+
+    expect(textarea).toHaveClass("od-textarea");
+    expect(textarea).toHaveAttribute("data-state", "error");
+    expect(textarea).toHaveAttribute("data-tone", "danger");
+    expect(textarea.closest(".od-field-control")).toHaveAttribute(
+      "data-control-kind",
+      "textarea",
+    );
+    expect(textarea.closest(".od-field-control")?.querySelector(".od-field-body")).not.toBeNull();
+    expect(screen.getByText("Note")).toHaveClass("od-field-label");
+    expect(screen.getByText("Extended mission copy.")).toHaveClass("od-field-hint");
   });
 
   it("supports select warning and disabled states", () => {
@@ -121,6 +178,28 @@ describe("primitive contracts", () => {
     expect(select).toBeDisabled();
   });
 
+  it("renders select chrome helpers with a stable indicator shell", () => {
+    render(
+      <Select
+        aria-label="Priority lane"
+        prefix={<span aria-hidden="true">/</span>}
+        insetLabel="Lane"
+        hint="Selection shell"
+      >
+        <option value="active">Active</option>
+      </Select>,
+    );
+
+    const select = screen.getByRole("combobox", { name: "Priority lane" });
+
+    expect(select.closest(".od-field-control")).toHaveAttribute(
+      "data-control-kind",
+      "select",
+    );
+    expect(select.closest(".od-field-control")?.querySelector(".od-field-body")).not.toBeNull();
+    expect(select.closest(".od-field-control")?.querySelector(".od-field-adornment[data-slot=\"indicator\"]")).not.toBeNull();
+  });
+
   it("passes tone and density through to panels", () => {
     render(<Panel tone="warning" density="compact">Panel body</Panel>);
 
@@ -138,6 +217,91 @@ describe("primitive contracts", () => {
 
     expect(badge).toHaveClass("od-badge");
     expect(badge).toHaveAttribute("data-tone", "success");
+  });
+
+  it("renders checkbox with public od contract and invalid semantics", () => {
+    render(
+      <Checkbox invalid description="Description copy.">
+        Require approval
+      </Checkbox>,
+    );
+
+    const checkbox = screen.getByRole("checkbox", { name: "Require approval" });
+
+    expect(checkbox).toHaveClass("od-checkbox-input");
+    expect(checkbox.closest(".od-checkbox")).toHaveAttribute("data-state", "error");
+    expect(checkbox.closest(".od-checkbox")).toHaveAttribute("data-tone", "danger");
+    expect(screen.getByText("Description copy.")).toHaveClass("od-checkbox-description");
+  });
+
+  it("supports controlled switch toggling and aria semantics", () => {
+    function SwitchHarness() {
+      const [checked, setChecked] = useState(false);
+
+      return (
+        <Switch
+          label="Live relay monitoring"
+          checked={checked}
+          onCheckedChange={setChecked}
+          tone="success"
+        />
+      );
+    }
+
+    render(<SwitchHarness />);
+
+    const toggle = screen.getByRole("switch", { name: "Live relay monitoring" });
+
+    expect(toggle).toHaveAttribute("aria-checked", "false");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-checked", "true");
+    expect(toggle.closest(".od-switch")).toHaveAttribute("data-state", "active");
+  });
+
+  it("switches tabs and renders only the active panel by default", () => {
+    render(
+      <Tabs defaultValue="alpha" tone="primary">
+        <TabsList>
+          <TabsTrigger value="alpha">Alpha</TabsTrigger>
+          <TabsTrigger value="beta">Beta</TabsTrigger>
+        </TabsList>
+        <TabsPanel value="alpha">Alpha panel</TabsPanel>
+        <TabsPanel value="beta">Beta panel</TabsPanel>
+      </Tabs>,
+    );
+
+    expect(screen.getByRole("tab", { name: "Alpha" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    expect(screen.getByText("Alpha panel")).toBeInTheDocument();
+    expect(screen.queryByText("Beta panel")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("tab", { name: "Beta" }));
+    expect(screen.getByText("Beta panel")).toBeInTheDocument();
+  });
+
+  it("shows and hides tooltip content on hover and escape", () => {
+    vi.useFakeTimers();
+
+    render(
+      <Tooltip content="Compact hint" tone="primary">
+        <button type="button">Hover me</button>
+      </Tooltip>,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Hover me" });
+
+    fireEvent.mouseEnter(trigger);
+    act(() => {
+      vi.advanceTimersByTime(130);
+    });
+    expect(screen.getByRole("tooltip")).toHaveTextContent("Compact hint");
+
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
+
+    vi.useRealTimers();
   });
 
   it("renders a command hero composition with optional stamp omitted", () => {
@@ -187,6 +351,60 @@ describe("primitive contracts", () => {
     expect(screen.queryByText("Live Contract")).not.toBeInTheDocument();
     expect(document.querySelector(".oh-command-hero")).not.toBeNull();
     expect(document.querySelector(".oh-command-hero__panel")).not.toBeNull();
+  });
+
+  it("renders the new composition layer with stable structural contracts", () => {
+    render(
+      <div>
+        <CommandHeader
+          eyebrow="Workspace"
+          title="Mission intake"
+          description="Composition surface"
+          metaItems={[{ label: "Layer", value: "Framework" }]}
+        />
+        <FilterStrip eyebrow="Filters" title="Search queue" description="Shared section">
+          <Input aria-label="Mission query" />
+        </FilterStrip>
+        <StatGrid
+          items={[
+            {
+              label: "Queued",
+              value: "18",
+              detail: "Pending",
+              tone: "primary",
+              icon: <span aria-hidden="true">!</span>,
+            },
+          ]}
+        />
+        <ActivityFeed
+          eyebrow="Feed"
+          title="Signals"
+          items={[{ title: "Relay sync complete", note: "Healthy", tone: "success" }]}
+        />
+        <MissionQueue
+          title="Queue"
+          items={[
+            {
+              name: "Archive-17.tar",
+              detail: "Owner NEST-04",
+              status: "Encrypted",
+              tone: "success",
+            },
+          ]}
+        />
+        <InspectorPanel title="Toolkit">Inspector body</InspectorPanel>
+      </div>,
+    );
+
+    expect(document.querySelector(".oh-command-header")).not.toBeNull();
+    expect(document.querySelector(".oh-command-header__lead")).not.toBeNull();
+    expect(document.querySelector(".oh-filter-strip")).not.toBeNull();
+    expect(document.querySelector(".oh-stat-grid")).not.toBeNull();
+    expect(document.querySelector(".oh-activity-feed")).not.toBeNull();
+    expect(document.querySelector(".oh-mission-queue")).not.toBeNull();
+    expect(document.querySelector(".oh-inspector-panel")).not.toBeNull();
+    expect(document.querySelector(".oh-stat-grid__icon.oh-icon-slot")).not.toBeNull();
+    expect(screen.getByText("Inspector body")).toBeInTheDocument();
   });
 
   it("renders a structured dropzone state surface", () => {

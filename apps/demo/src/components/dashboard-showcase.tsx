@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   Activity,
-  ArrowUpRight,
+  ArrowRight,
   CheckCircle2,
   CircleAlert,
   FileSearch,
@@ -16,25 +16,32 @@ import {
   Upload,
 } from "lucide-react";
 import {
+  ActivityFeed,
   Badge,
   Button,
+  Checkbox,
+  CommandHeader,
   Dialog,
-  Divider,
   Dropzone,
+  FilterStrip,
+  InspectorPanel,
   Input,
   Kbd,
-  Panel,
+  MissionQueue,
   Select,
-  Shell,
+  StatGrid,
+  Switch,
+  Textarea,
   toneToast,
+  Tooltip,
   useToast,
 } from "@outerhaven/framework";
 
 const kpis = [
-  { label: "Queued payloads", value: "18", detail: "4 awaiting uplink", tone: "primary" as const },
-  { label: "Healthy relays", value: "99.98%", detail: "Across 6 sectors", tone: "success" as const },
-  { label: "Warnings", value: "03", detail: "Two require approval", tone: "warning" as const },
-  { label: "Compromised", value: "01", detail: "Sandboxed node", tone: "danger" as const },
+  { label: "Queued payloads", value: "18", detail: "4 awaiting uplink", tone: "primary" as const, icon: <ArrowRight className="h-4 w-4" /> },
+  { label: "Healthy relays", value: "99.98%", detail: "Across 6 sectors", tone: "success" as const, icon: <Shield className="h-4 w-4" /> },
+  { label: "Warnings", value: "03", detail: "Two require approval", tone: "warning" as const, icon: <CircleAlert className="h-4 w-4" /> },
+  { label: "Compromised", value: "01", detail: "Sandboxed node", tone: "danger" as const, icon: <Activity className="h-4 w-4" /> },
 ];
 
 const missionRows = [
@@ -69,9 +76,24 @@ const missionRows = [
 ];
 
 const eventFeed = [
-  { tone: "success" as const, title: "Relay sync complete", note: "Northern edge cache flushed 18 seconds ago." },
-  { tone: "warning" as const, title: "Retention window near expiry", note: "Archive-17.tar drops below threshold at 02:40 UTC." },
-  { tone: "danger" as const, title: "Manual review requested", note: "One payload exceeded the default signature envelope." },
+  {
+    tone: "success" as const,
+    title: "Relay sync complete",
+    note: "Northern edge cache flushed 18 seconds ago.",
+    meta: "Healthy relay / automatic validation",
+  },
+  {
+    tone: "warning" as const,
+    title: "Retention window near expiry",
+    note: "Archive-17.tar drops below threshold at 02:40 UTC.",
+    meta: "Review required / warning threshold",
+  },
+  {
+    tone: "danger" as const,
+    title: "Manual review requested",
+    note: "One payload exceeded the default signature envelope.",
+    meta: "Escalation lane / manual decision",
+  },
 ];
 
 type UploadState = "default" | "active" | "loading" | "success" | "error";
@@ -81,6 +103,7 @@ export function DashboardShowcase() {
   const [sector, setSector] = useState("all");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [uploadState, setUploadState] = useState<UploadState>("active");
+  const [monitoringEnabled, setMonitoringEnabled] = useState(true);
   const { push } = useToast();
 
   const filteredRows = useMemo(() => {
@@ -96,32 +119,18 @@ export function DashboardShowcase() {
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
-      <Shell tone="primary" state="active" className="overflow-hidden">
-        <div className="u-tactical-grid absolute inset-0 opacity-20" />
-        <div className="relative grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(220px,0.9fr)] md:items-end lg:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)]">
-          <div className="space-y-5">
-            <Badge tone="primary">Command Dashboard / Demo</Badge>
-            <div className="space-y-3">
-              <p className="u-mono-label text-primary">Operational Workspace</p>
-              <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                Validate the framework against a dense, tactical working surface.
-              </h1>
-              <p className="max-w-2xl text-base leading-7 text-muted">
-                This page uses the same package exports as the landing page, but
-                shifts the tone toward operating, filtering, and deciding.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+      <CommandHeader
+        badge={<Badge tone="primary">Command Dashboard / Demo</Badge>}
+        eyebrow="Operational Workspace"
+        title="Validate the framework against a dense, tactical working surface."
+        description="This page now consumes reusable framework compositions instead of hand-assembling every section locally."
+        actions={
+          <>
             <Button asChild tone="muted" size="sm" ghost>
-              <Link href="/">Return to Overview</Link>
+              <Link href="/components">Open component deck</Link>
             </Button>
-            <Button
-              tone="warning"
-              size="sm"
-              onClick={() => setDialogOpen(true)}
-            >
-              Authorize Uplink
+            <Button tone="warning" size="sm" onClick={() => setDialogOpen(true)}>
+              Authorize uplink
             </Button>
             <Button
               tone="success"
@@ -131,54 +140,56 @@ export function DashboardShowcase() {
                   toneToast(
                     "success",
                     "Signal routed",
-                    "Demo toast confirms the `od-toast` primitive and provider path.",
+                    "Demo toast confirms the od-toast primitive and provider path.",
                   ),
                 )
               }
             >
-              Trigger Toast
+              Trigger toast
             </Button>
-          </div>
-        </div>
-      </Shell>
+          </>
+        }
+        metaItems={[
+          { label: "Current sector", value: sector === "all" ? "All sectors" : sector },
+          { label: "Results", value: `${filteredRows.length} surfaced` },
+          { label: "Monitoring", value: monitoringEnabled ? "armed" : "standby" },
+        ]}
+      />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {kpis.map((item) => (
-          <Panel key={item.label} tone={item.tone} density="compact">
-            <div className="flex items-center justify-between">
-              <p className="u-mono-label" style={{ color: "var(--od-tone-text)" }}>
-                {item.label}
-              </p>
-              <ArrowUpRight className="h-4 w-4" style={{ color: "var(--od-tone-text)" }} />
-            </div>
-            <p className="text-4xl font-semibold text-foreground">{item.value}</p>
-            <p className="text-sm text-muted">{item.detail}</p>
-          </Panel>
-        ))}
-      </div>
+      <StatGrid items={kpis} />
 
-      <Panel density="compact" className="gap-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="u-mono-label text-primary">Filter Strip</p>
-            <p className="mt-2 text-sm text-muted">
-              Inputs, selects, badges, and command buttons share the same tactical base.
-            </p>
-          </div>
+      <FilterStrip
+        eyebrow="Filter Strip"
+        title="Inputs, toggles, and boolean controls now share one reusable section pattern."
+        description="The filter surface is now a composition from the framework package, not dashboard-only JSX."
+        shortcuts={
           <div className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted">
             Quick scope
             <Kbd>F</Kbd>
             <Kbd>R</Kbd>
           </div>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[minmax(0,1.2fr)_220px_auto_auto]">
+        }
+        actions={
+          <>
+            <Button tone="primary">
+              <Filter className="h-4 w-4" />
+              Apply
+            </Button>
+            <Button ghost tone="muted">
+              <SlidersHorizontal className="h-4 w-4" />
+              Presets
+            </Button>
+          </>
+        }
+      >
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_220px_minmax(0,0.8fr)]">
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search payload or owner"
             insetLabel="Query"
             hint="Filter by payload filename or owner tag."
-            prefix={<Filter className="h-4 w-4" />}
+            prefix={<FileSearch />}
             aria-label="Search payloads"
           />
           <Select
@@ -186,7 +197,7 @@ export function DashboardShowcase() {
             onChange={(event) => setSector(event.target.value)}
             insetLabel="Sector"
             hint="Route the queue to a relay segment."
-            prefix={<Radar className="h-4 w-4" />}
+            prefix={<Radar />}
             aria-label="Filter sector"
           >
             <option value="all">All sectors</option>
@@ -194,48 +205,44 @@ export function DashboardShowcase() {
             <option value="south">South relay</option>
             <option value="ghost">Ghost channel</option>
           </Select>
-          <Button tone="primary">
-            <Filter className="h-4 w-4" />
-            Apply
-          </Button>
-          <Button ghost tone="muted">
-            <SlidersHorizontal className="h-4 w-4" />
-            Presets
-          </Button>
+          <div className="grid gap-4 md:col-span-2 xl:col-span-1">
+            <Switch
+              label="Live relay monitoring"
+              description="Framework-level boolean control."
+              checked={monitoringEnabled}
+              onCheckedChange={setMonitoringEnabled}
+              tone="success"
+            />
+            <Checkbox description="Keep warning surfaces explicit during operator review." defaultChecked>
+              Escalate flagged payloads
+            </Checkbox>
+          </div>
         </div>
-      </Panel>
+      </FilterStrip>
 
-      <div className="grid gap-6 md:grid-cols-[minmax(0,1.2fr)_300px] lg:grid-cols-[minmax(0,1.35fr)_360px]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_360px]">
         <div className="grid gap-6">
-          <Panel className="gap-6">
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <p className="u-mono-label text-primary">Active Queue</p>
-                <h2 className="mt-3 text-2xl font-semibold text-foreground">
-                  Current payloads
-                </h2>
-              </div>
-              <Badge tone="primary">{filteredRows.length} surfaced</Badge>
-            </div>
-            <Divider />
-            <div className="grid gap-4">
-              {filteredRows.map((row) => (
-                <div
-                  key={row.name}
-                  className="grid gap-3 border border-border/70 bg-background/35 px-4 py-4 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center"
+          <MissionQueue
+            eyebrow="Active Queue"
+            title="Current payloads"
+            badge={<Badge tone="primary">{filteredRows.length} surfaced</Badge>}
+            items={filteredRows.map((row) => ({
+              name: row.name,
+              detail: `Owner ${row.owner} / Sector ${row.sector}`,
+              status: row.status,
+              tone: row.tone,
+              action: (
+                <Tooltip
+                  tone={row.tone}
+                  content={`Inspect ${row.name} without leaving the tactical queue context.`}
                 >
-                  <div className="space-y-1">
-                    <p className="text-base font-medium text-foreground">{row.name}</p>
-                    <p className="text-sm text-muted">Owner {row.owner}</p>
-                  </div>
-                  <Badge tone={row.tone}>{row.status}</Badge>
                   <Button tone="muted" ghost size="sm">
                     Inspect
                   </Button>
-                </div>
-              ))}
-            </div>
-          </Panel>
+                </Tooltip>
+              ),
+            }))}
+          />
 
           <Dropzone
             tone={
@@ -251,7 +258,7 @@ export function DashboardShowcase() {
             className="u-scan-pass"
             eyebrow="Dropzone Simulator"
             title="Toggle real primitive states without changing the underlying styles."
-            description="This example now validates the structured dropzone API instead of treating the primitive as a plain bordered container."
+            description="This example validates the structured dropzone API while the surrounding copy is now authored through reusable framework sections."
             hint="Idle, drag-over, uploading, success, and error paths should all remain readable under the same token system."
             icon={<Upload className="h-6 w-6" />}
             status={
@@ -290,51 +297,33 @@ export function DashboardShowcase() {
               </>
             }
           >
-            <Panel tone="muted" density="compact">
+            <InspectorPanel
+              tone="muted"
+              eyebrow="Intake note"
+              title="Payload staging"
+              icon={<Upload className="h-4 w-4" />}
+            >
               <div className="flex items-center gap-3 text-sm text-foreground">
-                <FileSearch className="h-4 w-4 text-primary" />
-                <span>Payload intake channel / structured body slot</span>
+                <Upload className="h-4 w-4 text-primary" />
+                <span>Structured body slot stays aligned with the panel contract.</span>
               </div>
-            </Panel>
+            </InspectorPanel>
           </Dropzone>
         </div>
 
         <div className="grid gap-6">
-          <Panel tone="warning">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="u-mono-label text-warning">Signal Feed</p>
-                <h2 className="mt-3 text-xl font-semibold text-foreground">
-                  Live operator notes
-                </h2>
-              </div>
-              <Radar className="h-5 w-5 text-warning" />
-            </div>
-            <Divider tone="warning" />
-            <div className="grid gap-4">
-              {eventFeed.map((event) => (
-                <div key={event.title} className="space-y-2">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-medium text-foreground">{event.title}</p>
-                    <Badge tone={event.tone}>{event.tone}</Badge>
-                  </div>
-                  <p className="text-sm leading-6 text-muted">{event.note}</p>
-                </div>
-              ))}
-            </div>
-          </Panel>
+          <ActivityFeed
+            eyebrow="Signal Feed"
+            title="Live operator notes"
+            items={eventFeed}
+          />
 
-          <Panel tone="muted">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="u-mono-label text-primary">Operator Toolkit</p>
-                <h2 className="mt-3 text-xl font-semibold text-foreground">
-                  Keyboard-first details
-                </h2>
-              </div>
-              <Activity className="h-5 w-5 text-primary" />
-            </div>
-            <Divider />
+          <InspectorPanel
+            tone="muted"
+            eyebrow="Operator Toolkit"
+            title="Keyboard-first details"
+            icon={<Activity className="h-5 w-5" />}
+          >
             <div className="grid gap-3 text-sm text-muted">
               <div className="flex items-center justify-between gap-4">
                 <span>Search queue</span>
@@ -358,27 +347,56 @@ export function DashboardShowcase() {
                 </div>
               </div>
             </div>
-          </Panel>
+          </InspectorPanel>
 
-          <Panel tone="success">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="u-mono-label text-success">Integrity Snapshot</p>
-                <h2 className="mt-3 text-xl font-semibold text-foreground">
-                  Clean primitive usage
-                </h2>
-              </div>
-              <FileStack className="h-5 w-5 text-success" />
-            </div>
-            <Divider tone="success" />
+          <InspectorPanel
+            tone="success"
+            eyebrow="Integrity Snapshot"
+            title="Clean primitive usage"
+            icon={<FileStack className="h-5 w-5" />}
+          >
             <ul className="grid gap-3 text-sm leading-6 text-muted">
-              <li>No raw brand colors in JSX.</li>
+              <li>No raw framework colors in JSX.</li>
               <li>No undefined tactical class names.</li>
-              <li>Tailwind semantic utilities stay aligned to framework tokens.</li>
+              <li>Landing, dashboard, and deck all consume the same exported layers.</li>
             </ul>
-          </Panel>
+          </InspectorPanel>
         </div>
       </div>
+
+      <FilterStrip
+        eyebrow="Operator Notes"
+        title="Long-form tactical input now has a first-class primitive."
+        description="Textarea, checkbox, and switch let future admin and review screens stay in-family without page-local components."
+      >
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px]">
+          <Textarea
+            aria-label="Mission handoff"
+            insetLabel="Mission handoff"
+            prefix={<FileStack />}
+            placeholder="Write a handoff note for the next operator shift."
+            hint="Useful for documenting review context, approval notes, or relay anomalies."
+            message="Keep the relay summary short enough to scan during review."
+            state="warning"
+          />
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-1">
+            <Checkbox description="Future release can route these settings to persisted preferences.">
+              Require human signoff before external uplink
+            </Checkbox>
+            <Checkbox tone="warning" description="Keep cautionary paths visible in the same control family.">
+              Extend retention window on warning
+            </Checkbox>
+            <div className="flex flex-wrap gap-3">
+              <Button tone="muted" ghost iconOnly aria-label="Inspect relay audit trail">
+                <FileSearch className="h-4 w-4" />
+              </Button>
+              <Button tone="warning" iconOnly aria-label="Escalate relay watchpoint">
+                <CircleAlert className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </FilterStrip>
 
       <Dialog
         open={dialogOpen}
@@ -409,23 +427,14 @@ export function DashboardShowcase() {
           </>
         }
       >
-        <div className="grid gap-4 md:grid-cols-3">
-          <Panel tone="primary" density="compact">
-            <p className="u-mono-label text-primary">Relay window</p>
-            <p className="text-2xl font-semibold text-foreground">04:12</p>
-            <p className="text-sm text-muted">Transmission budget remaining</p>
-          </Panel>
-          <Panel tone="success" density="compact">
-            <p className="u-mono-label text-success">Integrity</p>
-            <p className="text-2xl font-semibold text-foreground">Stable</p>
-            <p className="text-sm text-muted">No packet drift detected</p>
-          </Panel>
-          <Panel tone="warning" density="compact">
-            <p className="u-mono-label text-warning">Review</p>
-            <p className="text-2xl font-semibold text-foreground">2 flags</p>
-            <p className="text-sm text-muted">Manual signoff required</p>
-          </Panel>
-        </div>
+        <StatGrid
+          items={[
+            { label: "Relay window", value: "04:12", detail: "Transmission budget remaining", tone: "primary", icon: <Radar className="h-4 w-4" /> },
+            { label: "Integrity", value: "Stable", detail: "No packet drift detected", tone: "success", icon: <CheckCircle2 className="h-4 w-4" /> },
+            { label: "Review", value: "2 flags", detail: "Manual signoff required", tone: "warning", icon: <CircleAlert className="h-4 w-4" /> },
+          ]}
+          className="lg:grid-cols-3"
+        />
       </Dialog>
     </main>
   );

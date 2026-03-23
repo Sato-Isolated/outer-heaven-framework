@@ -2,18 +2,27 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
+  Bell,
+  LayoutGrid,
   ShieldCheck,
   Upload,
 } from "lucide-react";
 import {
+  CommandHeader,
   Badge,
   Button,
   CommandHero,
+  FilterStrip,
   Divider,
   Dropzone,
+  Input,
   Kbd,
+  MissionQueue,
   Panel,
   Shell,
+  StatGrid,
+  Switch,
+  Tooltip,
 } from "@outerhaven/framework";
 
 const capabilityRows = [
@@ -82,6 +91,27 @@ const heroMetaItems = [
   },
 ];
 
+const queuePreview = [
+  {
+    name: "Archive-17.tar",
+    detail: "Owner NEST-04 / encrypted lane",
+    status: "Encrypted",
+    tone: "success" as const,
+  },
+  {
+    name: "sensor-grid.csv",
+    detail: "Owner FIELD-12 / review lane",
+    status: "Watchpoint",
+    tone: "warning" as const,
+  },
+  {
+    name: "uplink-trace.mov",
+    detail: "Owner RAVEN-02 / inspector lane",
+    status: "Inspection",
+    tone: "muted" as const,
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="overflow-hidden">
@@ -144,13 +174,11 @@ export default function HomePage() {
             </div>
           </Shell>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {supportColumns.map((column) => (
               <Panel key={column.title} tone={column.tone}>
                 <div className="space-y-3">
-                  <p className="u-mono-label" style={{ color: "var(--od-tone-text)" }}>
-                    Tactical Track
-                  </p>
+                  <p className="u-mono-label u-tone-text">Tactical Track</p>
                   <h3 className="text-xl font-semibold text-foreground">{column.title}</h3>
                   <p className="text-sm leading-6 text-muted">{column.copy}</p>
                 </div>
@@ -158,6 +186,42 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-8">
+        <CommandHeader
+          badge={<Badge tone="success">Reusable compositions</Badge>}
+          eyebrow="Framework Building Blocks"
+          title="The next layer is no longer just primitives. It now includes reusable page patterns."
+          description="CommandHeader, FilterStrip, StatGrid, MissionQueue, ActivityFeed, and InspectorPanel are designed to keep downstream apps from rebuilding the same dashboard sections by hand."
+          actions={
+            <>
+              <Button asChild tone="primary">
+                <Link href="/components">
+                  Open component deck
+                  <LayoutGrid className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild tone="muted" ghost>
+                <Link href="/dashboard">See dashboard usage</Link>
+              </Button>
+            </>
+          }
+          metaItems={[
+            { label: "New primitives", value: "Textarea / Checkbox / Switch / Tabs / Tooltip" },
+            { label: "Reusable sections", value: "Header / Filter / Stats / Queue / Feed / Inspector" },
+            { label: "Role", value: "Framework package, not page-local code" },
+          ]}
+        />
+
+        <StatGrid
+          items={[
+            { label: "Stable v1 primitives", value: "11", detail: "Shell to toast already covered.", tone: "primary", icon: <BadgeCheck className="h-4 w-4" /> },
+            { label: "New v1.5 primitives", value: "5", detail: "Controls and overlays widened without API drift.", tone: "success", icon: <Bell className="h-4 w-4" /> },
+            { label: "Reusable compositions", value: "6", detail: "Ready to power landing and dashboard screens.", tone: "warning", icon: <LayoutGrid className="h-4 w-4" /> },
+          ]}
+          className="md:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3"
+        />
       </section>
 
       <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8">
@@ -210,21 +274,72 @@ export default function HomePage() {
         </Shell>
       </section>
 
+      <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:px-8">
+        <FilterStrip
+          eyebrow="Preview Composition"
+          title="Framework consumers can now assemble operational sections with exports, not local scaffolding."
+          description="This preview mixes the new primitives and compositions the same way downstream apps would."
+          actions={
+            <Tooltip
+              tone="primary"
+              content="Tooltip is a lightweight, non-modal overlay for compact hints."
+            >
+              <Button tone="primary" size="sm">
+                Inspect interaction layer
+              </Button>
+            </Tooltip>
+          }
+        >
+          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] xl:grid-cols-[minmax(0,1fr)_220px]">
+            <Input
+              aria-label="Blueprint query"
+              insetLabel="Blueprint query"
+              placeholder="Search primitive or composition name"
+            />
+            <div className="flex items-center gap-4">
+              <Switch defaultChecked tone="success" label="Catalog visible" />
+            </div>
+          </div>
+        </FilterStrip>
+
+        <MissionQueue
+          eyebrow="Queue Preview"
+          title="Landing pages can now borrow tactical list patterns directly from the package."
+          badge={<Badge tone="primary">3 surfaced</Badge>}
+          items={queuePreview.map((item) => ({
+            ...item,
+            action: (
+              <Button tone="muted" ghost size="sm">
+                Inspect
+              </Button>
+            ),
+          }))}
+        />
+      </section>
+
       <section className="border-t border-border/60 bg-background/60">
         <div className="mx-auto flex w-full max-w-[80rem] flex-col gap-8 px-4 py-16 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-8">
           <div className="max-w-2xl">
             <p className="u-mono-label text-primary">Live Validation</p>
             <h2 className="mt-4 text-3xl font-semibold text-foreground">
-              Open the dashboard to inspect buttons, dialog, toast, filters, and
-              status panels running on the same contract.
+              Open the dashboard and the component deck to inspect primitives,
+              compositions, and states running on the same contract.
             </h2>
           </div>
-          <Button asChild tone="primary" size="lg">
-            <Link href="/dashboard">
-              Launch Dashboard Demo
-              <BadgeCheck className="h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild tone="primary" size="lg">
+              <Link href="/dashboard">
+                Launch Dashboard Demo
+                <BadgeCheck className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild tone="muted" size="lg" ghost>
+              <Link href="/components">
+                View Component Deck
+                <LayoutGrid className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </main>

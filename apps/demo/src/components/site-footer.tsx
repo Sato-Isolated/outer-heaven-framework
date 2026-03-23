@@ -29,6 +29,9 @@ export function SiteFooter() {
             <Link href="/" className="transition-colors hover:text-foreground">
               Landing
             </Link>
+            <Link href="/components" className="transition-colors hover:text-foreground">
+              Components
+            </Link>
             <Link href="/dashboard" className="transition-colors hover:text-foreground">
               Dashboard
             </Link>

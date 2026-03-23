@@ -357,4 +357,318 @@
       opacity: 0.6;
     }
   }
+
+  .oh-command-header,
+  .oh-filter-strip,
+  .oh-activity-feed,
+  .oh-mission-queue,
+  .oh-inspector-panel {
+    display: grid;
+    gap: var(--od-space-4);
+  }
+
+  .oh-command-header__lead {
+    display: grid;
+    gap: var(--od-space-5);
+  }
+
+  .oh-command-header__copy,
+  .oh-filter-strip__copy {
+    display: grid;
+    gap: 0.8rem;
+    min-width: 0;
+  }
+
+  .oh-command-header__copy {
+    max-width: 68ch;
+  }
+
+  .oh-command-header__eyebrow,
+  .oh-filter-strip__eyebrow,
+  .oh-activity-feed__eyebrow,
+  .oh-mission-queue__eyebrow,
+  .oh-inspector-panel__eyebrow {
+    margin: 0;
+    font-family: var(--od-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--od-color-primary);
+  }
+
+  .oh-command-header__title,
+  .oh-filter-strip__title,
+  .oh-activity-feed__title,
+  .oh-mission-queue__title,
+  .oh-inspector-panel__title {
+    margin: 0;
+    color: var(--od-color-foreground);
+  }
+
+  .oh-command-header__title {
+    max-width: 16ch;
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+  }
+
+  .oh-command-header__description,
+  .oh-filter-strip__description,
+  .oh-activity-feed__item-note,
+  .oh-mission-queue__item-detail,
+  .oh-inspector-panel__body,
+  .oh-stat-grid__detail {
+    margin: 0;
+    color: var(--od-color-muted);
+    line-height: 1.7;
+  }
+
+  .oh-command-header__description,
+  .oh-filter-strip__description {
+    max-width: 64ch;
+  }
+
+  .oh-command-header__actions,
+  .oh-filter-strip__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .oh-command-header__actions {
+    align-self: end;
+  }
+
+  .oh-command-header__meta {
+    display: grid;
+    gap: var(--od-space-4);
+    margin: 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid color-mix(in oklab, var(--od-border-subtle) 72%, transparent);
+  }
+
+  .oh-command-header__meta-item {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .oh-command-header__meta-label {
+    margin: 0;
+    font-family: var(--od-font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--od-color-primary);
+  }
+
+  .oh-command-header__meta-value {
+    margin: 0;
+    color: var(--od-color-foreground);
+    font-weight: 600;
+  }
+
+  .oh-filter-strip__header,
+  .oh-activity-feed__header,
+  .oh-mission-queue__header,
+  .oh-inspector-panel__header {
+    display: flex;
+    gap: var(--od-space-4);
+    align-items: start;
+    justify-content: space-between;
+  }
+
+  .oh-icon-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: none;
+    line-height: 1;
+  }
+
+  .oh-icon-slot > :where(svg, img) {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  .oh-filter-strip__shortcuts,
+  .oh-inspector-panel__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .oh-filter-strip__shortcuts {
+    justify-content: flex-end;
+  }
+
+  .oh-filter-strip__controls {
+    display: grid;
+    gap: var(--od-space-4);
+    min-width: 0;
+  }
+
+  .oh-stat-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .oh-stat-grid__item {
+    min-width: 0;
+  }
+
+  .oh-stat-grid__head,
+  .oh-activity-feed__item-head {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .oh-stat-grid__label {
+    margin: 0;
+    font-family: var(--od-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--od-tone-text);
+  }
+
+  .oh-stat-grid__icon,
+  .oh-inspector-panel__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--od-tone-text);
+  }
+
+  .oh-stat-grid__value {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+    font-weight: 700;
+    color: var(--od-color-foreground);
+  }
+
+  .oh-activity-feed__items,
+  .oh-mission-queue__items,
+  .oh-inspector-panel__body {
+    display: grid;
+    gap: var(--od-space-4);
+  }
+
+  .oh-activity-feed__item {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .oh-activity-feed__item-title,
+  .oh-mission-queue__item-name {
+    margin: 0;
+    color: var(--od-color-foreground);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .oh-activity-feed__item-meta {
+    margin: 0;
+    font-family: var(--od-font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--od-color-muted);
+  }
+
+  .oh-mission-queue__item {
+    display: grid;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid color-mix(in oklab, var(--od-border-subtle) 72%, transparent);
+    background: color-mix(in oklab, var(--od-surface-base) 62%, transparent);
+  }
+
+  .oh-mission-queue__item-copy {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .oh-mission-queue__item-action {
+    justify-self: start;
+  }
+
+  @media (min-width: 768px) {
+    .oh-command-header__meta {
+      grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    }
+
+    .oh-stat-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .oh-mission-queue__item {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+    }
+
+    .oh-mission-queue__item-action {
+      justify-self: end;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .oh-command-header__lead {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .oh-command-header__actions,
+    .oh-filter-strip__shortcuts {
+      justify-content: flex-end;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .oh-stat-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .oh-command-header__title {
+      max-width: 12ch;
+    }
+
+    .oh-command-header__copy,
+    .oh-filter-strip__copy {
+      gap: 0.65rem;
+    }
+
+    .oh-command-header__actions,
+    .oh-filter-strip__actions,
+    .oh-filter-strip__shortcuts {
+      justify-content: flex-start;
+    }
+
+    .oh-icon-slot {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+
+    .oh-icon-slot > :where(svg, img) {
+      width: 0.95rem;
+      height: 0.95rem;
+    }
+
+    .oh-filter-strip__header,
+    .oh-activity-feed__header,
+    .oh-mission-queue__header,
+    .oh-inspector-panel__header {
+      flex-direction: column;
+    }
+  }
 }

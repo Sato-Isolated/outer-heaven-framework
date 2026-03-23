@@ -10,6 +10,7 @@ import {
   type State,
   type Tone,
 } from "../../lib/data-attrs";
+import { FieldShell } from "./field-shell";
 
 export interface SelectProps
   extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "size" | "prefix">,
@@ -65,35 +66,34 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   }
 
   return (
-    <div className={cn("od-field", className)}>
-      <div className="od-control-wrap">
-        {prefix ? <span className="od-control-prefix">{prefix}</span> : null}
-        {insetLabel ? (
-          <span className="od-control-inset-label">{insetLabel}</span>
-        ) : null}
+    <FieldShell
+      className={className}
+      controlKind="select"
+      hint={hint}
+      indicator={
+        <svg viewBox="0 0 16 16" focusable="false">
+          <path
+            d="M3.5 6.25 8 10.75l4.5-4.5"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          />
+        </svg>
+      }
+      insetLabel={insetLabel}
+      message={message}
+      prefix={prefix}
+      tone={resolvedTone}
+    >
         <select
           ref={ref}
           className="od-select"
           aria-invalid={invalid || undefined}
-          data-has-prefix={prefix ? "true" : undefined}
-          data-has-label={insetLabel ? "true" : undefined}
           {...semanticProps}
           {...props}
         />
-      </div>
-      {hint || message ? (
-        <div className="od-control-meta">
-          {hint ? <p className="od-control-hint">{hint}</p> : null}
-          {message ? (
-            <p
-              className="od-control-message"
-              data-tone={resolvedTone ?? "muted"}
-            >
-              {message}
-            </p>
-          ) : null}
-        </div>
-      ) : null}
-    </div>
+    </FieldShell>
   );
 });

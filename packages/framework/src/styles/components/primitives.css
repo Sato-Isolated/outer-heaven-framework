@@ -114,6 +114,32 @@
     cursor: pointer;
   }
 
+  .od-button > * {
+    min-width: 0;
+  }
+
+  .od-button > :where(svg, [data-od-icon], .od-button-spinner) {
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    line-height: 1;
+  }
+
+  .od-button[data-size="sm"] > :where(svg, [data-od-icon], .od-button-spinner) {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .od-button[data-size="lg"] > :where(svg, [data-od-icon], .od-button-spinner) {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .od-button[data-icon-only="true"] > :where(svg, [data-od-icon], .od-button-spinner) {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
   .od-button:hover {
     transform: translateY(-1px);
     box-shadow: var(--od-tone-glow);
@@ -186,8 +212,11 @@
     }
   }
 
+  /* ── Bare-mode field controls (standalone, no chrome) ── */
+
   .od-input,
-  .od-select {
+  .od-select,
+  .od-textarea {
     width: 100%;
     min-height: 3rem;
     border: 1px solid var(--od-tone-border);
@@ -197,6 +226,7 @@
     color: var(--od-color-foreground);
     padding: 0.75rem 0.95rem;
     font: inherit;
+    line-height: 1.35;
     clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
     transition:
       border-color var(--od-motion-fast) var(--od-motion-ease-standard),
@@ -204,79 +234,46 @@
       background-color var(--od-motion-fast) var(--od-motion-ease-standard);
   }
 
-  .od-field {
-    display: grid;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  .od-control-wrap {
-    position: relative;
-    width: 100%;
-  }
-
-  .od-control-prefix {
-    position: absolute;
-    left: 0.9rem;
-    top: 50%;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--od-tone-text);
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-
-  .od-control-inset-label {
-    position: absolute;
-    left: 0.95rem;
-    top: 0.55rem;
-    z-index: 1;
-    font-family: var(--od-font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--od-tone-text) 78%, white 22%);
-    pointer-events: none;
+  .od-textarea {
+    min-height: 8rem;
+    resize: vertical;
+    line-height: 1.6;
   }
 
   .od-input::placeholder {
     color: color-mix(in oklab, var(--od-color-muted) 78%, transparent);
   }
 
+  .od-textarea::placeholder {
+    color: color-mix(in oklab, var(--od-color-muted) 78%, transparent);
+  }
+
   .od-input:hover,
-  .od-select:hover {
+  .od-select:hover,
+  .od-textarea:hover {
     border-color: color-mix(in oklab, var(--od-tone-border) 75%, white 25%);
   }
 
-  .od-input[data-has-prefix="true"],
-  .od-select[data-has-prefix="true"] {
-    padding-left: 2.7rem;
-  }
-
-  .od-input[data-has-label="true"],
-  .od-select[data-has-label="true"] {
-    padding-top: 1.45rem;
-    padding-bottom: 0.45rem;
-  }
-
   .od-input[data-state="warning"],
-  .od-select[data-state="warning"] {
+  .od-select[data-state="warning"],
+  .od-textarea[data-state="warning"] {
     border-color: color-mix(in oklab, var(--od-color-warning) 62%, var(--od-border-subtle));
     box-shadow: 0 0 0 1px rgb(244 181 72 / 0.18);
   }
 
   .od-input[data-state="error"],
-  .od-select[data-state="error"] {
+  .od-select[data-state="error"],
+  .od-textarea[data-state="error"] {
     border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
     box-shadow: 0 0 0 1px rgb(236 94 82 / 0.2);
   }
 
   .od-input:disabled,
   .od-select:disabled,
+  .od-textarea:disabled,
   .od-input[data-state="disabled"],
-  .od-select[data-state="disabled"] {
+  .od-select[data-state="disabled"],
+  .od-textarea[data-state="disabled"] {
     opacity: 0.58;
     cursor: not-allowed;
     background:
@@ -284,23 +281,185 @@
       color-mix(in oklab, var(--od-surface-elevated) 90%, black 10%);
   }
 
-  .od-control-meta {
+  .od-input[data-size="sm"],
+  .od-select[data-size="sm"],
+  .od-textarea[data-size="sm"] {
+    min-height: 2.5rem;
+    padding: 0.6rem 0.82rem;
+  }
+
+  .od-input[data-size="lg"],
+  .od-select[data-size="lg"],
+  .od-textarea[data-size="lg"] {
+    min-height: 3.35rem;
+    padding: 0.95rem 1.05rem;
+  }
+
+  /* ── Wrapped field system (flex-based) ── */
+
+  .od-field {
+    display: grid;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .od-field-control {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 45%),
+      var(--od-surface-elevated);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    transition:
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+    --od-field-pad-inline: 0.95rem;
+    --od-field-pad-block: 0.75rem;
+    --od-field-adornment-size: 1rem;
+    --od-field-adornment-gap: 0.8rem;
+    --od-field-label-font-size: 0.65rem;
+    padding: var(--od-field-pad-block) var(--od-field-pad-inline);
+  }
+
+  .od-field-control:hover {
+    border-color: color-mix(in oklab, var(--od-tone-border) 75%, white 25%);
+  }
+
+  .od-field-control:has([data-state="warning"]) {
+    border-color: color-mix(in oklab, var(--od-color-warning) 62%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(244 181 72 / 0.18);
+  }
+
+  .od-field-control:has([data-state="error"]) {
+    border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(236 94 82 / 0.2);
+  }
+
+  .od-field-control:has(:disabled),
+  .od-field-control:has([data-state="disabled"]) {
+    opacity: 0.58;
+    cursor: not-allowed;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.02), transparent 45%),
+      color-mix(in oklab, var(--od-surface-elevated) 90%, black 10%);
+  }
+
+  .od-field-control[data-has-label="true"] {
+    padding-top: 0.55rem;
+    padding-bottom: 0.68rem;
+  }
+
+  /* When inside .od-field-control, strip the input's own chrome */
+  .od-field-control .od-input,
+  .od-field-control .od-select,
+  .od-field-control .od-textarea {
+    border: none;
+    background: none;
+    padding: 0;
+    min-height: auto;
+    clip-path: none;
+    box-shadow: none;
+    transition: none;
+    line-height: 1.35;
+    color: var(--od-color-foreground);
+    font: inherit;
+  }
+
+  .od-field-control .od-input,
+  .od-field-control .od-select {
+    height: calc(1em * 1.35);
+  }
+
+  .od-field-control .od-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: none;
+  }
+
+  .od-field-control .od-textarea {
+    min-height: 6rem;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  /* ── Label ── */
+
+  .od-field-label {
+    display: block;
+    font-family: var(--od-font-mono);
+    font-size: var(--od-field-label-font-size);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--od-tone-text) 78%, white 22%);
+    line-height: 1;
+    margin-bottom: 0.65rem;
+  }
+
+  /* ── Body (flex row: prefix | control | indicator) ── */
+
+  .od-field-body {
+    display: flex;
+    align-items: center;
+    gap: var(--od-field-adornment-gap);
+  }
+
+  .od-field-body > .od-input,
+  .od-field-body > .od-select,
+  .od-field-body > .od-textarea {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .od-field-control[data-control-kind="textarea"] .od-field-body {
+    align-items: flex-start;
+  }
+
+  /* ── Adornments (prefix icon, select indicator) ── */
+
+  .od-field-adornment {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--od-field-adornment-size);
+    height: var(--od-field-adornment-size);
+    line-height: 1;
+    color: var(--od-tone-text);
+  }
+
+  .od-field-adornment > :where(svg, img) {
+    width: 100%;
+    height: 100%;
+    flex: none;
+  }
+
+  .od-field-control[data-control-kind="textarea"] .od-field-adornment[data-slot="prefix"] {
+    margin-top: 0.15rem;
+  }
+
+  /* ── Meta (hint + message) ── */
+
+  .od-field-meta {
     display: grid;
     gap: 0.22rem;
   }
 
-  .od-control-hint,
-  .od-control-message {
+  .od-field-hint,
+  .od-field-message {
     margin: 0;
     font-size: 0.74rem;
     line-height: 1.45;
   }
 
-  .od-control-hint {
+  .od-field-hint {
     color: var(--od-color-muted);
   }
 
-  .od-control-message {
+  .od-field-message {
     color: var(--od-tone-text);
   }
 
@@ -314,16 +473,243 @@
     min-width: 3.3rem;
   }
 
-  .od-input[data-size="sm"],
-  .od-select[data-size="sm"] {
-    min-height: 2.5rem;
-    padding: 0.6rem 0.82rem;
+  .od-checkbox {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.85rem;
+    align-items: start;
+    color: var(--od-color-foreground);
+    cursor: pointer;
   }
 
-  .od-input[data-size="lg"],
-  .od-select[data-size="lg"] {
-    min-height: 3.35rem;
-    padding: 0.95rem 1.05rem;
+  .od-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    inline-size: 1px;
+    block-size: 1px;
+    pointer-events: none;
+  }
+
+  .od-checkbox-control {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), transparent 45%),
+      var(--od-surface-elevated);
+    box-shadow: var(--od-shadow-inset);
+    transition:
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-checkbox-indicator {
+    width: 0.7rem;
+    height: 0.7rem;
+    background: var(--od-tone-text);
+    clip-path: polygon(14% 52%, 0 67%, 37% 100%, 100% 28%, 84% 13%, 35% 68%);
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity var(--od-motion-fast) var(--od-motion-ease-standard),
+      transform var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-checkbox-input:checked + .od-checkbox-control {
+    border-color: var(--od-tone-border);
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-checkbox-input:checked + .od-checkbox-control .od-checkbox-indicator {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .od-checkbox-copy {
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  .od-checkbox-label,
+  .od-switch-label {
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--od-color-foreground);
+  }
+
+  .od-checkbox-description,
+  .od-switch-description {
+    color: var(--od-color-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .od-checkbox-input:focus-visible + .od-checkbox-control {
+    outline: none;
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+    border-color: var(--od-border-accent);
+  }
+
+  .od-checkbox[data-state="disabled"] {
+    opacity: 0.58;
+    cursor: not-allowed;
+  }
+
+  .od-checkbox[data-state="error"] .od-checkbox-control {
+    border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(236 94 82 / 0.18);
+  }
+
+  .od-switch {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: center;
+  }
+
+  .od-switch-control {
+    position: relative;
+    display: inline-flex;
+    width: 3.25rem;
+    height: 1.75rem;
+    align-items: center;
+    padding: 0.18rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), transparent 45%),
+      color-mix(in oklab, var(--od-tone-bg) 70%, var(--od-surface-elevated));
+    box-shadow: var(--od-shadow-inset);
+    cursor: pointer;
+    transition:
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-switch-thumb {
+    width: 1.15rem;
+    height: 1.15rem;
+    background: var(--od-color-foreground);
+    transform: translateX(0);
+    transition:
+      transform var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-switch-control[data-checked="true"] {
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-switch-control[data-checked="true"] .od-switch-thumb {
+    transform: translateX(1.45rem);
+    background: var(--od-tone-text);
+  }
+
+  .od-switch-control:focus-visible {
+    outline: none;
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+    border-color: var(--od-border-accent);
+  }
+
+  .od-switch-control:disabled {
+    cursor: not-allowed;
+  }
+
+  .od-switch[data-state="disabled"] {
+    opacity: 0.58;
+  }
+
+  .od-switch[data-state="error"] .od-switch-control {
+    border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(236 94 82 / 0.18);
+  }
+
+  .od-switch-copy {
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  .od-tabs {
+    display: grid;
+    gap: var(--od-space-4);
+  }
+
+  .od-tabs-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0.4rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 40%),
+      var(--od-surface-elevated);
+  }
+
+  .od-tabs-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.4rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--od-color-muted);
+    font-family: var(--od-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      color var(--od-motion-fast) var(--od-motion-ease-standard),
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-tabs-trigger[aria-selected="true"] {
+    color: var(--od-tone-text);
+    border-color: var(--od-tone-border);
+    background: color-mix(in oklab, var(--od-tone-bg) 84%, transparent);
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-tabs-trigger:focus-visible {
+    outline: none;
+    border-color: var(--od-border-accent);
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+  }
+
+  .od-tabs-panel {
+    display: grid;
+    gap: var(--od-space-4);
+  }
+
+  .od-tooltip-anchor {
+    display: inline-flex;
+  }
+
+  .od-tooltip {
+    position: fixed;
+    z-index: 70;
+    max-width: min(18rem, calc(100vw - 2rem));
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 40%),
+      var(--od-surface-panel);
+    color: var(--od-color-foreground);
+    font-size: 0.8rem;
+    line-height: 1.55;
+    box-shadow: var(--od-shadow-inset), var(--od-shadow-panel);
+    transform: var(--od-tooltip-translate);
+    animation: od-enter-rise var(--od-motion-fast) var(--od-motion-ease-emphasis);
+    pointer-events: none;
   }
 
   .od-badge {
@@ -563,7 +949,8 @@
   .od-toast :focus-visible,
   .od-button:focus-visible,
   .od-input:focus-visible,
-  .od-select:focus-visible {
+  .od-select:focus-visible,
+  .od-textarea:focus-visible {
     outline: none;
     box-shadow: var(--od-focus-ring), var(--od-tone-glow);
     border-color: var(--od-border-accent);
@@ -591,6 +978,60 @@
 
     .od-dialog {
       padding: var(--od-space-5);
+    }
+
+    .od-button {
+      min-height: 2.85rem;
+      padding: 0.72rem 1rem;
+      font-size: 0.92rem;
+      gap: 0.55rem;
+    }
+
+    .od-button[data-icon-only="true"] {
+      width: 2.85rem;
+      min-width: 2.85rem;
+    }
+
+    .od-button[data-size="sm"][data-icon-only="true"] {
+      width: 2.25rem;
+      min-width: 2.25rem;
+    }
+
+    .od-button[data-size="lg"][data-icon-only="true"] {
+      width: 3.1rem;
+      min-width: 3.1rem;
+    }
+
+    .od-input,
+    .od-select,
+    .od-textarea {
+      min-height: 2.85rem;
+      padding: 0.68rem 0.85rem;
+    }
+
+    .od-field-control {
+      --od-field-pad-inline: 0.85rem;
+      --od-field-pad-block: 0.68rem;
+      --od-field-adornment-gap: 0.75rem;
+      --od-field-label-font-size: 0.65rem;
+      padding: var(--od-field-pad-block) var(--od-field-pad-inline);
+    }
+
+    .od-field-control[data-has-label="true"] {
+      padding-top: 0.5rem;
+      padding-bottom: 0.64rem;
+    }
+
+    .od-dialog-footer {
+      gap: var(--od-space-3);
+    }
+
+    .od-dialog-body {
+      margin-block: var(--od-space-4);
+    }
+
+    .od-dropzone-content {
+      gap: var(--od-space-4);
     }
   }
 
@@ -624,6 +1065,133 @@
       right: var(--od-space-3);
       left: var(--od-space-3);
       width: auto;
+    }
+
+    .od-button {
+      min-height: 2.7rem;
+      padding: 0.62rem 0.9rem;
+      font-size: 0.88rem;
+      gap: 0.5rem;
+    }
+
+    .od-button[data-size="sm"] {
+      min-height: 2.2rem;
+      padding: 0.5rem 0.72rem;
+      font-size: 0.78rem;
+    }
+
+    .od-button[data-size="lg"] {
+      min-height: 3rem;
+      padding: 0.82rem 1.1rem;
+      font-size: 0.95rem;
+    }
+
+    .od-button[data-icon-only="true"] {
+      width: 2.7rem;
+      min-width: 2.7rem;
+    }
+
+    .od-button[data-size="sm"][data-icon-only="true"] {
+      width: 2.2rem;
+      min-width: 2.2rem;
+    }
+
+    .od-button[data-size="lg"][data-icon-only="true"] {
+      width: 3rem;
+      min-width: 3rem;
+    }
+
+    .od-input,
+    .od-select,
+    .od-textarea {
+      min-height: 2.7rem;
+      padding: 0.6rem 0.78rem;
+    }
+
+    .od-input[data-size="sm"],
+    .od-select[data-size="sm"],
+    .od-textarea[data-size="sm"] {
+      min-height: 2.3rem;
+      padding: 0.5rem 0.68rem;
+    }
+
+    .od-input[data-size="lg"],
+    .od-select[data-size="lg"],
+    .od-textarea[data-size="lg"] {
+      min-height: 3.05rem;
+      padding: 0.78rem 0.9rem;
+    }
+
+    .od-field-control {
+      --od-field-pad-inline: 0.78rem;
+      --od-field-pad-block: 0.6rem;
+      --od-field-adornment-size: 0.95rem;
+      --od-field-adornment-gap: 0.72rem;
+      --od-field-label-font-size: 0.6rem;
+      padding: var(--od-field-pad-block) var(--od-field-pad-inline);
+    }
+
+    .od-field-control[data-has-label="true"] {
+      padding-top: 0.45rem;
+      padding-bottom: 0.62rem;
+    }
+
+    .od-badge {
+      padding: 0.28rem 0.48rem;
+      font-size: 0.66rem;
+      gap: 0.35rem;
+    }
+
+    .od-badge[data-size="md"] {
+      padding: 0.38rem 0.6rem;
+      font-size: 0.7rem;
+    }
+
+    .od-kbd {
+      min-width: 1.75rem;
+      padding: 0.18rem 0.38rem;
+      font-size: 0.66rem;
+    }
+
+    .od-checkbox,
+    .od-switch {
+      gap: 0.7rem;
+    }
+
+    .od-switch-control {
+      width: 3rem;
+      height: 1.6rem;
+    }
+
+    .od-switch-control[data-checked="true"] .od-switch-thumb {
+      transform: translateX(1.3rem);
+    }
+
+    .od-field {
+      gap: 0.4rem;
+    }
+
+    .od-dialog-header,
+    .od-dialog-footer {
+      flex-wrap: wrap;
+      gap: var(--od-space-3);
+    }
+
+    .od-dialog-body {
+      margin-block: var(--od-space-4);
+      gap: var(--od-space-3);
+    }
+
+    .od-dropzone-content {
+      gap: var(--od-space-4);
+    }
+
+    .od-dropzone-copy {
+      gap: 0.6rem;
+    }
+
+    .od-dropzone-side {
+      gap: var(--od-space-3);
     }
   }
 }
