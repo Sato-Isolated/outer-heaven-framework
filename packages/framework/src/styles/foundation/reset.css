@@ -1,0 +1,24 @@
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--od-surface-base);
+    color: var(--od-color-foreground);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--od-color-primary) 45%, transparent);
+    color: var(--od-color-primary-foreground);
+  }
+}
+

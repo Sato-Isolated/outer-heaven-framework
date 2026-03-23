@@ -1,0 +1,28 @@
+{
+  "name": "@outerhaven/framework",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": [
+    "./src/styles.css",
+    "./src/styles/**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --out-dir dist --clean"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.523.0",
+    "tailwind-merge": "^3.3.1"
+  }
+}

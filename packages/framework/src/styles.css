@@ -1,0 +1,8 @@
+@import "./styles/foundation/reset.css";
+@import "./styles/foundation/tokens.css";
+@import "./styles/foundation/typography.css";
+@import "./styles/themes/theme-tactical.css";
+@import "./styles/utilities/motion.css";
+@import "./styles/utilities/effects.css";
+@import "./styles/components/primitives.css";
+

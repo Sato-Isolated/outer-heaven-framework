@@ -1,0 +1,152 @@
+@theme inline {
+  --color-background: var(--od-surface-base);
+  --color-foreground: var(--od-color-foreground);
+  --color-border: var(--od-border-subtle);
+  --color-input: var(--od-surface-elevated);
+  --color-ring: var(--od-border-accent);
+  --color-card: var(--od-surface-panel);
+  --color-card-foreground: var(--od-color-foreground);
+  --color-primary: var(--od-color-primary);
+  --color-success: var(--od-color-success);
+  --color-warning: var(--od-color-warning);
+  --color-danger: var(--od-color-danger);
+  --color-muted: var(--od-color-muted);
+  --color-primary-foreground: var(--od-color-primary-foreground);
+  --color-success-foreground: var(--od-color-success-foreground);
+  --color-warning-foreground: var(--od-color-warning-foreground);
+  --color-danger-foreground: var(--od-color-danger-foreground);
+  --font-sans: var(--od-font-sans);
+  --font-mono: var(--od-font-mono);
+  --radius-sm: var(--od-radius-sm);
+  --radius-md: var(--od-radius-md);
+  --radius-lg: var(--od-radius-lg);
+}
+
+@layer base {
+  :where(
+      .od-shell,
+      .od-panel,
+      .od-button,
+      .od-input,
+      .od-select,
+      .od-badge,
+      .od-dialog,
+      .od-toast,
+      .od-dropzone,
+      .od-divider,
+      .od-kbd
+    ) {
+    --od-tone-text: var(--od-color-muted);
+    --od-tone-border: var(--od-border-subtle);
+    --od-tone-bg: color-mix(in oklab, var(--od-color-muted) 10%, transparent);
+    --od-tone-solid: color-mix(in oklab, var(--od-surface-panel) 88%, var(--od-color-muted) 12%);
+    --od-tone-ink: var(--od-color-foreground);
+    --od-tone-glow: var(--od-shadow-panel);
+  }
+
+  :where(
+      .od-shell,
+      .od-panel,
+      .od-button,
+      .od-input,
+      .od-select,
+      .od-badge,
+      .od-dialog,
+      .od-toast,
+      .od-dropzone,
+      .od-divider,
+      .od-kbd
+    )[data-tone="primary"] {
+    --od-tone-text: var(--od-color-primary);
+    --od-tone-border: color-mix(in oklab, var(--od-color-primary) 52%, var(--od-border-subtle));
+    --od-tone-bg: color-mix(in oklab, var(--od-color-primary) 16%, transparent);
+    --od-tone-solid: var(--od-color-primary);
+    --od-tone-ink: var(--od-color-primary-foreground);
+    --od-tone-glow: var(--od-shadow-glow-primary);
+  }
+
+  :where(
+      .od-shell,
+      .od-panel,
+      .od-button,
+      .od-input,
+      .od-select,
+      .od-badge,
+      .od-dialog,
+      .od-toast,
+      .od-dropzone,
+      .od-divider,
+      .od-kbd
+    )[data-tone="success"] {
+    --od-tone-text: var(--od-color-success);
+    --od-tone-border: color-mix(in oklab, var(--od-color-success) 52%, var(--od-border-subtle));
+    --od-tone-bg: color-mix(in oklab, var(--od-color-success) 16%, transparent);
+    --od-tone-solid: var(--od-color-success);
+    --od-tone-ink: var(--od-color-success-foreground);
+    --od-tone-glow: var(--od-shadow-glow-success);
+  }
+
+  :where(
+      .od-shell,
+      .od-panel,
+      .od-button,
+      .od-input,
+      .od-select,
+      .od-badge,
+      .od-dialog,
+      .od-toast,
+      .od-dropzone,
+      .od-divider,
+      .od-kbd
+    )[data-tone="warning"] {
+    --od-tone-text: var(--od-color-warning);
+    --od-tone-border: color-mix(in oklab, var(--od-color-warning) 52%, var(--od-border-subtle));
+    --od-tone-bg: color-mix(in oklab, var(--od-color-warning) 16%, transparent);
+    --od-tone-solid: var(--od-color-warning);
+    --od-tone-ink: var(--od-color-warning-foreground);
+    --od-tone-glow: var(--od-shadow-glow-warning);
+  }
+
+  :where(
+      .od-shell,
+      .od-panel,
+      .od-button,
+      .od-input,
+      .od-select,
+      .od-badge,
+      .od-dialog,
+      .od-toast,
+      .od-dropzone,
+      .od-divider,
+      .od-kbd
+    )[data-tone="danger"] {
+    --od-tone-text: var(--od-color-danger);
+    --od-tone-border: color-mix(in oklab, var(--od-color-danger) 52%, var(--od-border-subtle));
+    --od-tone-bg: color-mix(in oklab, var(--od-color-danger) 16%, transparent);
+    --od-tone-solid: var(--od-color-danger);
+    --od-tone-ink: var(--od-color-danger-foreground);
+    --od-tone-glow: var(--od-shadow-glow-danger);
+  }
+
+  :where(
+      .od-shell,
+      .od-panel,
+      .od-button,
+      .od-input,
+      .od-select,
+      .od-badge,
+      .od-dialog,
+      .od-toast,
+      .od-dropzone,
+      .od-divider,
+      .od-kbd
+    )[data-tone="muted"] {
+    --od-tone-text: var(--od-color-muted);
+    --od-tone-border: color-mix(in oklab, var(--od-color-muted) 35%, var(--od-border-subtle));
+    --od-tone-bg: color-mix(in oklab, var(--od-color-muted) 12%, transparent);
+    --od-tone-solid: color-mix(in oklab, var(--od-color-muted) 25%, var(--od-surface-panel));
+    --od-tone-ink: var(--od-color-foreground);
+    --od-tone-glow: var(--od-shadow-panel);
+  }
+}
+

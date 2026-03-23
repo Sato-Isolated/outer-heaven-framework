@@ -1,0 +1,68 @@
+:root {
+  color-scheme: dark;
+
+  --od-color-primary: oklch(0.82 0.16 88);
+  --od-color-primary-foreground: oklch(0.18 0.015 95);
+  --od-color-success: oklch(0.76 0.14 154);
+  --od-color-success-foreground: oklch(0.18 0.02 155);
+  --od-color-warning: oklch(0.78 0.16 69);
+  --od-color-warning-foreground: oklch(0.18 0.015 70);
+  --od-color-danger: oklch(0.67 0.19 28);
+  --od-color-danger-foreground: oklch(0.97 0.01 28);
+  --od-color-muted: oklch(0.63 0.02 92);
+  --od-color-foreground: oklch(0.94 0.01 96);
+  --od-color-foreground-strong: oklch(0.98 0.004 99);
+  --od-color-foreground-soft: oklch(0.8 0.02 95);
+
+  --od-surface-base: oklch(0.17 0.009 95);
+  --od-surface-elevated: oklch(0.21 0.011 95);
+  --od-surface-panel: oklch(0.25 0.013 95);
+  --od-surface-overlay: color-mix(in srgb, black 74%, transparent);
+  --od-surface-glass: color-mix(in oklab, var(--od-surface-panel) 78%, transparent);
+
+  --od-border-subtle: oklch(0.35 0.012 95);
+  --od-border-strong: oklch(0.54 0.02 95);
+  --od-border-accent: color-mix(in oklab, var(--od-color-primary) 72%, white 28%);
+
+  --od-radius-xs: 2px;
+  --od-radius-sm: 4px;
+  --od-radius-md: 8px;
+  --od-radius-lg: 14px;
+
+  --od-shadow-panel: 0 14px 40px rgb(0 0 0 / 0.28);
+  --od-shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --od-shadow-glow-primary: 0 0 0 1px rgb(232 197 84 / 0.26),
+    0 0 24px rgb(232 197 84 / 0.18);
+  --od-shadow-glow-success: 0 0 0 1px rgb(88 214 156 / 0.24),
+    0 0 22px rgb(88 214 156 / 0.14);
+  --od-shadow-glow-warning: 0 0 0 1px rgb(244 181 72 / 0.24),
+    0 0 22px rgb(244 181 72 / 0.14);
+  --od-shadow-glow-danger: 0 0 0 1px rgb(236 94 82 / 0.25),
+    0 0 24px rgb(236 94 82 / 0.14);
+
+  --od-font-sans: var(--font-outerhaven-sans, "IBM Plex Sans"), "Segoe UI", sans-serif;
+  --od-font-display: var(--font-outerhaven-sans, "IBM Plex Sans"), "Segoe UI", sans-serif;
+  --od-font-mono: var(--font-outerhaven-mono, "IBM Plex Mono"), "Consolas", monospace;
+
+  --od-space-1: 4px;
+  --od-space-2: 8px;
+  --od-space-3: 12px;
+  --od-space-4: 16px;
+  --od-space-5: 24px;
+  --od-space-6: 32px;
+  --od-space-7: 48px;
+  --od-space-8: 64px;
+
+  --od-motion-fast: 140ms;
+  --od-motion-base: 220ms;
+  --od-motion-slow: 420ms;
+  --od-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --od-motion-ease-emphasis: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --od-grid-size: 28px;
+  --od-grid-line: color-mix(in oklab, var(--od-border-subtle) 62%, transparent);
+  --od-shell-cut: 14px;
+  --od-panel-cut: 10px;
+  --od-focus-ring: 0 0 0 2px color-mix(in oklab, var(--od-color-primary) 60%, transparent);
+}
+

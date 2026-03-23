@@ -1,0 +1,54 @@
+@layer utilities {
+  .u-tactical-grid {
+    background-image:
+      linear-gradient(var(--od-grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--od-grid-line) 1px, transparent 1px);
+    background-size: var(--od-grid-size) var(--od-grid-size);
+  }
+
+  .u-scan-pass {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .u-scan-pass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--od-color-primary) 20%, transparent) 50%,
+      transparent 100%
+    );
+    transform: translateX(-120%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .u-scan-pass:hover::after,
+  .u-scan-pass:focus-within::after {
+    opacity: 1;
+    animation: od-emphasis-scan 900ms var(--od-motion-ease-emphasis);
+  }
+
+  .u-glow-primary {
+    box-shadow: var(--od-shadow-glow-primary);
+  }
+
+  .u-readout {
+    font-family: var(--od-font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .u-clip-corner {
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--od-panel-cut)) 0,
+      100% var(--od-panel-cut),
+      100% 100%,
+      0 100%
+    );
+  }
+}
