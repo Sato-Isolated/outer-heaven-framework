@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "pnpm --filter @outerhaven/demo dev",
     "build": "pnpm -r build",
+    "build:pages": "node ./scripts/github-pages.mjs build",
+    "deploy:pages": "node ./scripts/github-pages.mjs deploy",
     "lint": "eslint .",
     "test": "vitest run"
   },

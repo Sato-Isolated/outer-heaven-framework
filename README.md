@@ -19,6 +19,29 @@ pnpm lint
 pnpm test
 ```
 
+## GitHub Pages
+
+La démo Next.js peut maintenant être exportée pour GitHub Pages avec un `basePath`
+de projet.
+
+Build statique local pour Pages:
+
+```bash
+pnpm build:pages
+```
+
+Déploiement direct vers la branche `gh-pages`:
+
+```bash
+pnpm deploy:pages
+```
+
+Notes:
+- le script pousse le contenu exporté de `apps/demo/out` vers `origin/gh-pages`
+- la config suppose par défaut un dépôt `outerhavenframework`, donc une URL de site en `/<repo>`
+- pour un autre nom de dépôt, définir `GITHUB_PAGES_REPO=<nom-du-repo>` avant le lancement du script
+- côté GitHub, activer GitHub Pages sur la branche `gh-pages`
+
 ## Importer Le Framework
 
 Import React:
@@ -126,4 +149,3 @@ export function Example() {
   );
 }
 ```
-
