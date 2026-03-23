@@ -9,10 +9,42 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
 const demoRoot = path.join(repoRoot, "apps", "demo");
 const outDir = path.join(demoRoot, "out");
-const repoName = (process.env.GITHUB_PAGES_REPO ?? path.basename(repoRoot)).replace(
-  /^\/+|\/+$/g,
-  "",
-);
+
+function sanitizeRepoName(value) {
+  return String(value).replace(/^\/+|\/+$/g, "");
+}
+
+function extractRepoName(remoteUrl) {
+  const normalized = String(remoteUrl).trim().replace(/\.git$/u, "");
+  const segments = normalized.split(/[:/]/u).filter(Boolean);
+
+  return segments[segments.length - 1] ?? "";
+}
+
+function inferRepoName() {
+  if (process.env.GITHUB_PAGES_REPO) {
+    return sanitizeRepoName(process.env.GITHUB_PAGES_REPO);
+  }
+
+  const result = spawnSync("git", ["remote", "get-url", "origin"], {
+    cwd: repoRoot,
+    env: process.env,
+    encoding: "utf8",
+    shell: false,
+  });
+
+  if (result.status === 0 && result.stdout) {
+    const inferred = sanitizeRepoName(extractRepoName(result.stdout));
+
+    if (inferred) {
+      return inferred;
+    }
+  }
+
+  return sanitizeRepoName(path.basename(repoRoot));
+}
+
+const repoName = inferRepoName();
 const pagesEnv = {
   ...process.env,
   GITHUB_PAGES: "true",
