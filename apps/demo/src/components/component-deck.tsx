@@ -45,7 +45,7 @@ export function ComponentDeck() {
         ]}
       />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <FilterStrip
           eyebrow="Controls"
           title="Inputs and toggles"
@@ -330,6 +330,50 @@ export function ComponentDeck() {
           </div>
         </TabsPanel>
       </Tabs>
+
+      <Panel className="gap-6">
+        <div className="grid gap-2">
+          <p className="u-mono-label text-primary">Panel Size Matrix</p>
+          <p className="max-w-3xl text-sm leading-7 text-muted">
+            Panels accept a size prop that controls geometry, corner cut, and minimum height.
+            When empty, they switch to a dashed placeholder treatment automatically.
+          </p>
+        </div>
+
+        <div className="grid items-start gap-6 lg:grid-cols-3">
+          <Panel tone="primary" size="sm">
+            <p className="u-mono-label text-primary">Small</p>
+            <p className="text-sm leading-6 text-muted">
+              Compact footprint for secondary panels, sidebar cards, or metadata slots.
+            </p>
+          </Panel>
+          <Panel tone="success" size="md">
+            <p className="u-mono-label text-success">Medium</p>
+            <p className="text-sm leading-6 text-muted">
+              Default surface used across most dashboard contexts. Balanced padding and min-height.
+            </p>
+          </Panel>
+          <Panel tone="warning" size="lg">
+            <p className="u-mono-label text-warning">Large</p>
+            <p className="text-sm leading-6 text-muted">
+              Hero-grade containers for primary data views, mission briefings, or highlight regions.
+            </p>
+          </Panel>
+        </div>
+
+        <div className="grid gap-2">
+          <p className="u-mono-label text-danger">Empty State</p>
+          <p className="max-w-3xl text-sm leading-7 text-muted">
+            Empty panels render a dashed border and transparent background, signaling an unfilled slot.
+          </p>
+        </div>
+
+        <div className="grid items-start gap-6 lg:grid-cols-3">
+          <Panel tone="primary" size="sm" />
+          <Panel tone="success" size="md" />
+          <Panel tone="warning" size="lg" />
+        </div>
+      </Panel>
 
       <Panel className="gap-5">
         <p className="u-mono-label text-primary">Adoption note</p>

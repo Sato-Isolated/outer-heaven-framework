@@ -154,7 +154,7 @@ export default function HomePage() {
       </section>
 
       <section id="framework" className="mx-auto w-full max-w-[80rem] px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] xl:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] xl:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
           <Shell density="roomy" className="u-scan-pass">
             <p className="u-mono-label text-primary">Implementation Shape</p>
             <h2 className="mt-4 text-3xl font-semibold text-foreground">
@@ -188,7 +188,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-8">
+      <section className="mx-auto grid w-full max-w-[80rem] items-start gap-8 px-4 pb-20 sm:px-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-8">
         <CommandHeader
           badge={<Badge tone="success">Reusable compositions</Badge>}
           eyebrow="Framework Building Blocks"
@@ -220,7 +220,7 @@ export default function HomePage() {
             { label: "New v1.5 primitives", value: "5", detail: "Controls and overlays widened without API drift.", tone: "success", icon: <Bell className="h-4 w-4" /> },
             { label: "Reusable compositions", value: "6", detail: "Ready to power landing and dashboard screens.", tone: "warning", icon: <LayoutGrid className="h-4 w-4" /> },
           ]}
-          className="md:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3"
+          className="md:grid-cols-3"
         />
       </section>
 

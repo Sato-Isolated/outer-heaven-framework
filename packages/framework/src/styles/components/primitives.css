@@ -87,6 +87,54 @@
     padding: var(--od-space-6);
   }
 
+  /* ── Panel size variants ── */
+
+  .od-panel[data-size="sm"] {
+    --od-panel-cut: 6px;
+    gap: var(--od-space-2);
+    padding: var(--od-space-3);
+    min-height: 8rem;
+  }
+
+  .od-panel[data-size="md"] {
+    min-height: 14rem;
+  }
+
+  .od-panel:empty {
+    min-height: 7rem;
+  }
+
+  .od-panel[data-size="lg"] {
+    --od-panel-cut: 14px;
+    gap: var(--od-space-5);
+    padding: var(--od-space-6);
+    min-height: 22rem;
+  }
+
+  /* ── Panel empty state ── */
+
+  .od-panel:empty {
+    border-style: dashed;
+    background: color-mix(in oklab, var(--od-surface-elevated) 40%, transparent);
+  }
+
+  .od-panel:empty::before {
+    display: none;
+  }
+
+  .od-panel:empty:hover {
+    transform: none;
+    box-shadow: var(--od-shadow-inset), var(--od-shadow-panel);
+  }
+
+  .od-panel[data-size="sm"]:empty {
+    min-height: 4rem;
+  }
+
+  .od-panel[data-size="lg"]:empty {
+    min-height: 11rem;
+  }
+
   .od-button {
     position: relative;
     display: inline-flex;
@@ -976,6 +1024,34 @@
       padding: var(--od-space-3);
     }
 
+    .od-panel[data-size="sm"] {
+      gap: var(--od-space-2);
+      padding: var(--od-space-3);
+      min-height: 6rem;
+    }
+
+    .od-panel[data-size="md"] {
+      min-height: 11rem;
+    }
+
+    .od-panel:empty {
+      min-height: 5.5rem;
+    }
+
+    .od-panel[data-size="lg"] {
+      gap: var(--od-space-4);
+      padding: var(--od-space-5);
+      min-height: 18rem;
+    }
+
+    .od-panel[data-size="sm"]:empty {
+      min-height: 3rem;
+    }
+
+    .od-panel[data-size="lg"]:empty {
+      min-height: 9rem;
+    }
+
     .od-dialog {
       padding: var(--od-space-5);
     }
@@ -1055,6 +1131,34 @@
     .od-panel[data-density="compact"] {
       gap: var(--od-space-2);
       padding: var(--od-space-3);
+    }
+
+    .od-panel[data-size="sm"] {
+      gap: var(--od-space-2);
+      padding: var(--od-space-2);
+      min-height: 5rem;
+    }
+
+    .od-panel[data-size="md"] {
+      min-height: 10rem;
+    }
+
+    .od-panel:empty {
+      min-height: 5rem;
+    }
+
+    .od-panel[data-size="lg"] {
+      gap: var(--od-space-3);
+      padding: var(--od-space-4);
+      min-height: 16rem;
+    }
+
+    .od-panel[data-size="sm"]:empty {
+      min-height: 2.5rem;
+    }
+
+    .od-panel[data-size="lg"]:empty {
+      min-height: 8rem;
     }
 
     .od-dialog {

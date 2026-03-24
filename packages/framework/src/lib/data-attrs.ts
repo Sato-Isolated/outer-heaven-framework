@@ -20,13 +20,13 @@ export interface SemanticProps {
 
 export function semanticDataAttributes({
   tone = "muted",
-  size = "md",
+  size,
   state = "default",
   density = "default",
 }: SemanticProps) {
   return {
     "data-tone": tone,
-    "data-size": size,
+    ...(size ? { "data-size": size } : {}),
     "data-state": state,
     "data-density": density,
   };

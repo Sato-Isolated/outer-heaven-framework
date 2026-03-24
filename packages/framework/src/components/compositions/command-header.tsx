@@ -35,9 +35,8 @@ export function CommandHeader({
           {description ? (
             <p className="oh-command-header__description">{description}</p>
           ) : null}
+          {actions ? <div className="oh-command-header__actions">{actions}</div> : null}
         </div>
-
-        {actions ? <div className="oh-command-header__actions">{actions}</div> : null}
       </div>
 
       {metaItems?.length ? (
