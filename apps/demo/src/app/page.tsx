@@ -216,8 +216,8 @@ export default function HomePage() {
 
         <StatGrid
           items={[
-            { label: "Stable v1 primitives", value: "11", detail: "Shell to toast already covered.", tone: "primary", icon: <BadgeCheck className="h-4 w-4" /> },
-            { label: "New v1.5 primitives", value: "5", detail: "Controls and overlays widened without API drift.", tone: "success", icon: <Bell className="h-4 w-4" /> },
+            { label: "Stable primitives", value: "11", detail: "Shell to toast already covered.", tone: "primary", icon: <BadgeCheck className="h-4 w-4" /> },
+            { label: "New primitives", value: "5", detail: "Controls and overlays widened without API drift.", tone: "success", icon: <Bell className="h-4 w-4" /> },
             { label: "Reusable compositions", value: "6", detail: "Ready to power landing and dashboard screens.", tone: "warning", icon: <LayoutGrid className="h-4 w-4" /> },
           ]}
           className="md:grid-cols-3"

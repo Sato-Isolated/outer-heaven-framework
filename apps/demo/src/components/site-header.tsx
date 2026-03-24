@@ -50,7 +50,7 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <Badge tone="warning">V1 Tactical Theme</Badge>
+          <Badge tone="warning">Tactical Theme</Badge>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -85,7 +85,7 @@ export function SiteHeader() {
           </MobileNavLink>
         ))}
         <div className="mt-4 px-4">
-          <Badge tone="warning">V1 Tactical Theme</Badge>
+          <Badge tone="warning">Tactical Theme</Badge>
         </div>
         <div className="mt-auto px-4 pb-4 pt-6">
           <Button asChild tone="primary" size="sm" className="w-full justify-center">

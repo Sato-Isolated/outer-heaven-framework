@@ -38,7 +38,7 @@ export function ComponentDeck() {
       <CommandHeader
         badge={<Badge tone="primary">Component Deck</Badge>}
         eyebrow="Framework Surface Index"
-        title="Inspect the v1.5 primitives as a working catalog, not as isolated snippets."
+        title="Inspect the primitives as a working catalog, not as isolated snippets."
         description="This page exists to validate sizes, tones, states, and compositional fit before future releases expand the contract."
         metaItems={[
           { label: "New primitives", value: "Textarea / Checkbox / Switch / Tabs / Tooltip" },
@@ -55,7 +55,7 @@ export function ComponentDeck() {
           shortcuts={
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted">
               Inspect
-              <Badge tone="warning">v1.5</Badge>
+              <Badge tone="warning">0.1.0</Badge>
             </div>
           }
         >
