@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
-const repoName = (process.env.GITHUB_PAGES_REPO ?? "outerhavenframework").replace(
+const repoName = (process.env.GITHUB_PAGES_REPO ?? "outer-haven-framework").replace(
   /^\/+|\/+$/g,
   "",
 );
