@@ -4,6 +4,7 @@ import { Badge } from "../primitives/badge";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
 
+/** A single event entry inside an {@link ActivityFeed}. */
 export interface ActivityFeedItem {
   tone?: Tone;
   title: string;
@@ -11,13 +12,27 @@ export interface ActivityFeedItem {
   meta?: string;
 }
 
+/** Props for the {@link ActivityFeed} composition. */
 export interface ActivityFeedProps {
+  /** Mono-label above the heading. */
   eyebrow?: string;
+  /** Panel heading. */
   title: string;
+  /** Feed entries. */
   items: ActivityFeedItem[];
   className?: string;
 }
 
+/**
+ * Chronological activity-feed panel.
+ * Renders a list of toned events inside a {@link Panel} with
+ * {@link Badge} indicators.
+ *
+ * @example
+ * ```tsx
+ * <ActivityFeed title="Recent" items={events} />
+ * ```
+ */
 export function ActivityFeed({
   className,
   eyebrow,

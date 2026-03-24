@@ -12,15 +12,31 @@ import {
 } from "../../lib/data-attrs";
 import { Slot } from "../../lib/slot";
 
+/** Props for the {@link Button} component. */
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     SemanticProps {
+  /** Render as child element via the {@link Slot} pattern. */
   asChild?: boolean;
+  /** Remove background — text-only button. */
   ghost?: boolean;
+  /** Square aspect ratio for icon-only buttons. Requires an accessible name. */
   iconOnly?: boolean;
+  /** Show a loading spinner and set `aria-busy`. */
   loading?: boolean;
 }
 
+/**
+ * Primary interactive element. Supports `asChild` polymorphism, ghost and
+ * icon-only variants, and automatic state resolution (`disabled` → `"disabled"`,
+ * `loading` → `"loading"`).
+ *
+ * @example
+ * ```tsx
+ * <Button tone="primary" size="sm">Deploy</Button>
+ * <Button asChild ghost><Link href="/ops">Operations</Link></Button>
+ * ```
+ */
 export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(
   {
     asChild = false,

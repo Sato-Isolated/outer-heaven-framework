@@ -5,22 +5,39 @@ import { Badge } from "../primitives/badge";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
 
+/** A single item in a {@link MissionQueue} list. */
 export interface MissionQueueItem {
   name: string;
   detail?: string;
+  /** Status label rendered inside a {@link Badge}. */
   status: string;
   tone?: Tone;
+  /** Trailing action slot. */
   action?: ReactNode;
 }
 
+/** Props for the {@link MissionQueue} composition. */
 export interface MissionQueueProps {
+  /** Mono-label above the title. */
   eyebrow?: string;
+  /** Panel heading. */
   title: string;
+  /** Optional badge beside the heading. */
   badge?: ReactNode;
+  /** Queue entries. */
   items: MissionQueueItem[];
   className?: string;
 }
 
+/**
+ * Itemised mission queue inside a {@link Panel} — each entry shows a
+ * name, optional detail, toned {@link Badge} and optional action.
+ *
+ * @example
+ * ```tsx
+ * <MissionQueue title="Ops queue" items={missions} />
+ * ```
+ */
 export function MissionQueue({
   badge,
   className,

@@ -37,19 +37,39 @@ function getFocusableElements(container: HTMLElement | null) {
   );
 }
 
+/** Props for the {@link Dialog} component. */
 export interface DialogProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title">,
     SemanticProps {
+  /** Whether the dialog is visible. */
   open: boolean;
+  /** Callback when the dialog requests a close (Escape, backdrop). */
   onOpenChange?: (open: boolean) => void;
+  /** Dialog heading rendered in the header region. */
   title: string;
+  /** Secondary descriptive text below the title. */
   description?: string;
+  /** Footer slot (e.g. action buttons). */
   footer?: ReactNode;
+  /** Close on backdrop click (default `true`). */
   closeOnBackdrop?: boolean;
+  /** Close on Escape key (default `true`). */
   closeOnEscape?: boolean;
+  /** Ref to the element that receives initial focus when the dialog opens. */
   initialFocusRef?: RefObject<HTMLElement | null>;
 }
 
+/**
+ * Modal dialog rendered in a portal with focus-trap and scroll-lock.
+ * Restores focus to the previously-active element on close.
+ *
+ * @example
+ * ```tsx
+ * <Dialog open={open} onOpenChange={setOpen} title="Confirm">
+ *   <p>Proceed with extraction?</p>
+ * </Dialog>
+ * ```
+ */
 export function Dialog({
   children,
   className,

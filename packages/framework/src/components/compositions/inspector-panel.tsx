@@ -4,16 +4,34 @@ import type { Tone } from "../../lib/data-attrs";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
 
+/** Props for the {@link InspectorPanel} composition. */
 export interface InspectorPanelProps {
+  /** Mono-label above the title. */
   eyebrow?: string;
+  /** Panel heading. */
   title: string;
+  /** Header icon slot. */
   icon?: ReactNode;
+  /** Surface tone. */
   tone?: Tone;
+  /** Panel body content. */
   children: ReactNode;
+  /** Footer slot (below divider). */
   footer?: ReactNode;
   className?: string;
 }
 
+/**
+ * Detail inspector side-panel with header, body and optional footer.
+ * Wraps a {@link Panel} with structured chrome.
+ *
+ * @example
+ * ```tsx
+ * <InspectorPanel title="Target" tone="primary" icon={<Eye />}>
+ *   <p>Data here…</p>
+ * </InspectorPanel>
+ * ```
+ */
 export function InspectorPanel({
   children,
   className,

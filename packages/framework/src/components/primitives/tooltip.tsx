@@ -34,15 +34,31 @@ function composeHandler<E>(
   };
 }
 
+/** Props for the {@link Tooltip} component. */
 export interface TooltipProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "content" | "children">,
     SemanticProps {
+  /** The trigger element the tooltip anchors to. */
   children: ReactElement;
+  /** Tooltip content (text or JSX). */
   content: ReactNode;
+  /** Preferred placement relative to the trigger. */
   side?: TooltipSide;
+  /** Delay before opening in ms (default `120`). */
   openDelay?: number;
 }
 
+/**
+ * Hover / focus tooltip rendered in a portal.
+ * Repositions on scroll/resize and closes on Escape.
+ *
+ * @example
+ * ```tsx
+ * <Tooltip content="Copy to clipboard">
+ *   <Button iconOnly><Copy /></Button>
+ * </Tooltip>
+ * ```
+ */
 export function Tooltip({
   children,
   className,

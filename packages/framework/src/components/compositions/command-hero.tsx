@@ -2,23 +2,27 @@ import type { ReactNode } from "react";
 import { cn } from "../../lib/cn";
 import { Shell } from "../primitives/shell";
 
+/** Metadata label/value pair for the hero section. */
 export interface CommandHeroMetaItem {
   label: string;
   value: string;
 }
 
+/** Indexed table row inside the hero side-panel. */
 export interface CommandHeroRow {
   index: string;
   label: string;
   detail: string;
 }
 
+/** Live readout shown below the panel table. */
 export interface CommandHeroReadout {
   value: string;
   label: string;
   detail: string;
 }
 
+/** Configuration for the right-hand info panel of the hero. */
 export interface CommandHeroPanel {
   label: string;
   stamp?: string;
@@ -27,18 +31,32 @@ export interface CommandHeroPanel {
   readouts?: CommandHeroReadout[];
 }
 
+/** Props for the {@link CommandHero} composition. */
 export interface CommandHeroProps {
   badge?: ReactNode;
+  /** Mono-label eyebrow. */
   eyebrow: string;
+  /** Large hero heading. */
   title: string;
+  /** Introductory paragraph. */
   description: string;
   primaryAction?: ReactNode;
   secondaryAction?: ReactNode;
   metaItems?: CommandHeroMetaItem[];
+  /** Side info-panel configuration. */
   panel: CommandHeroPanel;
   className?: string;
 }
 
+/**
+ * Full-width hero block with a rich side-panel data readout.
+ * Designed for landing pages and mission briefing screens.
+ *
+ * @example
+ * ```tsx
+ * <CommandHero eyebrow="OP" title="Outer Haven" description="..." panel={panelData} />
+ * ```
+ */
 export function CommandHero({
   badge,
   className,

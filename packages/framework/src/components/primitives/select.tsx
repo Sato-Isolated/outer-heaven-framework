@@ -19,28 +19,55 @@ import {
 } from "../../lib/data-attrs";
 import { FieldShell } from "./field-shell";
 
+/** A single option inside a {@link Select} dropdown. */
 export interface SelectOption {
   value: string;
   label: string;
+  /** When `true` the option is visible but not selectable. */
   disabled?: boolean;
 }
 
+/** Props for the {@link Select} component. */
 export interface SelectProps extends SemanticProps {
   "aria-label"?: string;
   className?: string;
+  /** Initial value (uncontrolled). */
   defaultValue?: string;
   disabled?: boolean;
+  /** Helper text below the field. */
   hint?: string;
+  /** Floating label inside the field border. */
   insetLabel?: string;
+  /** Mark as invalid — auto-sets `tone="danger"` and `aria-invalid`. */
   invalid?: boolean;
+  /** Validation / status message. */
   message?: string;
+  /** Callback when the selected value changes. */
   onValueChange?: (value: string) => void;
+  /** Available options. */
   options: SelectOption[];
+  /** Placeholder shown when no value is selected. */
   placeholder?: string;
+  /** Leading adornment (icon, symbol). */
   prefix?: ReactNode;
+  /** Controlled value. */
   value?: string;
 }
 
+/**
+ * Custom select dropdown with keyboard navigation and portal-rendered listbox.
+ * Supports controlled and uncontrolled modes, {@link FieldShell} chrome, and
+ * full ARIA combobox semantics.
+ *
+ * @example
+ * ```tsx
+ * <Select
+ *   insetLabel="Region"
+ *   options={[{ value: "eu", label: "Europe" }, { value: "us", label: "US" }]}
+ *   onValueChange={setRegion}
+ * />
+ * ```
+ */
 export const Select = forwardRef<HTMLButtonElement, SelectProps>(
   function Select(
     {
@@ -106,7 +133,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         triggerRef.current = node;
         if (typeof ref === "function") ref(node);
         else if (ref)
-          (ref as React.MutableRefObject<HTMLButtonElement | null>).current =
+          (ref as React.RefObject<HTMLButtonElement | null>).current =
             node;
       },
       [ref],

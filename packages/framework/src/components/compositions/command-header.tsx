@@ -1,21 +1,38 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/cn";
 
+/** A label/value pair rendered in the header's metadata strip. */
 export interface CommandHeaderMetaItem {
   label: string;
   value: string;
 }
 
+/** Props for the {@link CommandHeader} composition. */
 export interface CommandHeaderProps {
+  /** Optional badge node. */
   badge?: ReactNode;
+  /** Mono-label above the title. */
   eyebrow?: string;
+  /** Page heading. */
   title: string;
+  /** Summary paragraph below the title. */
   description?: string;
+  /** Action buttons slot. */
   actions?: ReactNode;
+  /** Definition-list metadata below the title area. */
   metaItems?: CommandHeaderMetaItem[];
   className?: string;
 }
 
+/**
+ * Top-of-page header with title, description, metadata strip and
+ * action buttons. Commonly used as the hero of a dashboard view.
+ *
+ * @example
+ * ```tsx
+ * <CommandHeader eyebrow="MISSION" title="Phantom Resolve" />
+ * ```
+ */
 export function CommandHeader({
   actions,
   badge,

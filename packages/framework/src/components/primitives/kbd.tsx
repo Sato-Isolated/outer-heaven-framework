@@ -5,10 +5,20 @@ import {
   type SemanticProps,
 } from "../../lib/data-attrs";
 
+/** Props for the {@link Kbd} component. */
 export interface KbdProps
   extends HTMLAttributes<HTMLElement>,
     SemanticProps {}
 
+/**
+ * Keyboard shortcut indicator rendered as a `<kbd>` element.
+ *
+ * @example
+ * ```tsx
+ * <Kbd>G</Kbd>
+ * <Kbd>D</Kbd>
+ * ```
+ */
 export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
   { className, density, size = "sm", state, tone, ...props },
   ref,

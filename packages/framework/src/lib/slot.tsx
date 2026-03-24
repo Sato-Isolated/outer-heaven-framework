@@ -4,12 +4,13 @@ import {
   forwardRef,
   isValidElement,
   type HTMLAttributes,
-  type MutableRefObject,
   type ReactElement,
   type Ref,
+  type RefObject,
 } from "react";
 import { cn } from "./cn";
 
+/** Compose multiple React refs into a single callback ref. */
 function composeRefs<T>(...refs: Array<Ref<T> | undefined>) {
   return (node: T | null) => {
     for (const ref of refs) {
@@ -22,11 +23,12 @@ function composeRefs<T>(...refs: Array<Ref<T> | undefined>) {
         continue;
       }
 
-      (ref as MutableRefObject<T | null>).current = node;
+      (ref as RefObject<T | null>).current = node;
     }
   };
 }
 
+/** Merge two event handlers — child handler runs first, then parent. */
 function mergeEventHandlers(
   childHandler: unknown,
   parentHandler: unknown,
@@ -45,10 +47,16 @@ function mergeEventHandlers(
   };
 }
 
+/** Props for the {@link Slot} component. Expects a single `ReactElement` child. */
 export interface SlotProps extends HTMLAttributes<HTMLElement> {
   children: ReactElement;
 }
 
+/**
+ * Radix-style polymorphic Slot component for the `asChild` pattern.
+ * Merges parent props (className, event handlers, refs) onto the single child
+ * element, allowing components to render as a different element without wrapper divs.
+ */
 export const Slot = forwardRef<HTMLElement, SlotProps>(function Slot(
   { children, className, ...props },
   ref,

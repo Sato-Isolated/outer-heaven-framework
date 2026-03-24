@@ -16,17 +16,33 @@ import {
   type Tone,
 } from "../../lib/data-attrs";
 
+/** Props for the {@link Switch} component. */
 export interface SwitchProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children" | "onChange">,
     SemanticProps {
+  /** Controlled checked state. */
   checked?: boolean;
+  /** Initial checked state (uncontrolled). */
   defaultChecked?: boolean;
+  /** Callback fired when the user toggles the switch. */
   onCheckedChange?: (checked: boolean) => void;
+  /** Mark as invalid — auto-sets `tone="danger"`. */
   invalid?: boolean;
+  /** Primary label rendered beside the switch. */
   label?: ReactNode;
+  /** Secondary text rendered below the label. */
   description?: ReactNode;
 }
 
+/**
+ * Toggle switch with `role="switch"` semantics.
+ * Supports controlled and uncontrolled modes with label + description.
+ *
+ * @example
+ * ```tsx
+ * <Switch label="Night vision" onCheckedChange={setNv} />
+ * ```
+ */
 export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
   {
     checked,

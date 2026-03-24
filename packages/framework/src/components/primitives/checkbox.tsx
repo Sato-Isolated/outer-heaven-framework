@@ -12,13 +12,28 @@ import {
   type Tone,
 } from "../../lib/data-attrs";
 
+/** Props for the {@link Checkbox} component. */
 export interface CheckboxProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type">,
     SemanticProps {
+  /** Mark the checkbox as invalid — auto-sets `tone="danger"` and `aria-invalid`. */
   invalid?: boolean;
+  /** Secondary description rendered below the label. */
   description?: ReactNode;
 }
 
+/**
+ * Custom checkbox with label and optional description.
+ * Wraps a native `<input type="checkbox">` for full form compatibility.
+ * Automatically resolves `disabled` → `"disabled"` and `invalid` → `"error"` states.
+ *
+ * @example
+ * ```tsx
+ * <Checkbox invalid description="Required for deployment">
+ *   Acknowledge risks
+ * </Checkbox>
+ * ```
+ */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   function Checkbox(
     {

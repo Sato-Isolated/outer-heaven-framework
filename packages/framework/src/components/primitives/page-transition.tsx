@@ -31,11 +31,23 @@ export interface TransitionConfig {
   easing?: (t: number) => number;
 }
 
+/**
+ * Cubed-grid page transition effect.
+ * Plays an exit animation when `pathname` changes, rendering a grid of
+ * 3D cubes that scatter outward before the new content appears.
+ *
+ * @example
+ * ```tsx
+ * <PageTransition pathname={pathname} enabled cols={60} rows={40}>
+ *   {children}
+ * </PageTransition>
+ * ```
+ */
 export interface PageTransitionProps extends TransitionConfig {
   children: ReactNode;
   /** Current route pathname — drives the transition on change. */
   pathname: string;
-  /** Set to false to disable the transition effect */
+  /** Set to false to disable the transition effect. */
   enabled?: boolean;
   className?: string;
 }

@@ -21,15 +21,23 @@ import {
 } from "../../lib/data-attrs";
 import { Button } from "./button";
 
+/** Props for the {@link Toast} component. */
 export interface ToastProps
   extends HTMLAttributes<HTMLDivElement>,
     SemanticProps {
+  /** Toast heading. */
   title: string;
+  /** Secondary descriptive text. */
   description?: string;
+  /** Auto-dismiss delay in ms (default `4200`). */
   duration?: number;
+  /** Callback when the toast is dismissed. */
   onDismiss?: () => void;
+  /** Action slot (e.g. undo button). */
   action?: ReactNode;
+  /** Pause auto-dismiss timer on hover (default `true`). */
   pauseOnHover?: boolean;
+  /** Show progress bar (default `true`). */
   showProgress?: boolean;
 }
 
@@ -45,6 +53,11 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null);
 
+/**
+ * Individual notification toast with auto-dismiss timer and progress bar.
+ * Typically used inside a {@link ToastProvider} — prefer {@link useToast}
+ * over rendering `<Toast>` directly.
+ */
 export function Toast({
   action,
   className,
@@ -140,6 +153,10 @@ export function Toast({
   );
 }
 
+/**
+ * Context provider that manages toast state and renders a viewport portal.
+ * Wrap your app root with `<ToastProvider>` to enable {@link useToast}.
+ */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastRecord[]>([]);
   const closeTimeoutsRef = useRef<Map<string, number>>(new Map());
@@ -212,6 +229,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Hook to push and dismiss toasts from anywhere inside a {@link ToastProvider}.
+ *
+ * @example
+ * ```tsx
+ * const { push, dismiss } = useToast();
+ * push({ title: "Mission logged", tone: "success" });
+ * ```
+ */
 export function useToast() {
   const context = useContext(ToastContext);
 
@@ -222,6 +248,15 @@ export function useToast() {
   return context;
 }
 
+/**
+ * Convenience factory that creates a toast payload for a given
+ * {@link Tone}, title and description.
+ *
+ * @example
+ * ```tsx
+ * push(toneToast("danger", "Breach detected", "Perimeter compromised"));
+ * ```
+ */
 export function toneToast(
   tone: Tone,
   title: string,

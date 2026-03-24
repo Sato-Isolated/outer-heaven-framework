@@ -33,14 +33,34 @@ function useTabsContext() {
   return context;
 }
 
+/** Props for the {@link Tabs} container. */
 export interface TabsProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue">,
     SemanticProps {
+  /** Controlled active tab value. */
   value?: string;
+  /** Initial value (uncontrolled). */
   defaultValue?: string;
+  /** Callback when the active tab changes. */
   onValueChange?: (value: string) => void;
 }
 
+/**
+ * Tab container providing context to {@link TabsList}, {@link TabsTrigger}
+ * and {@link TabsPanel}. Supports controlled and uncontrolled modes.
+ *
+ * @example
+ * ```tsx
+ * <Tabs defaultValue="ops">
+ *   <TabsList>
+ *     <TabsTrigger value="ops">Operations</TabsTrigger>
+ *     <TabsTrigger value="intel">Intel</TabsTrigger>
+ *   </TabsList>
+ *   <TabsPanel value="ops">...</TabsPanel>
+ *   <TabsPanel value="intel">...</TabsPanel>
+ * </Tabs>
+ * ```
+ */
 export function Tabs({
   children,
   className,
@@ -88,6 +108,7 @@ export function Tabs({
   );
 }
 
+/** Horizontal tab-list wrapper with arrow-key roving focus. */
 export function TabsList({
   children,
   className,
@@ -143,12 +164,15 @@ export function TabsList({
   );
 }
 
+/** Props for the {@link TabsTrigger} button. */
 export interface TabsTriggerProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value">,
     SemanticProps {
+  /** The value this trigger activates. */
   value: string;
 }
 
+/** Individual tab button inside {@link TabsList}. */
 export function TabsTrigger({
   children,
   className,
@@ -183,13 +207,17 @@ export function TabsTrigger({
   );
 }
 
+/** Props for the {@link TabsPanel} content area. */
 export interface TabsPanelProps
   extends HTMLAttributes<HTMLDivElement>,
     SemanticProps {
+  /** The value this panel corresponds to. */
   value: string;
+  /** Keep the panel in the DOM even when inactive. */
   forceMount?: boolean;
 }
 
+/** Tab content panel — visible when its `value` matches the active tab. */
 export function TabsPanel({
   children,
   className,

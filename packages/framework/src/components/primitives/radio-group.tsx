@@ -44,17 +44,35 @@ function useRadioGroupContext() {
 
 /* ─── RadioGroup ─── */
 
+/** Props for the {@link RadioGroup} component. */
 export interface RadioGroupProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange">,
     SemanticProps {
+  /** HTML name shared by all child radio inputs. */
   name: string;
+  /** Controlled value. */
   value?: string;
+  /** Initial value (uncontrolled). */
   defaultValue?: string;
+  /** Callback when the selected option changes. */
   onValueChange?: (value: string) => void;
+  /** Layout direction — also affects arrow-key navigation. */
   orientation?: "horizontal" | "vertical";
   disabled?: boolean;
 }
 
+/**
+ * Radio group container that provides context to child {@link RadioGroupItem}
+ * elements. Handles arrow-key roving focus and controlled/uncontrolled state.
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup name="freq" onValueChange={setFreq}>
+ *   <RadioGroupItem value="uhf">UHF</RadioGroupItem>
+ *   <RadioGroupItem value="vhf">VHF</RadioGroupItem>
+ * </RadioGroup>
+ * ```
+ */
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   function RadioGroup(
     {
@@ -152,14 +170,19 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
 
 /* ─── RadioGroupItem ─── */
 
+/** Props for the {@link RadioGroupItem} component. */
 export interface RadioGroupItemProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type">,
     SemanticProps {
+  /** The value this option represents. */
   value: string;
+  /** Mark as invalid — auto-sets `tone="danger"`. */
   invalid?: boolean;
+  /** Secondary text below the label. */
   description?: ReactNode;
 }
 
+/** Individual radio option rendered inside a {@link RadioGroup}. */
 export const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
   function RadioGroupItem(
     {

@@ -3,16 +3,35 @@ import { cn } from "../../lib/cn";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
 
+/** Props for the {@link FilterStrip} composition. */
 export interface FilterStripProps {
+  /** Mono-label above the title. */
   eyebrow?: string;
+  /** Strip heading. */
   title?: string;
+  /** Brief description below the title. */
   description?: string;
+  /** Quick-filter shortcut buttons. */
   shortcuts?: ReactNode;
+  /** Trailing action buttons. */
   actions?: ReactNode;
+  /** Filter controls (inputs, selects, etc.). */
   children: ReactNode;
   className?: string;
 }
 
+/**
+ * Compact filter bar combining a header, inline controls and action
+ * buttons inside a {@link Panel}.
+ *
+ * @example
+ * ```tsx
+ * <FilterStrip title="Filters">
+ *   <Input placeholder="Search…" />
+ *   <Select options={regions} />
+ * </FilterStrip>
+ * ```
+ */
 export function FilterStrip({
   actions,
   children,

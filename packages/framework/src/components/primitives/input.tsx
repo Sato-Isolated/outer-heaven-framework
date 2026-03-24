@@ -12,16 +12,33 @@ import {
 } from "../../lib/data-attrs";
 import { FieldShell } from "./field-shell";
 
+/** Props for the {@link Input} component. */
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "prefix">,
     SemanticProps {
+  /** Mark as invalid — auto-sets `tone="danger"` and `aria-invalid`. */
   invalid?: boolean;
+  /** Leading adornment (icon, symbol). */
   prefix?: ReactNode;
+  /** Floating label inside the field border. */
   insetLabel?: string;
+  /** Helper text below the field. */
   hint?: string;
+  /** Validation / status message. */
   message?: string;
 }
 
+/**
+ * Text input with optional chrome (prefix, inset label, hint, message).
+ * When no chrome props are set the component renders a bare `<input>`;
+ * otherwise it wraps in {@link FieldShell}.
+ *
+ * @example
+ * ```tsx
+ * <Input placeholder="Callsign" />
+ * <Input insetLabel="Passphrase" invalid message="Required" />
+ * ```
+ */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     className,

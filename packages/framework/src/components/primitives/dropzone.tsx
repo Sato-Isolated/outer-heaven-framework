@@ -9,18 +9,41 @@ import {
   type SemanticProps,
 } from "../../lib/data-attrs";
 
+/** Props for the {@link Dropzone} component. */
 export interface DropzoneProps
   extends HTMLAttributes<HTMLDivElement>,
     SemanticProps {
+  /** Mono-label eyebrow text above the title. */
   eyebrow?: string;
+  /** Heading for the drop area. */
   title?: string;
+  /** Explanatory copy below the title. */
   description?: string;
+  /** Allowed-format hint (e.g. "PNG, JPG, PDF"). */
   hint?: string;
+  /** Leading icon or illustration. */
   icon?: ReactNode;
+  /** Action buttons (e.g. "Browse files"). */
   actions?: ReactNode;
+  /** Upload status indicator slot. */
   status?: ReactNode;
 }
 
+/**
+ * File-upload drop zone with structured content slots.
+ * Renders either the structured layout (eyebrow/title/description) or
+ * raw `children` when no structured props are provided.
+ *
+ * @example
+ * ```tsx
+ * <Dropzone
+ *   eyebrow="Upload"
+ *   title="Drop files here"
+ *   description="Supports PNG, JPG up to 10 MB"
+ *   icon={<Upload />}
+ * />
+ * ```
+ */
 export const Dropzone = forwardRef<HTMLDivElement, DropzoneProps>(function Dropzone(
   {
     actions,

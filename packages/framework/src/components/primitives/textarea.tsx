@@ -12,16 +12,32 @@ import {
 } from "../../lib/data-attrs";
 import { FieldShell } from "./field-shell";
 
+/** Props for the {@link Textarea} component. */
 export interface TextareaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">,
     SemanticProps {
+  /** Mark as invalid — auto-sets `tone="danger"` and `aria-invalid`. */
   invalid?: boolean;
+  /** Leading adornment (icon, symbol). */
   prefix?: ReactNode;
+  /** Floating label inside the field border. */
   insetLabel?: string;
+  /** Helper text below the field. */
   hint?: string;
+  /** Validation / status message. */
   message?: string;
 }
 
+/**
+ * Multi-line text input with optional chrome (prefix, inset label, hint, message).
+ * Shares geometry and chrome layout with {@link Input} and {@link Select}
+ * via the internal {@link FieldShell} wrapper.
+ *
+ * @example
+ * ```tsx
+ * <Textarea insetLabel="Mission Brief" rows={4} />
+ * ```
+ */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     {

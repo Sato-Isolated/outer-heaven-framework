@@ -15,12 +15,27 @@ import { cn } from "../../lib/cn";
 
 /* ─── MobileNav ─────────────────────────────────────────── */
 
+/** Props for the {@link MobileNav} component. */
 export interface MobileNavProps extends HTMLAttributes<HTMLDivElement> {
+  /** Whether the drawer is visible. */
   open: boolean;
+  /** Callback when open state changes (e.g. Escape key or backdrop click). */
   onOpenChange: (open: boolean) => void;
   children: ReactNode;
 }
 
+/**
+ * Full-screen mobile navigation drawer rendered via a portal.
+ * Locks body scroll, traps focus, and closes on Escape.
+ *
+ * @example
+ * ```tsx
+ * <MobileNavTrigger onClick={() => setOpen(true)} />
+ * <MobileNav open={open} onOpenChange={setOpen}>
+ *   <MobileNavLink href="/ops">Operations</MobileNavLink>
+ * </MobileNav>
+ * ```
+ */
 export const MobileNav = forwardRef<HTMLDivElement, MobileNavProps>(
   function MobileNav({ open, onOpenChange, children, className, ...props }, ref) {
     const panelRef = useRef<HTMLDivElement>(null);
@@ -107,8 +122,10 @@ export const MobileNav = forwardRef<HTMLDivElement, MobileNavProps>(
 
 /* ─── MobileNavTrigger ──────────────────────────────────── */
 
+/** Props for the {@link MobileNavTrigger} hamburger button. */
 export type MobileNavTriggerProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
+/** Three-bar hamburger button that opens a {@link MobileNav} drawer. */
 export const MobileNavTrigger = forwardRef<
   HTMLButtonElement,
   MobileNavTriggerProps
@@ -130,11 +147,14 @@ export const MobileNavTrigger = forwardRef<
 
 /* ─── MobileNavLink ─────────────────────────────────────── */
 
+/** Props for the {@link MobileNavLink} anchor. */
 export interface MobileNavLinkProps extends HTMLAttributes<HTMLAnchorElement> {
   href: string;
+  /** Highlight as the currently active route. */
   active?: boolean;
 }
 
+/** Styled anchor link for use inside a {@link MobileNav} drawer. */
 export const MobileNavLink = forwardRef<HTMLAnchorElement, MobileNavLinkProps>(
   function MobileNavLink({ href, active, className, children, ...props }, ref) {
     return (

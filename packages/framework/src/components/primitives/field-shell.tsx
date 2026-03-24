@@ -2,18 +2,34 @@ import type { ReactNode } from "react";
 import { cn } from "../../lib/cn";
 import type { Tone } from "../../lib/data-attrs";
 
+/** Props for the {@link FieldShell} internal wrapper. */
 export interface FieldShellProps {
   children: ReactNode;
   className?: string;
+  /** Which native control this shell wraps — drives geometry data-attr. */
   controlKind: "input" | "select" | "textarea";
+  /** Light helper text below the control. */
   hint?: string;
+  /** Trailing adornment inside the control row (e.g. chevron, icon). */
   indicator?: ReactNode;
+  /** Floating label rendered inside the control border. */
   insetLabel?: string;
+  /** Validation or status message below the control. */
   message?: string;
+  /** Leading adornment before the control (e.g. icon, currency symbol). */
   prefix?: ReactNode;
+  /** Tone passed down for message colouring. */
   tone?: Tone;
 }
 
+/**
+ * Internal chrome wrapper shared by {@link Input}, {@link Select} and
+ * {@link Textarea}. Provides prefix, inset-label, indicator, hint and
+ * message slots with shared CSS-variable-driven geometry.
+ *
+ * **Not exported from the framework barrel** — consumed only by field
+ * components internally.
+ */
 export function FieldShell({
   children,
   className,
