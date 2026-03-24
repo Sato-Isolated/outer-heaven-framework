@@ -38,7 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plexSans.variable} ${plexMono.variable} antialiased`}>
         <ToastProvider>
-          <TransitionProvider>
+          <TransitionProvider excludePatterns={["/dashboard/"]}>
             <div className="min-h-screen bg-background text-foreground">
               <SiteHeader />
               <RouteTransition>

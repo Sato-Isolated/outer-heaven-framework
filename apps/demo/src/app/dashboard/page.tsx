@@ -1,5 +1,5 @@
-import { DashboardShowcase } from "@/components/dashboard-showcase";
+import { redirect } from "next/navigation";
 
 export default function DashboardPage() {
-  return <DashboardShowcase />;
+  redirect("/dashboard/overview");
 }

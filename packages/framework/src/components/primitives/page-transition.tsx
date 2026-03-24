@@ -11,16 +11,30 @@ import { cn } from "../../lib/cn";
 
 /* ─── Types ────────────────────────────────────────────── */
 
-export interface PageTransitionProps {
-  children: ReactNode;
-  /** Current route pathname — drives the transition on change. */
-  pathname: string;
+/** All visual customisation knobs for the transition effect. */
+export interface TransitionConfig {
   /** Grid columns (default 80) */
   cols?: number;
   /** Grid rows (default 50) */
   rows?: number;
   /** Total animation duration per phase in ms (default 1800) */
   duration?: number;
+  /** Cube fill colour (default "#262420") */
+  baseColor?: string;
+  /** Cube outline stroke colour (default "#4a4640") */
+  outlineColor?: string;
+  /** Edge highlight colour for 3D effect (default "#6a6250") */
+  highlightColor?: string;
+  /** [min, max] scatter distance in px (default [60, 240]) */
+  scatterRadius?: [number, number];
+  /** Custom easing function `(t: number) => number` (default easeEmphasis) */
+  easing?: (t: number) => number;
+}
+
+export interface PageTransitionProps extends TransitionConfig {
+  children: ReactNode;
+  /** Current route pathname — drives the transition on change. */
+  pathname: string;
   /** Set to false to disable the transition effect */
   enabled?: boolean;
   className?: string;
@@ -37,7 +51,7 @@ function seededRandom(seed: number) {
 }
 
 /** Emphasis easing: cubic-bezier(0.2, 0.8, 0.2, 1) approximated as a curve. */
-function easeEmphasis(t: number) {
+export function easeEmphasis(t: number) {
   // Attempt to approximate the emphasis curve — fast start, gentle end
   const t2 = t * t;
   return t2 * t * -1.4 + t2 * 2.8 + t * 0.6 > 1
@@ -56,11 +70,17 @@ interface CubeData {
   scale0: number; // random minimum scale at end
 }
 
-function buildCubeData(cols: number, rows: number, duration: number): CubeData[] {
+function buildCubeData(
+  cols: number,
+  rows: number,
+  duration: number,
+  scatterRadius: [number, number],
+): CubeData[] {
   const total = cols * rows;
   const maxDist = Math.sqrt((cols - 1) ** 2 + (rows - 1) ** 2);
   const maxStagger = duration * 0.7;
   const cubes: CubeData[] = new Array(total);
+  const [scatterMin, scatterMax] = scatterRadius;
 
   for (let i = 0; i < total; i++) {
     const col = i % cols;
@@ -70,7 +90,7 @@ function buildCubeData(cols: number, rows: number, duration: number): CubeData[]
 
     const rand = seededRandom(i);
     const angle = rand * Math.PI * 2;
-    const radius = 60 + rand * 180;
+    const radius = scatterMin + rand * (scatterMax - scatterMin);
 
     cubes[i] = {
       col,
@@ -96,6 +116,11 @@ export function PageTransition({
   rows = 50,
   duration = 1800,
   enabled = true,
+  baseColor = "#262420",
+  outlineColor = "#4a4640",
+  highlightColor = "#6a6250",
+  scatterRadius = [60, 240],
+  easing = easeEmphasis,
   className,
 }: PageTransitionProps) {
   const [phase, setPhase] = useState<Phase>("idle");
@@ -105,6 +130,18 @@ export function PageTransition({
   const rafRef = useRef<number>(0);
   const cubesRef = useRef<CubeData[]>([]);
   const startRef = useRef(0);
+
+  // Stable refs for values used inside the animation loop
+  const easingRef = useRef(easing);
+  const baseColorRef = useRef(baseColor);
+  const outlineColorRef = useRef(outlineColor);
+  const highlightColorRef = useRef(highlightColor);
+  useEffect(() => {
+    easingRef.current = easing;
+    baseColorRef.current = baseColor;
+    outlineColorRef.current = outlineColor;
+    highlightColorRef.current = highlightColor;
+  }, [easing, baseColor, outlineColor, highlightColor]);
 
   const clearTimer = useCallback(() => {
     if (timerRef.current !== null) {
@@ -117,10 +154,10 @@ export function PageTransition({
     }
   }, []);
 
-  // Build cube data once
+  // Build cube data once (reacts to grid / scatter changes)
   useEffect(() => {
-    cubesRef.current = buildCubeData(cols, rows, duration);
-  }, [cols, rows, duration]);
+    cubesRef.current = buildCubeData(cols, rows, duration, scatterRadius);
+  }, [cols, rows, duration, scatterRadius]);
 
   // Canvas animation loop
   const animate = useCallback(() => {
@@ -128,6 +165,11 @@ export function PageTransition({
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const easeFn = easingRef.current;
+    const baseFill = baseColorRef.current;
+    const outlineStroke = outlineColorRef.current;
+    const highlight = highlightColorRef.current;
 
     const now = performance.now();
     const elapsed = now - startRef.current;
@@ -149,11 +191,11 @@ export function PageTransition({
       if (localTime < 0) {
         // Not started yet — draw solid
         ctx.globalAlpha = 1;
-        ctx.fillStyle = "#262420";
+        ctx.fillStyle = baseFill;
         ctx.fillRect(cube.col * cellW, cube.row * cellH, cellW - 0.5, cellH - 0.5);
         // Subtle outline
         ctx.globalAlpha = 0.3;
-        ctx.strokeStyle = "#4a4640";
+        ctx.strokeStyle = outlineStroke;
         ctx.lineWidth = 0.5;
         ctx.strokeRect(cube.col * cellW, cube.row * cellH, cellW - 0.5, cellH - 0.5);
         anyActive = true;
@@ -164,7 +206,7 @@ export function PageTransition({
       if (progress >= 1) continue; // fully scattered — skip
 
       anyActive = true;
-      const ease = easeEmphasis(progress);
+      const ease = easeFn(progress);
 
       const opacity = 1 - ease;
       const scale = 1 - ease * (1 - cube.scale0);
@@ -187,7 +229,7 @@ export function PageTransition({
       // Edge highlight for 3D feel
       if (scale > 0.3) {
         ctx.globalAlpha = opacity * 0.25;
-        ctx.strokeStyle = "#6a6250";
+        ctx.strokeStyle = highlight;
         ctx.lineWidth = 0.5;
         ctx.strokeRect(cx - sw / 2, cy - sh / 2, sw, sh);
       }
@@ -234,7 +276,7 @@ export function PageTransition({
     }, duration + duration * 0.7);
 
     return clearTimer;
-  }, [pathname, duration, clearTimer, animate, setupCanvas]);
+  }, [pathname, enabled, duration, clearTimer, animate, setupCanvas]);
 
   return (
     <div className={cn("od-page-transition", className)}>
