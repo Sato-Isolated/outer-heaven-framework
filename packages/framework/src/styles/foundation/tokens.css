@@ -64,6 +64,41 @@
   --od-shell-cut: 14px;
   --od-panel-cut: 10px;
   --od-focus-ring: 0 0 0 2px color-mix(in oklab, var(--od-color-primary) 60%, transparent);
+
+  /* ── Backdrop blur ────────────────────────────────────── */
+
+  --od-backdrop-blur: 14px;
+
+  /* ── Component cut sizes ────────────────────────────── */
+
+  --od-control-cut: 8px;
+  --od-dropzone-cut: 12px;
+
+  /* ── Surface gloss gradients ────────────────────────── */
+
+  --od-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 40%);
+  --od-gloss-strong: linear-gradient(180deg, rgb(255 255 255 / 0.08), transparent 40%);
+  --od-gloss-subtle: linear-gradient(180deg, rgb(255 255 255 / 0.02), transparent 45%);
+  --od-gloss-shimmer: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.02), transparent);
+
+  /* ── Z-index scale ──────────────────────────────────── */
+
+  --od-z-dialog: 50;
+  --od-z-toast: 60;
+  --od-z-tooltip: 70;
+  --od-z-transition: 9999;
+
+  /* ── Shadow ring variants (standalone, no glow) ─────── */
+
+  --od-shadow-ring-warning: 0 0 0 1px rgb(244 181 72 / 0.18);
+  --od-shadow-ring-danger: 0 0 0 1px rgb(236 94 82 / 0.2);
+  --od-shadow-depth: 0 8px 30px rgb(0 0 0 / 0.35);
+
+  /* ── Motion distances ───────────────────────────────── */
+
+  --od-motion-rise-y: 20px;
+  --od-motion-slide-x: 24px;
+  --od-motion-fade-y: 8px;
 }
 
 @media (max-width: 1279px) {

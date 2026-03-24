@@ -7,12 +7,12 @@
 
   .od-tooltip {
     position: fixed;
-    z-index: 70;
+    z-index: var(--od-z-tooltip);
     max-width: min(18rem, calc(100vw - 2rem));
     padding: 0.65rem 0.8rem;
     border: 1px solid var(--od-tone-border);
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 40%),
+      var(--od-gloss),
       var(--od-surface-panel);
     color: var(--od-color-foreground);
     font-size: 0.8rem;
@@ -28,12 +28,12 @@
   .od-dialog-backdrop {
     position: fixed;
     inset: 0;
-    z-index: 50;
+    z-index: var(--od-z-dialog);
     display: grid;
     place-items: center;
     padding: var(--od-space-5);
     background: var(--od-surface-overlay);
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(var(--od-backdrop-blur));
     animation: od-enter-rise var(--od-motion-base) var(--od-motion-ease-emphasis);
   }
 
@@ -43,7 +43,7 @@
     background:
       radial-gradient(circle at top right, color-mix(in oklab, var(--od-tone-bg) 48%, transparent), transparent 38%),
       var(--od-surface-panel);
-    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--od-shell-cut)) 0, 100% var(--od-shell-cut), 100% 100%, 0 100%);
   }
 
   .od-dialog-header,
@@ -67,7 +67,7 @@
     position: fixed;
     right: var(--od-space-4);
     bottom: var(--od-space-4);
-    z-index: 60;
+    z-index: var(--od-z-toast);
     display: flex;
     flex-direction: column;
     gap: var(--od-space-3);
@@ -78,14 +78,14 @@
     overflow: hidden;
     padding: var(--od-space-4);
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 30%),
+      var(--od-gloss-subtle),
       var(--od-surface-panel);
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--od-panel-cut)) 0, 100% var(--od-panel-cut), 100% 100%, 0 100%);
     animation: od-enter-slide-x var(--od-motion-base) var(--od-motion-ease-emphasis);
   }
 
   .od-toast.od-toast-closing {
-    animation: od-exit-fade 160ms var(--od-motion-ease-standard) forwards;
+    animation: od-exit-fade var(--od-motion-fast) var(--od-motion-ease-standard) forwards;
   }
 
   .od-toast-progress {

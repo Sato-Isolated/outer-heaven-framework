@@ -8,6 +8,20 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "../../lib/cn";
+import {
+  COLOR_SHADE_MULTIPLIERS,
+  DEFAULT_SCATTER_RADIUS,
+  DEFAULT_TRANSITION_BASE_COLOR,
+  DEFAULT_TRANSITION_COLS,
+  DEFAULT_TRANSITION_DURATION,
+  DEFAULT_TRANSITION_HIGHLIGHT_COLOR,
+  DEFAULT_TRANSITION_OUTLINE_COLOR,
+  DEFAULT_TRANSITION_ROWS,
+  ROT_X,
+  ROT_Y,
+  SCALE_RANGE,
+  STAGGER_FACTOR,
+} from "../../lib/constants";
 
 /* ─── Types ────────────────────────────────────────────── */
 
@@ -90,7 +104,7 @@ function buildCubeData(
 ): CubeData[] {
   const total = cols * rows;
   const maxDist = Math.sqrt((cols - 1) ** 2 + (rows - 1) ** 2);
-  const maxStagger = duration * 0.7;
+  const maxStagger = duration * STAGGER_FACTOR;
   const cubes: CubeData[] = new Array(total);
   const [scatterMin, scatterMax] = scatterRadius;
 
@@ -110,9 +124,9 @@ function buildCubeData(
       delay,
       tx: Math.cos(angle) * radius,
       ty: Math.sin(angle) * radius,
-      rx: -90 + seededRandom(i + 2000) * 180,
-      ry: -120 + seededRandom(i + 3000) * 240,
-      scale0: 0.05 + seededRandom(i + 4000) * 0.1,
+      rx: ROT_X.min + seededRandom(i + ROT_X.seedOffset) * ROT_X.range,
+      ry: ROT_Y.min + seededRandom(i + ROT_Y.seedOffset) * ROT_Y.range,
+      scale0: SCALE_RANGE.min + seededRandom(i + SCALE_RANGE.seedOffset) * SCALE_RANGE.max,
     };
   }
 
@@ -124,14 +138,14 @@ function buildCubeData(
 export function PageTransition({
   children,
   pathname,
-  cols = 80,
-  rows = 50,
-  duration = 1800,
+  cols = DEFAULT_TRANSITION_COLS,
+  rows = DEFAULT_TRANSITION_ROWS,
+  duration = DEFAULT_TRANSITION_DURATION,
   enabled = true,
-  baseColor = "#262420",
-  outlineColor = "#4a4640",
-  highlightColor = "#6a6250",
-  scatterRadius = [60, 240],
+  baseColor = DEFAULT_TRANSITION_BASE_COLOR,
+  outlineColor = DEFAULT_TRANSITION_OUTLINE_COLOR,
+  highlightColor = DEFAULT_TRANSITION_HIGHLIGHT_COLOR,
+  scatterRadius = DEFAULT_SCATTER_RADIUS,
   easing = easeEmphasis,
   className,
 }: PageTransitionProps) {
@@ -235,7 +249,7 @@ export function PageTransition({
       // Simulate 3D rotation darkening
       const rotFactor = 1 - Math.abs(Math.sin(ease * cube.rx * 0.02)) * 0.4;
       const shade = Math.round(38 * rotFactor);
-      ctx.fillStyle = `rgb(${shade} ${Math.round(shade * 0.95)} ${Math.round(shade * 0.88)})`;
+      ctx.fillStyle = `rgb(${shade} ${Math.round(shade * COLOR_SHADE_MULTIPLIERS[1])} ${Math.round(shade * COLOR_SHADE_MULTIPLIERS[2])})`;
       ctx.fillRect(cx - sw / 2, cy - sh / 2, sw, sh);
 
       // Edge highlight for 3D feel

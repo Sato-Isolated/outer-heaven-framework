@@ -11,7 +11,7 @@
     padding: 0.4rem;
     border: 1px solid var(--od-tone-border);
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 40%),
+      var(--od-gloss-subtle),
       var(--od-surface-elevated);
   }
 

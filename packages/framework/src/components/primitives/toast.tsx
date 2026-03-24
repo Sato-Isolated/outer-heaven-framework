@@ -19,6 +19,7 @@ import {
   type SemanticProps,
   type Tone,
 } from "../../lib/data-attrs";
+import { DEFAULT_TOAST_DURATION, TOAST_DISMISS_ANIMATION_MS } from "../../lib/constants";
 import { Button } from "./button";
 
 /** Props for the {@link Toast} component. */
@@ -64,7 +65,7 @@ export function Toast({
   closing,
   density,
   description,
-  duration = 4200,
+  duration = DEFAULT_TOAST_DURATION,
   onDismiss,
   pauseOnHover = true,
   showProgress = true,
@@ -194,7 +195,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       window.clearTimeout(existingTimeout);
     }
 
-    const timeout = window.setTimeout(() => removeToast(id), 180);
+    const timeout = window.setTimeout(() => removeToast(id), TOAST_DISMISS_ANIMATION_MS);
     closeTimeoutsRef.current.set(id, timeout);
   }, [removeToast]);
 

@@ -7,7 +7,7 @@
       var(--od-surface-elevated);
     border-style: dashed;
     border-width: 1.5px;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--od-dropzone-cut)) 0, 100% var(--od-dropzone-cut), 100% 100%, 0 100%);
     transition:
       border-color var(--od-motion-base) var(--od-motion-ease-standard),
       box-shadow var(--od-motion-base) var(--od-motion-ease-standard),
@@ -45,7 +45,7 @@
       color-mix(in oklab, var(--od-color-primary) 18%, transparent) 50%,
       transparent 100%
     );
-    animation: od-progress-sweep 1.35s linear infinite;
+    animation: od-progress-sweep var(--_progress-duration, 1.35s) linear infinite;
   }
 
   .od-dropzone-content {

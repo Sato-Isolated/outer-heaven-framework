@@ -9,7 +9,7 @@
 .od-page-transition__canvas {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: var(--od-z-transition);
   pointer-events: none;
 }
 

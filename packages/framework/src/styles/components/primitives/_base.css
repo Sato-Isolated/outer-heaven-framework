@@ -18,8 +18,8 @@
     inset: 1px;
     pointer-events: none;
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 18%),
-      linear-gradient(90deg, transparent, rgb(255 255 255 / 0.02), transparent);
+      var(--od-gloss),
+      var(--od-gloss-shimmer);
     clip-path: inherit;
   }
 

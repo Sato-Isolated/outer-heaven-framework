@@ -1,7 +1,7 @@
 @keyframes od-enter-rise {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--od-motion-rise-y));
   }
 
   to {
@@ -13,7 +13,7 @@
 @keyframes od-enter-slide-x {
   from {
     opacity: 0;
-    transform: translateX(24px);
+    transform: translateX(var(--od-motion-slide-x));
   }
 
   to {
@@ -30,7 +30,7 @@
 
   to {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(var(--od-motion-fade-y));
   }
 }
 
@@ -47,11 +47,11 @@
 @keyframes od-status-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgb(232 197 84 / 0.1);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--od-color-primary) 10%, transparent);
   }
 
   50% {
-    box-shadow: 0 0 0 8px rgb(232 197 84 / 0);
+    box-shadow: 0 0 0 8px color-mix(in oklab, var(--od-color-primary) 0%, transparent);
   }
 }
 

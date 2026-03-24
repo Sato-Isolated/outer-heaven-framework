@@ -17,6 +17,7 @@ import {
   type State,
   type Tone,
 } from "../../lib/data-attrs";
+import { Z_INDEX_OVERLAY } from "../../lib/constants";
 import { FieldShell } from "./field-shell";
 
 /** A single option inside a {@link Select} dropdown. */
@@ -306,7 +307,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                 top: pos.top,
                 left: pos.left,
                 width: pos.width,
-                zIndex: 9999,
+                zIndex: Z_INDEX_OVERLAY,
               }}
             >
               {options.map((opt, i) => (

@@ -8,10 +8,10 @@
     min-height: 3rem;
     border: 1px solid var(--od-tone-border);
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.08), transparent 40%),
+      var(--od-gloss-strong),
       var(--od-tone-solid);
     color: var(--od-tone-ink);
-    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--od-control-cut)) 0, 100% var(--od-control-cut), 100% 100%, 0 100%);
     padding: 0.82rem 1.15rem;
     font-family: var(--od-font-sans);
     font-size: 0.95rem;
@@ -75,7 +75,7 @@
 
   .od-button[data-ghost="true"] {
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 45%),
+      var(--od-gloss-subtle),
       color-mix(in oklab, var(--od-tone-bg) 60%, transparent);
     color: var(--od-tone-text);
   }
