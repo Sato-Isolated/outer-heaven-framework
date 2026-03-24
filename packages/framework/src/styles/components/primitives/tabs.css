@@ -1,0 +1,56 @@
+@layer components {
+  .od-tabs {
+    display: grid;
+    gap: var(--od-space-4);
+  }
+
+  .od-tabs-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0.4rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 40%),
+      var(--od-surface-elevated);
+  }
+
+  .od-tabs-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.4rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--od-color-muted);
+    font-family: var(--od-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      color var(--od-motion-fast) var(--od-motion-ease-standard),
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-tabs-trigger[aria-selected="true"] {
+    color: var(--od-tone-text);
+    border-color: var(--od-tone-border);
+    background: color-mix(in oklab, var(--od-tone-bg) 84%, transparent);
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-tabs-trigger:focus-visible {
+    outline: none;
+    border-color: var(--od-border-accent);
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+  }
+
+  .od-tabs-panel {
+    display: grid;
+    gap: var(--od-space-4);
+  }
+}

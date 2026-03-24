@@ -93,12 +93,48 @@ export function TabsList({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
-  const { density, size, state, tone } = useTabsContext();
+  const { density, setActiveValue, size, state, tone } = useTabsContext();
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    const tablist = event.currentTarget;
+    const triggers = Array.from(
+      tablist.querySelectorAll<HTMLElement>('[role="tab"]:not([disabled])'),
+    );
+    const current = triggers.indexOf(event.target as HTMLElement);
+
+    if (current === -1) return;
+
+    let next: number | undefined;
+
+    switch (event.key) {
+      case "ArrowRight":
+        next = (current + 1) % triggers.length;
+        break;
+      case "ArrowLeft":
+        next = (current - 1 + triggers.length) % triggers.length;
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = triggers.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const tabValue = triggers[next].getAttribute("data-value");
+    if (tabValue) setActiveValue(tabValue);
+    triggers[next].focus();
+  }
 
   return (
     <div
       role="tablist"
+      aria-orientation="horizontal"
       className={cn("od-tabs-list", className)}
+      onKeyDown={handleKeyDown}
       {...semanticDataAttributes({ tone, size, state, density })}
       {...props}
     >
@@ -131,6 +167,7 @@ export function TabsTrigger({
       aria-controls={`${baseId}-${value}-panel`}
       aria-selected={selected}
       tabIndex={selected ? 0 : -1}
+      data-value={value}
       className={cn("od-tabs-trigger", className)}
       onClick={() => setActiveValue(value)}
       {...semanticDataAttributes({

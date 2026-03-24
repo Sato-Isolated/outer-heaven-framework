@@ -4,5 +4,5 @@
 @import "./styles/themes/theme-tactical.css";
 @import "./styles/utilities/motion.css";
 @import "./styles/utilities/effects.css";
-@import "./styles/components/primitives.css";
+@import "./styles/components/primitives/index.css";
 @import "./styles/components/compositions.css";

@@ -194,17 +194,18 @@ export function DashboardShowcase() {
           />
           <Select
             value={sector}
-            onChange={(event) => setSector(event.target.value)}
+            onValueChange={setSector}
             insetLabel="Sector"
             hint="Route the queue to a relay segment."
             prefix={<Radar />}
             aria-label="Filter sector"
-          >
-            <option value="all">All sectors</option>
-            <option value="north">North relay</option>
-            <option value="south">South relay</option>
-            <option value="ghost">Ghost channel</option>
-          </Select>
+            options={[
+              { value: "all", label: "All sectors" },
+              { value: "north", label: "North relay" },
+              { value: "south", label: "South relay" },
+              { value: "ghost", label: "Ghost channel" },
+            ]}
+          />
           <div className="grid gap-4 md:col-span-2 xl:col-span-1">
             <Switch
               label="Live relay monitoring"

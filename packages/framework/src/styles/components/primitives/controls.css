@@ -1,0 +1,294 @@
+@layer components {
+  /* ── Checkbox ── */
+
+  .od-checkbox {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.85rem;
+    align-items: start;
+    color: var(--od-color-foreground);
+    cursor: pointer;
+  }
+
+  .od-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    inline-size: 1px;
+    block-size: 1px;
+    pointer-events: none;
+  }
+
+  .od-checkbox-control {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), transparent 45%),
+      var(--od-surface-elevated);
+    box-shadow: var(--od-shadow-inset);
+    transition:
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-checkbox-indicator {
+    width: 0.7rem;
+    height: 0.7rem;
+    background: var(--od-tone-text);
+    clip-path: polygon(14% 52%, 0 67%, 37% 100%, 100% 28%, 84% 13%, 35% 68%);
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity var(--od-motion-fast) var(--od-motion-ease-standard),
+      transform var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-checkbox-input:checked + .od-checkbox-control {
+    border-color: var(--od-tone-border);
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-checkbox-input:checked + .od-checkbox-control .od-checkbox-indicator {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .od-checkbox-copy {
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  .od-checkbox-label,
+  .od-switch-label {
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--od-color-foreground);
+  }
+
+  .od-checkbox-description,
+  .od-switch-description {
+    color: var(--od-color-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .od-checkbox-input:focus-visible + .od-checkbox-control {
+    outline: none;
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+    border-color: var(--od-border-accent);
+  }
+
+  .od-checkbox[data-state="disabled"] {
+    opacity: 0.58;
+    cursor: not-allowed;
+  }
+
+  .od-checkbox[data-state="error"] .od-checkbox-control {
+    border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(236 94 82 / 0.18);
+  }
+
+  /* ── Switch ── */
+
+  .od-switch {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: center;
+  }
+
+  .od-switch-control {
+    position: relative;
+    display: inline-flex;
+    width: 3.25rem;
+    height: 1.75rem;
+    align-items: center;
+    padding: 0.18rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), transparent 45%),
+      color-mix(in oklab, var(--od-tone-bg) 70%, var(--od-surface-elevated));
+    box-shadow: var(--od-shadow-inset);
+    cursor: pointer;
+    transition:
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-switch-thumb {
+    width: 1.15rem;
+    height: 1.15rem;
+    background: var(--od-color-foreground);
+    transform: translateX(0);
+    transition:
+      transform var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-switch-control[data-checked="true"] {
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-switch-control[data-checked="true"] .od-switch-thumb {
+    transform: translateX(1.45rem);
+    background: var(--od-tone-text);
+  }
+
+  .od-switch-control:focus-visible {
+    outline: none;
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+    border-color: var(--od-border-accent);
+  }
+
+  .od-switch-control:disabled {
+    cursor: not-allowed;
+  }
+
+  .od-switch[data-state="disabled"] {
+    opacity: 0.58;
+  }
+
+  .od-switch[data-state="error"] .od-switch-control {
+    border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(236 94 82 / 0.18);
+  }
+
+  .od-switch-copy {
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  /* ── Radio Group ── */
+
+  .od-radio-group {
+    display: flex;
+    gap: 0.85rem;
+  }
+
+  .od-radio-group[data-orientation="vertical"] {
+    flex-direction: column;
+  }
+
+  .od-radio-group[data-orientation="horizontal"] {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .od-radio {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.85rem;
+    align-items: start;
+    color: var(--od-color-foreground);
+    cursor: pointer;
+  }
+
+  .od-radio-input {
+    position: absolute;
+    opacity: 0;
+    inline-size: 1px;
+    block-size: 1px;
+    pointer-events: none;
+  }
+
+  .od-radio-control {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), transparent 45%),
+      var(--od-surface-elevated);
+    box-shadow: var(--od-shadow-inset);
+    transition:
+      border-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      background-color var(--od-motion-fast) var(--od-motion-ease-standard),
+      box-shadow var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-radio-indicator {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--od-tone-text);
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      opacity var(--od-motion-fast) var(--od-motion-ease-standard),
+      transform var(--od-motion-fast) var(--od-motion-ease-standard);
+  }
+
+  .od-radio-input:checked + .od-radio-control {
+    border-color: var(--od-tone-border);
+    box-shadow: var(--od-shadow-inset), var(--od-tone-glow);
+  }
+
+  .od-radio-input:checked + .od-radio-control .od-radio-indicator {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .od-radio-copy {
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  .od-radio-label {
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--od-color-foreground);
+  }
+
+  .od-radio-description {
+    color: var(--od-color-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .od-radio-input:focus-visible + .od-radio-control {
+    outline: none;
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+    border-color: var(--od-border-accent);
+  }
+
+  .od-radio[data-state="disabled"] {
+    opacity: 0.58;
+    cursor: not-allowed;
+  }
+
+  .od-radio[data-state="error"] .od-radio-control {
+    border-color: color-mix(in oklab, var(--od-color-danger) 68%, var(--od-border-subtle));
+    box-shadow: 0 0 0 1px rgb(236 94 82 / 0.18);
+  }
+
+  /* ── Responsive ── */
+
+  @media (max-width: 768px) {
+    .od-checkbox,
+    .od-switch,
+    .od-radio {
+      gap: 0.7rem;
+    }
+
+    .od-switch-control {
+      width: 3rem;
+      height: 1.6rem;
+    }
+
+    .od-switch-control[data-checked="true"] .od-switch-thumb {
+      transform: translateX(1.3rem);
+    }
+  }
+}

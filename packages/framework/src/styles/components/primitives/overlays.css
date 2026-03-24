@@ -1,0 +1,148 @@
+@layer components {
+  /* ── Tooltip ── */
+
+  .od-tooltip-anchor {
+    display: inline-flex;
+  }
+
+  .od-tooltip {
+    position: fixed;
+    z-index: 70;
+    max-width: min(18rem, calc(100vw - 2rem));
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--od-tone-border);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 40%),
+      var(--od-surface-panel);
+    color: var(--od-color-foreground);
+    font-size: 0.8rem;
+    line-height: 1.55;
+    box-shadow: var(--od-shadow-inset), var(--od-shadow-panel);
+    transform: var(--od-tooltip-translate);
+    animation: od-enter-rise var(--od-motion-fast) var(--od-motion-ease-emphasis);
+    pointer-events: none;
+  }
+
+  /* ── Dialog ── */
+
+  .od-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: var(--od-space-5);
+    background: var(--od-surface-overlay);
+    backdrop-filter: blur(14px);
+    animation: od-enter-rise var(--od-motion-base) var(--od-motion-ease-emphasis);
+  }
+
+  .od-dialog {
+    width: min(100%, 42rem);
+    padding: var(--od-space-6);
+    background:
+      radial-gradient(circle at top right, color-mix(in oklab, var(--od-tone-bg) 48%, transparent), transparent 38%),
+      var(--od-surface-panel);
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  }
+
+  .od-dialog-header,
+  .od-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--od-space-4);
+  }
+
+  .od-dialog-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--od-space-4);
+    margin-block: var(--od-space-5);
+  }
+
+  /* ── Toast ── */
+
+  .od-toast-viewport {
+    position: fixed;
+    right: var(--od-space-4);
+    bottom: var(--od-space-4);
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: var(--od-space-3);
+    width: min(24rem, calc(100vw - 2rem));
+  }
+
+  .od-toast {
+    overflow: hidden;
+    padding: var(--od-space-4);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 30%),
+      var(--od-surface-panel);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    animation: od-enter-slide-x var(--od-motion-base) var(--od-motion-ease-emphasis);
+  }
+
+  .od-toast.od-toast-closing {
+    animation: od-exit-fade 160ms var(--od-motion-ease-standard) forwards;
+  }
+
+  .od-toast-progress {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--od-tone-text), transparent);
+    transform-origin: left center;
+    animation: od-toast-progress var(--od-toast-duration, 4200ms) linear forwards;
+  }
+
+  @keyframes od-toast-progress {
+    from {
+      transform: scaleX(1);
+    }
+
+    to {
+      transform: scaleX(0);
+    }
+  }
+
+  /* ── Responsive ── */
+
+  @media (min-width: 769px) and (max-width: 1279px) {
+    .od-dialog {
+      padding: var(--od-space-5);
+    }
+
+    .od-dialog-footer {
+      gap: var(--od-space-3);
+    }
+
+    .od-dialog-body {
+      margin-block: var(--od-space-4);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .od-dialog {
+      padding: var(--od-space-4);
+    }
+
+    .od-toast-viewport {
+      right: var(--od-space-3);
+      left: var(--od-space-3);
+      width: auto;
+    }
+
+    .od-dialog-header,
+    .od-dialog-footer {
+      flex-wrap: wrap;
+      gap: var(--od-space-3);
+    }
+
+    .od-dialog-body {
+      margin-block: var(--od-space-4);
+      gap: var(--od-space-3);
+    }
+  }
+}

@@ -14,6 +14,7 @@ export { Dropzone } from "./components/primitives/dropzone";
 export { Input } from "./components/primitives/input";
 export { Kbd } from "./components/primitives/kbd";
 export { Panel } from "./components/primitives/panel";
+export { RadioGroup, RadioGroupItem } from "./components/primitives/radio-group";
 export { Select } from "./components/primitives/select";
 export { Shell } from "./components/primitives/shell";
 export { Switch } from "./components/primitives/switch";
@@ -47,6 +48,14 @@ export type {
   StatGridProps,
 } from "./components/compositions/stat-grid";
 export type { CheckboxProps } from "./components/primitives/checkbox";
+export type {
+  RadioGroupItemProps,
+  RadioGroupProps,
+} from "./components/primitives/radio-group";
+export type {
+  SelectOption,
+  SelectProps,
+} from "./components/primitives/select";
 export type {
   Density,
   SemanticProps,

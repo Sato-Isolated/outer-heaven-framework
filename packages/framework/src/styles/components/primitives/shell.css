@@ -1,0 +1,51 @@
+@layer components {
+  .od-shell {
+    overflow: hidden;
+    padding: var(--od-space-6);
+    background:
+      radial-gradient(circle at top right, color-mix(in oklab, var(--od-tone-bg) 60%, transparent), transparent 42%),
+      linear-gradient(180deg, color-mix(in oklab, white 2%, transparent), transparent 20%),
+      var(--od-surface-panel);
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--od-shell-cut)) 0,
+      100% var(--od-shell-cut),
+      100% 100%,
+      0 100%
+    );
+  }
+
+  .od-shell[data-density="compact"] {
+    padding: var(--od-space-5);
+  }
+
+  .od-shell[data-density="roomy"] {
+    padding: var(--od-space-7);
+  }
+
+  .od-shell[data-state="active"] {
+    box-shadow: var(--od-shadow-inset), var(--od-shadow-panel), var(--od-tone-glow);
+  }
+
+  /* ── Responsive ── */
+
+  @media (min-width: 769px) and (max-width: 1279px) {
+    .od-shell {
+      padding: var(--od-space-5);
+    }
+
+    .od-shell[data-density="roomy"] {
+      padding: var(--od-space-6);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .od-shell {
+      padding: var(--od-space-5);
+    }
+
+    .od-shell[data-density="compact"] {
+      padding: var(--od-space-4);
+    }
+  }
+}

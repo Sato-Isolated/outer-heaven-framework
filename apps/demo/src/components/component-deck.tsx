@@ -18,6 +18,8 @@ import {
   FilterStrip,
   Input,
   Panel,
+  RadioGroup,
+  RadioGroupItem,
   Select,
   Switch,
   Tabs,
@@ -71,11 +73,12 @@ export function ComponentDeck() {
               prefix={<Activity />}
               defaultValue="active"
               hint="Selection surfaces use the same chrome contract."
-            >
-              <option value="active">Active lane</option>
-              <option value="review">Review lane</option>
-              <option value="archive">Archive lane</option>
-            </Select>
+              options={[
+                { value: "active", label: "Active lane" },
+                { value: "review", label: "Review lane" },
+                { value: "archive", label: "Archive lane" },
+              ]}
+            />
             <Input
               aria-label="Compromised route"
               insetLabel="Review gate"
@@ -91,11 +94,12 @@ export function ComponentDeck() {
               defaultValue="blocked"
               invalid
               message="A valid approval lane is required."
-            >
-              <option value="blocked">Blocked</option>
-              <option value="review">Review</option>
-              <option value="approved">Approved</option>
-            </Select>
+              options={[
+                { value: "blocked", label: "Blocked" },
+                { value: "review", label: "Review" },
+                { value: "approved", label: "Approved" },
+              ]}
+            />
             <Textarea
               aria-label="Operator note"
               insetLabel="Operator note"
@@ -126,6 +130,36 @@ export function ComponentDeck() {
                 defaultChecked
                 disabled
               />
+            </Panel>
+            <Panel tone="primary" density="compact" className="gap-4 lg:col-span-2">
+              <p className="u-mono-label text-primary">RadioGroup</p>
+              <div className="grid gap-6 lg:grid-cols-2">
+                <RadioGroup name="relay-mode" defaultValue="standard" tone="primary">
+                  <RadioGroupItem value="standard" description="Default operational routing.">
+                    Standard relay
+                  </RadioGroupItem>
+                  <RadioGroupItem value="stealth" description="Low-signature packet routing.">
+                    Stealth relay
+                  </RadioGroupItem>
+                  <RadioGroupItem value="burst" description="High-bandwidth burst transmission.">
+                    Burst relay
+                  </RadioGroupItem>
+                </RadioGroup>
+                <RadioGroup
+                  name="approval"
+                  defaultValue="review"
+                  tone="danger"
+                  orientation="vertical"
+                >
+                  <RadioGroupItem value="blocked" disabled description="Approval chain incomplete.">
+                    Blocked
+                  </RadioGroupItem>
+                  <RadioGroupItem value="review">Under review</RadioGroupItem>
+                  <RadioGroupItem value="approved" disabled>
+                    Approved
+                  </RadioGroupItem>
+                </RadioGroup>
+              </div>
             </Panel>
           </div>
         </FilterStrip>
@@ -201,22 +235,23 @@ export function ComponentDeck() {
 
           <Panel tone="warning" density="compact" className="gap-4">
             <p className="u-mono-label text-warning">Select</p>
-            <Select aria-label="Select baseline" insetLabel="Sector" defaultValue="all">
-              <option value="all">All sectors</option>
-              <option value="north">North relay</option>
-              <option value="south">South relay</option>
-            </Select>
+            <Select aria-label="Select baseline" insetLabel="Sector" defaultValue="all" options={[
+              { value: "all", label: "All sectors" },
+              { value: "north", label: "North relay" },
+              { value: "south", label: "South relay" },
+            ]} />
             <Select
               aria-label="Select with prefix"
               insetLabel="Lane"
               prefix={<Activity />}
               defaultValue="active"
               hint="Chevron and prefix should sit on the same optical line as the value."
-            >
-              <option value="active">Active lane</option>
-              <option value="review">Review lane</option>
-              <option value="archive">Archive lane</option>
-            </Select>
+              options={[
+                { value: "active", label: "Active lane" },
+                { value: "review", label: "Review lane" },
+                { value: "archive", label: "Archive lane" },
+              ]}
+            />
             <Select
               aria-label="Select approval"
               insetLabel="Approval"
@@ -224,11 +259,12 @@ export function ComponentDeck() {
               defaultValue="blocked"
               invalid
               message="Approval lane must be resolved before export."
-            >
-              <option value="blocked">Blocked</option>
-              <option value="review">Review</option>
-              <option value="approved">Approved</option>
-            </Select>
+              options={[
+                { value: "blocked", label: "Blocked" },
+                { value: "review", label: "Review" },
+                { value: "approved", label: "Approved" },
+              ]}
+            />
           </Panel>
 
           <Panel tone="success" density="compact" className="gap-4">

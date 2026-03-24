@@ -1,0 +1,38 @@
+@layer components {
+  .od-shell,
+  .od-panel,
+  .od-dialog,
+  .od-toast,
+  .od-dropzone {
+    position: relative;
+    border: 1px solid var(--od-tone-border);
+    box-shadow: var(--od-shadow-inset), var(--od-shadow-panel);
+  }
+
+  .od-shell::before,
+  .od-panel::before,
+  .od-dropzone::before,
+  .od-dialog::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 18%),
+      linear-gradient(90deg, transparent, rgb(255 255 255 / 0.02), transparent);
+    clip-path: inherit;
+  }
+
+  .od-shell :focus-visible,
+  .od-panel :focus-visible,
+  .od-dialog :focus-visible,
+  .od-toast :focus-visible,
+  .od-button:focus-visible,
+  .od-input:focus-visible,
+  .od-select:focus-visible,
+  .od-textarea:focus-visible {
+    outline: none;
+    box-shadow: var(--od-focus-ring), var(--od-tone-glow);
+    border-color: var(--od-border-accent);
+  }
+}
