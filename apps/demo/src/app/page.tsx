@@ -118,7 +118,7 @@ export default function HomePage() {
       <section className="relative isolate min-h-[calc(100svh-5rem)] overflow-hidden border-b border-border/60">
         <div className="u-tactical-grid absolute inset-0 opacity-30" />
         <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,_rgb(232_197_84_/_0.18),_transparent_56%)]" />
-        <div className="mx-auto w-full px-4 py-16 sm:px-6 md:py-18 lg:min-h-[calc(100svh-5rem)] lg:px-8 lg:py-20 xl:px-[clamp(2rem,5vw,10rem)]">
+        <div className="mx-auto w-full px-4 py-10 sm:px-6 sm:py-16 md:py-18 lg:min-h-[calc(100svh-5rem)] lg:px-8 lg:py-20 xl:px-[clamp(2rem,5vw,10rem)]">
           <CommandHero
             badge={<Badge tone="warning">Outer Heaven Framework / Active Blueprint</Badge>}
             eyebrow="Command Interface Layer"
@@ -153,7 +153,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="framework" className="mx-auto w-full max-w-[80rem] px-4 py-20 sm:px-6 lg:px-8">
+      <section id="framework" className="mx-auto w-full max-w-[80rem] px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] xl:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
           <Shell density="roomy" className="u-scan-pass">
             <p className="u-mono-label text-primary">Implementation Shape</p>
@@ -188,7 +188,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto grid w-full max-w-[80rem] items-start gap-8 px-4 pb-20 sm:px-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-8">
+      <section className="mx-auto grid w-full max-w-[80rem] items-start gap-6 px-4 pb-12 sm:gap-8 sm:px-6 sm:pb-20 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-8">
         <CommandHeader
           badge={<Badge tone="success">Reusable compositions</Badge>}
           eyebrow="Framework Building Blocks"
@@ -224,7 +224,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8">
+      <section className="mx-auto grid w-full max-w-[80rem] gap-6 px-4 pb-12 sm:gap-8 sm:px-6 sm:pb-20 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8">
         <Dropzone tone="primary" state="active" className="u-scan-pass">
           <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_18rem] md:items-center">
             <div className="space-y-4">
@@ -274,7 +274,7 @@ export default function HomePage() {
         </Shell>
       </section>
 
-      <section className="mx-auto grid w-full max-w-[80rem] gap-8 px-4 pb-20 sm:px-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:px-8">
+      <section className="mx-auto grid w-full max-w-[80rem] gap-6 px-4 pb-12 sm:gap-8 sm:px-6 sm:pb-20 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:px-8">
         <FilterStrip
           eyebrow="Preview Composition"
           title="Framework consumers can now assemble operational sections with exports, not local scaffolding."
@@ -290,7 +290,7 @@ export default function HomePage() {
             </Tooltip>
           }
         >
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] xl:grid-cols-[minmax(0,1fr)_220px]">
+          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
             <Input
               aria-label="Blueprint query"
               insetLabel="Blueprint query"
@@ -318,7 +318,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-t border-border/60 bg-background/60">
-        <div className="mx-auto flex w-full max-w-[80rem] flex-col gap-8 px-4 py-16 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-8">
+        <div className="mx-auto flex w-full max-w-[80rem] flex-col gap-6 px-4 py-12 sm:gap-8 sm:px-6 sm:py-16 md:flex-row md:items-end md:justify-between lg:px-8">
           <div className="max-w-2xl">
             <p className="u-mono-label text-primary">Live Validation</p>
             <h2 className="mt-4 text-3xl font-semibold text-foreground">

@@ -118,7 +118,7 @@ export function DashboardShowcase() {
   }, [search, sector]);
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:gap-8 sm:px-6 sm:py-10 lg:px-8">
       <CommandHeader
         badge={<Badge tone="primary">Command Dashboard / Demo</Badge>}
         eyebrow="Operational Workspace"
@@ -221,7 +221,7 @@ export function DashboardShowcase() {
         </div>
       </FilterStrip>
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_360px]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1.35fr)_360px]">
         <div className="grid gap-6">
           <MissionQueue
             eyebrow="Active Queue"
@@ -370,7 +370,7 @@ export function DashboardShowcase() {
         title="Long-form tactical input now has a first-class primitive."
         description="Textarea, checkbox, and switch let future admin and review screens stay in-family without page-local components."
       >
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
           <Textarea
             aria-label="Mission handoff"
             insetLabel="Mission handoff"

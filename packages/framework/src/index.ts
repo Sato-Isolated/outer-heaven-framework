@@ -13,6 +13,11 @@ export { Divider } from "./components/primitives/divider";
 export { Dropzone } from "./components/primitives/dropzone";
 export { Input } from "./components/primitives/input";
 export { Kbd } from "./components/primitives/kbd";
+export {
+  MobileNav,
+  MobileNavLink,
+  MobileNavTrigger,
+} from "./components/primitives/mobile-nav";
 export { Panel } from "./components/primitives/panel";
 export { RadioGroup, RadioGroupItem } from "./components/primitives/radio-group";
 export { Select } from "./components/primitives/select";
@@ -73,3 +78,8 @@ export type {
 } from "./components/primitives/tabs";
 export type { TextareaProps } from "./components/primitives/textarea";
 export type { TooltipProps } from "./components/primitives/tooltip";
+export type {
+  MobileNavLinkProps,
+  MobileNavProps,
+  MobileNavTriggerProps,
+} from "./components/primitives/mobile-nav";
