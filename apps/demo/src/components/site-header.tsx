@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge, Button, Kbd } from "@outerhaven/framework";
+import { TransitionToggle } from "./transition-toggle";
 
 export function SiteHeader() {
   return (
@@ -33,6 +34,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <TransitionToggle />
           <div className="hidden items-center gap-2 text-xs uppercase tracking-[0.24em] text-muted lg:flex">
             Jump
             <Kbd>G</Kbd>

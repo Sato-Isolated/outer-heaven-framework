@@ -34,7 +34,10 @@
       .od-toast,
       .od-dropzone,
       .od-divider,
-      .od-kbd
+      .od-kbd,
+      .od-switch,
+      .od-checkbox,
+      .od-radio
     ) {
     --od-tone-text: var(--od-color-muted);
     --od-tone-border: var(--od-border-subtle);
@@ -55,7 +58,10 @@
       .od-toast,
       .od-dropzone,
       .od-divider,
-      .od-kbd
+      .od-kbd,
+      .od-switch,
+      .od-checkbox,
+      .od-radio
     )[data-tone="primary"] {
     --od-tone-text: var(--od-color-primary);
     --od-tone-border: color-mix(in oklab, var(--od-color-primary) 52%, var(--od-border-subtle));
@@ -76,7 +82,10 @@
       .od-toast,
       .od-dropzone,
       .od-divider,
-      .od-kbd
+      .od-kbd,
+      .od-switch,
+      .od-checkbox,
+      .od-radio
     )[data-tone="success"] {
     --od-tone-text: var(--od-color-success);
     --od-tone-border: color-mix(in oklab, var(--od-color-success) 52%, var(--od-border-subtle));
@@ -97,7 +106,10 @@
       .od-toast,
       .od-dropzone,
       .od-divider,
-      .od-kbd
+      .od-kbd,
+      .od-switch,
+      .od-checkbox,
+      .od-radio
     )[data-tone="warning"] {
     --od-tone-text: var(--od-color-warning);
     --od-tone-border: color-mix(in oklab, var(--od-color-warning) 52%, var(--od-border-subtle));
@@ -118,7 +130,10 @@
       .od-toast,
       .od-dropzone,
       .od-divider,
-      .od-kbd
+      .od-kbd,
+      .od-switch,
+      .od-checkbox,
+      .od-radio
     )[data-tone="danger"] {
     --od-tone-text: var(--od-color-danger);
     --od-tone-border: color-mix(in oklab, var(--od-color-danger) 52%, var(--od-border-subtle));
@@ -139,7 +154,10 @@
       .od-toast,
       .od-dropzone,
       .od-divider,
-      .od-kbd
+      .od-kbd,
+      .od-switch,
+      .od-checkbox,
+      .od-radio
     )[data-tone="muted"] {
     --od-tone-text: var(--od-color-muted);
     --od-tone-border: color-mix(in oklab, var(--od-color-muted) 35%, var(--od-border-subtle));

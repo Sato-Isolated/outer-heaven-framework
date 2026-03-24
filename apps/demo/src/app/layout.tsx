@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { ToastProvider } from "@outerhaven/framework";
+import { RouteTransition, TransitionProvider } from "@/components/route-transition";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
@@ -37,11 +38,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plexSans.variable} ${plexMono.variable} antialiased`}>
         <ToastProvider>
-          <div className="min-h-screen bg-background text-foreground">
-            <SiteHeader />
-            {children}
-            <SiteFooter />
-          </div>
+          <TransitionProvider>
+            <div className="min-h-screen bg-background text-foreground">
+              <SiteHeader />
+              <RouteTransition>
+                {children}
+              </RouteTransition>
+              <SiteFooter />
+            </div>
+          </TransitionProvider>
         </ToastProvider>
       </body>
     </html>

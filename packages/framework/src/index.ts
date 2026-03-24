@@ -22,6 +22,8 @@ export { Tabs, TabsList, TabsPanel, TabsTrigger } from "./components/primitives/
 export { Textarea } from "./components/primitives/textarea";
 export { Toast, ToastProvider, toneToast, useToast } from "./components/primitives/toast";
 export { Tooltip } from "./components/primitives/tooltip";
+export { PageTransition } from "./components/primitives/page-transition";
+export type { PageTransitionProps } from "./components/primitives/page-transition";
 export type {
   ActivityFeedItem,
   ActivityFeedProps,
