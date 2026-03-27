@@ -61,6 +61,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const resolvedTone: Tone | undefined =
       resolvedState === "error" ? tone ?? "danger" : tone;
 
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !children &&
+      !description &&
+      !props["aria-label"] &&
+      !props["aria-labelledby"]
+    ) {
+      console.error(
+        "Outer Haven Framework Checkbox: a checkbox without `children`, `description`, `aria-label`, or `aria-labelledby` has no accessible name.",
+      );
+    }
+
     return (
       <label
         className={cn("od-checkbox", className)}

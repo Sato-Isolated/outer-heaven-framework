@@ -76,6 +76,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           className={cn("od-textarea", className)}
           aria-invalid={invalid || undefined}
+          aria-required={props.required || undefined}
           {...semanticProps}
           {...props}
         />
@@ -92,13 +93,20 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         prefix={prefix}
         tone={resolvedTone}
       >
-          <textarea
-            ref={ref}
-            className="od-textarea"
-            aria-invalid={invalid || undefined}
-            {...semanticProps}
-            {...props}
-          />
+        {({ hintId, messageId }) => {
+          const describedBy = [messageId, hintId].filter(Boolean).join(" ") || undefined;
+          return (
+            <textarea
+              ref={ref}
+              className="od-textarea"
+              aria-invalid={invalid || undefined}
+              aria-required={props.required || undefined}
+              aria-describedby={describedBy}
+              {...semanticProps}
+              {...props}
+            />
+          );
+        }}
       </FieldShell>
     );
   },

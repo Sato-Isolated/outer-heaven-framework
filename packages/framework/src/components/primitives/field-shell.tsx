@@ -1,10 +1,10 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
 import type { Tone } from "../../lib/data-attrs";
 
 /** Props for the {@link FieldShell} internal wrapper. */
 export interface FieldShellProps {
-  children: ReactNode;
+  children: (ids: FieldShellIds) => ReactNode;
   className?: string;
   /** Which native control this shell wraps — drives geometry data-attr. */
   controlKind: "input" | "select" | "textarea";
@@ -22,10 +22,19 @@ export interface FieldShellProps {
   tone?: Tone;
 }
 
+/** IDs exposed by {@link FieldShell} for ARIA wiring. */
+export interface FieldShellIds {
+  hintId: string | undefined;
+  messageId: string | undefined;
+}
+
 /**
  * Internal chrome wrapper shared by {@link Input}, {@link Select} and
  * {@link Textarea}. Provides prefix, inset-label, indicator, hint and
  * message slots with shared CSS-variable-driven geometry.
+ *
+ * The `children` prop is a render function that receives generated IDs
+ * for hint/message elements, enabling `aria-describedby` wiring.
  *
  * **Not exported from the framework barrel** — consumed only by field
  * components internally.
@@ -41,6 +50,10 @@ export function FieldShell({
   prefix,
   tone,
 }: FieldShellProps) {
+  const uid = useId();
+  const hintId = hint ? `${uid}-hint` : undefined;
+  const messageId = message ? `${uid}-message` : undefined;
+
   return (
     <div className={cn("od-field", className)}>
       <div
@@ -59,7 +72,7 @@ export function FieldShell({
               {prefix}
             </span>
           ) : null}
-          {children}
+          {children({ hintId, messageId })}
           {indicator ? (
             <span
               aria-hidden="true"
@@ -73,9 +86,9 @@ export function FieldShell({
       </div>
       {hint || message ? (
         <div className="od-field-meta">
-          {hint ? <p className="od-field-hint">{hint}</p> : null}
+          {hint ? <p id={hintId} className="od-field-hint">{hint}</p> : null}
           {message ? (
-            <p className="od-field-message" data-tone={tone ?? "muted"}>
+            <p id={messageId} className="od-field-message" data-tone={tone ?? "muted"}>
               {message}
             </p>
           ) : null}

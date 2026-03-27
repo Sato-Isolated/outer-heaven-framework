@@ -51,6 +51,8 @@ export interface SelectProps extends SemanticProps {
   placeholder?: string;
   /** Leading adornment (icon, symbol). */
   prefix?: ReactNode;
+  /** Mark as required for accessibility. */
+  required?: boolean;
   /** Controlled value. */
   value?: string;
 }
@@ -85,6 +87,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       options,
       placeholder = "Select\u2026",
       prefix,
+      required,
       size,
       state,
       tone,
@@ -101,6 +104,8 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 
     const triggerRef = useRef<HTMLButtonElement | null>(null);
     const listboxRef = useRef<HTMLDivElement>(null);
+    const typeAheadBuffer = useRef("");
+    const typeAheadTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
     const [pos, setPos] = useState<{
       top: number;
       left: number;
@@ -262,6 +267,24 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         case "Tab":
           closeListbox();
           break;
+        default: {
+          /* type-ahead: jump to first option matching typed characters */
+          if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            e.preventDefault();
+            clearTimeout(typeAheadTimer.current);
+            typeAheadBuffer.current += e.key.toLowerCase();
+            typeAheadTimer.current = setTimeout(() => {
+              typeAheadBuffer.current = "";
+            }, 500);
+            const match = options.findIndex(
+              (o) =>
+                !o.disabled &&
+                o.label.toLowerCase().startsWith(typeAheadBuffer.current),
+            );
+            if (match >= 0) setHighlightedIndex(match);
+          }
+          break;
+        }
       }
     };
 
@@ -353,6 +376,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
             : undefined
         }
         aria-invalid={invalid || undefined}
+        aria-required={required || undefined}
         disabled={disabled}
         onClick={() => (open ? closeListbox() : openListbox())}
         onKeyDown={handleKeyDown}
@@ -389,7 +413,40 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
           prefix={prefix}
           tone={resolvedTone}
         >
-          {trigger}
+          {({ hintId, messageId }) => {
+            const describedBy = [messageId, hintId].filter(Boolean).join(" ") || undefined;
+            return (
+              <button
+                ref={mergeRef}
+                type="button"
+                role="combobox"
+                className="od-select"
+                aria-label={ariaLabel}
+                aria-expanded={open}
+                aria-haspopup="listbox"
+                aria-controls={open ? listboxId : undefined}
+                aria-activedescendant={
+                  open && highlightedIndex >= 0
+                    ? optionId(highlightedIndex)
+                    : undefined
+                }
+                aria-invalid={invalid || undefined}
+                aria-required={required || undefined}
+                aria-describedby={describedBy}
+                disabled={disabled}
+                onClick={() => (open ? closeListbox() : openListbox())}
+                onKeyDown={handleKeyDown}
+                {...semanticProps}
+              >
+                <span
+                  className="od-select-value"
+                  data-placeholder={!selectedOption || undefined}
+                >
+                  {displayLabel}
+                </span>
+              </button>
+            );
+          }}
         </FieldShell>
         {listbox}
       </>

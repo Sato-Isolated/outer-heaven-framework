@@ -65,13 +65,28 @@
   }
 }
 
+/*
+ * Reduced-motion: only suppress decorative animation utility classes.
+ * Essential state-feedback transitions (focus rings, checkbox checks,
+ * switch toggles, hover highlights) are preserved so the UI remains
+ * functional. Component-specific overrides live in each component's CSS.
+ */
 @media (prefers-reduced-motion: reduce) {
+  /* smooth-scroll is never essential */
   *,
   *::before,
   *::after {
+    scroll-behavior: auto !important;
+  }
+
+  /* decorative animation utilities */
+  .od-animate-rise,
+  .od-animate-slide-x,
+  .od-animate-fade,
+  .od-animate-scan,
+  .od-animate-pulse,
+  .od-animate-sweep {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

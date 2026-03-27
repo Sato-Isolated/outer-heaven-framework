@@ -46,6 +46,21 @@ describe("Surfaces", () => {
     expect(badge).toHaveAttribute("data-tone", "success");
   });
 
+  it("supports role='status' on Badge for live-region semantics", () => {
+    render(<Badge tone="danger" role="status">3 alerts</Badge>);
+
+    const badge = screen.getByRole("status");
+    expect(badge).toHaveTextContent("3 alerts");
+    expect(badge).toHaveClass("od-badge");
+  });
+
+  it("does not apply a role on Badge by default", () => {
+    render(<Badge tone="muted">Decorative</Badge>);
+
+    const badge = screen.getByText("Decorative");
+    expect(badge).not.toHaveAttribute("role");
+  });
+
   /* ─── Kbd ─── */
 
   it("renders a kbd with the public od contract and default size", () => {

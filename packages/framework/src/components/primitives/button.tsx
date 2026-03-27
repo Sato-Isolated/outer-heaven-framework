@@ -68,8 +68,8 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(
     !props["aria-labelledby"] &&
     !props.title
   ) {
-    console.warn(
-      "Outer Heaven Framework Button: `iconOnly` buttons should provide an accessible name via `aria-label`, `aria-labelledby`, or `title`.",
+    console.error(
+      "Outer Haven Framework Button: `iconOnly` buttons must provide an accessible name via `aria-label`, `aria-labelledby`, or `title`.",
     );
   }
 

@@ -89,6 +89,12 @@
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .od-select-listbox {
+      animation: none;
+    }
+  }
+
   .od-select-option {
     padding: 0.55rem 0.75rem;
     font: inherit;

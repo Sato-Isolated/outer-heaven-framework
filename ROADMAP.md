@@ -82,30 +82,30 @@ The monorepo serves three goals in parallel:
 
 The global blanket rule in `motion.css` disables ALL animations, but some transitions are UX-essential (focus rings, state changes). Each component needs granular control:
 
-- [ ] Button — spinner animation should stop or show static indicator
-- [ ] Switch — toggle transition should be instant, not animated
-- [ ] Select — listbox open animation should be instant
-- [ ] Toast — progress bar should still show but not animate; enter/exit should be instant
-- [ ] Tooltip — fade-in should be instant
-- [ ] MobileNav — slide transition should be instant or replaced with simple show/hide
-- [ ] Refactor the global `prefers-reduced-motion` rule to only target non-essential decorative animations, not all transitions
+- [x] Button — spinner animation should stop or show static indicator
+- [x] Switch — toggle transition should be instant, not animated
+- [x] Select — listbox open animation should be instant
+- [x] Toast — progress bar should still show but not animate; enter/exit should be instant
+- [x] Tooltip — fade-in should be instant
+- [x] MobileNav — slide transition should be instant or replaced with simple show/hide
+- [x] Refactor the global `prefers-reduced-motion` rule to only target non-essential decorative animations, not all transitions
 
 ### ARIA gaps
 
-- [ ] **Input/Textarea**: Add `aria-required` support for required fields
-- [ ] **Input/Textarea**: Bind `aria-describedby` to `hint` and `message` elements so screen readers announce validation feedback
-- [ ] **Checkbox**: Add `aria-label` fallback when no children are provided
-- [ ] **Button**: Strengthen `iconOnly` accessible name enforcement — consider throwing in development if no `aria-label`, `aria-labelledby`, or `title` is present
-- [ ] **Badge**: Add `role="status"` for notification badges, keep presentational for decorative badges
-- [ ] **Panel**: Add `aria-label` or `aria-labelledby` support for semantic sections
-- [ ] **MobileNav**: Implement proper focus trap (currently focus management exists but is not trapped)
-- [ ] **Tooltip**: Ensure tooltip content is announced via `aria-describedby` when the trigger is focused (verify portal-based rendering doesn't break the association)
+- [x] **Input/Textarea**: Add `aria-required` support for required fields
+- [x] **Input/Textarea**: Bind `aria-describedby` to `hint` and `message` elements so screen readers announce validation feedback
+- [x] **Checkbox**: Add `aria-label` fallback when no children are provided
+- [x] **Button**: Strengthen `iconOnly` accessible name enforcement — consider throwing in development if no `aria-label`, `aria-labelledby`, or `title` is present
+- [x] **Badge**: Add `role="status"` for notification badges, keep presentational for decorative badges
+- [x] **Panel**: Add `aria-label` or `aria-labelledby` support for semantic sections
+- [x] **MobileNav**: Implement proper focus trap (currently focus management exists but is not trapped)
+- [x] **Tooltip**: Ensure tooltip content is announced via `aria-describedby` when the trigger is focused (verify portal-based rendering doesn't break the association)
 
 ### Keyboard navigation audit
 
-- [ ] Verify Dialog focus trap with nested dialogs and dynamic content insertion
-- [ ] Verify Select keyboard navigation: Home/End jump to first/last option, type-ahead search
-- [ ] Verify Tabs arrow navigation wraps correctly at boundaries
+- [x] Verify Dialog focus trap with nested dialogs and dynamic content insertion
+- [x] Verify Select keyboard navigation: Home/End jump to first/last option, type-ahead search
+- [x] Verify Tabs arrow navigation wraps correctly at boundaries
 - [ ] Test all keyboard paths with screen reader (NVDA/VoiceOver) to confirm announcements
 - [ ] Document keyboard shortcuts for each interactive component
 

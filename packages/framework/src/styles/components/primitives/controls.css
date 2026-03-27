@@ -141,6 +141,17 @@
     background: var(--od-tone-text);
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .od-switch-thumb {
+      transition-duration: 0ms;
+    }
+
+    .od-checkbox-indicator,
+    .od-radio-indicator {
+      transition-duration: 0ms;
+    }
+  }
+
   .od-switch-control:focus-visible {
     outline: none;
     box-shadow: var(--od-focus-ring), var(--od-tone-glow);

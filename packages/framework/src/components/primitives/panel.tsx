@@ -23,6 +23,16 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(function Panel(
   { className, tone, size, state, density, ...props },
   ref,
 ) {
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !props["aria-label"] &&
+    !props["aria-labelledby"]
+  ) {
+    console.warn(
+      "Outer Haven Framework Panel: `<section>` elements should have an accessible name via `aria-label` or `aria-labelledby`.",
+    );
+  }
+
   return (
     <section
       ref={ref}

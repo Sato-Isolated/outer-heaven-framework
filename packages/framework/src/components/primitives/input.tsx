@@ -76,6 +76,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         ref={ref}
         className={cn("od-input", className)}
         aria-invalid={invalid || undefined}
+        aria-required={props.required || undefined}
         {...semanticProps}
         {...props}
       />
@@ -92,13 +93,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       prefix={prefix}
       tone={resolvedTone}
     >
-        <input
-          ref={ref}
-          className="od-input"
-          aria-invalid={invalid || undefined}
-          {...semanticProps}
-          {...props}
-        />
+      {({ hintId, messageId }) => {
+        const describedBy = [messageId, hintId].filter(Boolean).join(" ") || undefined;
+        return (
+          <input
+            ref={ref}
+            className="od-input"
+            aria-invalid={invalid || undefined}
+            aria-required={props.required || undefined}
+            aria-describedby={describedBy}
+            {...semanticProps}
+            {...props}
+          />
+        );
+      }}
     </FieldShell>
   );
 });

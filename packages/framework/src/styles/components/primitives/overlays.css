@@ -107,6 +107,30 @@
     }
   }
 
+  /* ── Reduced-motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .od-tooltip {
+      animation: none;
+    }
+
+    .od-dialog-backdrop {
+      animation: none;
+    }
+
+    .od-toast {
+      animation: none;
+    }
+
+    .od-toast.od-toast-closing {
+      animation: none;
+    }
+
+    .od-toast-progress {
+      animation: none;
+    }
+  }
+
   /* ── Responsive ── */
 
   @media (min-width: 769px) and (max-width: 1279px) {

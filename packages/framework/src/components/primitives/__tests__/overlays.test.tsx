@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { useRef, useState } from "react";
 import { Button } from "../button";
 import { Dialog } from "../dialog";
+import { Select } from "../select";
 import { ToastProvider, toneToast, useToast } from "../toast";
 import { Tooltip } from "../tooltip";
 
@@ -239,6 +240,56 @@ describe("Overlays", () => {
       vi.advanceTimersByTime(181);
     });
     expect(screen.queryByText("Signal routed")).not.toBeInTheDocument();
+
+    vi.useRealTimers();
+  });
+
+  /* ─── Select type-ahead ─── */
+
+  it("jumps to matching option on type-ahead while listbox is open", () => {
+    vi.useFakeTimers();
+    // jsdom doesn't implement scrollIntoView
+    Element.prototype.scrollIntoView = vi.fn();
+
+    render(
+      <Select
+        aria-label="Region"
+        options={[
+          { value: "alpha", label: "Alpha" },
+          { value: "bravo", label: "Bravo" },
+          { value: "baker", label: "Baker" },
+          { value: "charlie", label: "Charlie" },
+        ]}
+      />,
+    );
+
+    const trigger = screen.getByRole("combobox", { name: "Region" });
+
+    // Open the listbox
+    fireEvent.click(trigger);
+
+    // Type "b" → should highlight "Bravo" (first match)
+    fireEvent.keyDown(trigger, { key: "b" });
+    expect(
+      document.querySelector("[data-highlighted]"),
+    ).toHaveTextContent("Bravo");
+
+    // Type "a" within 500ms → buffer is "ba" → should highlight "Baker"
+    fireEvent.keyDown(trigger, { key: "a" });
+    expect(
+      document.querySelector("[data-highlighted]"),
+    ).toHaveTextContent("Baker");
+
+    // Wait for buffer to clear
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+
+    // Type "c" → should highlight "Charlie"
+    fireEvent.keyDown(trigger, { key: "c" });
+    expect(
+      document.querySelector("[data-highlighted]"),
+    ).toHaveTextContent("Charlie");
 
     vi.useRealTimers();
   });

@@ -73,4 +73,38 @@ describe("MobileNav", () => {
     fireEvent.click(screen.getByTestId("trigger"));
     expect(document.body.style.overflow).toBe("hidden");
   });
+
+  it("traps focus within the panel on Tab", () => {
+    render(<Harness />);
+    fireEvent.click(screen.getByTestId("trigger"));
+
+    const closeBtn = screen.getByRole("button", { name: "Close navigation" });
+    const bravoLink = screen.getByText("Bravo");
+
+    // Focus should be on the close button (first focusable)
+    expect(closeBtn).toHaveFocus();
+
+    // Tab forward from last focusable → wraps to first
+    bravoLink.focus();
+    fireEvent.keyDown(bravoLink, { key: "Tab" });
+    expect(closeBtn).toHaveFocus();
+
+    // Shift+Tab from first focusable → wraps to last
+    closeBtn.focus();
+    fireEvent.keyDown(closeBtn, { key: "Tab", shiftKey: true });
+    expect(bravoLink).toHaveFocus();
+  });
+
+  it("restores focus to trigger on close", () => {
+    render(<Harness />);
+    const trigger = screen.getByTestId("trigger");
+
+    trigger.focus();
+    fireEvent.click(trigger);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    // Close via Escape
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(trigger).toHaveFocus();
+  });
 });

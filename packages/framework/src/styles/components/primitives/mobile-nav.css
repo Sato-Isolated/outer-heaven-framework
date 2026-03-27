@@ -173,4 +173,20 @@
   .od-mobile-nav-trigger:hover .od-mobile-nav-trigger__bar {
     background: var(--od-color-foreground);
   }
+
+  /* ── Reduced-motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .od-mobile-nav[data-state="closed"] {
+      transition: none;
+    }
+
+    .od-mobile-nav__overlay {
+      transition: none;
+    }
+
+    .od-mobile-nav__panel {
+      transition: none;
+    }
+  }
 }
