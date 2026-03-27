@@ -7,7 +7,7 @@
   .od-tabs-list {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: 0.55rem;
+    gap: var(--od-gap-3);
     padding: 0.4rem;
     border: 1px solid var(--od-tone-border);
     background:
@@ -25,7 +25,7 @@
     background: transparent;
     color: var(--od-color-muted);
     font-family: var(--od-font-mono);
-    font-size: 0.72rem;
+    font-size: var(--od-font-size-sm);
     letter-spacing: 0.18em;
     text-transform: uppercase;
     cursor: pointer;
@@ -61,7 +61,6 @@
       display: flex;
       flex-wrap: nowrap;
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       scroll-snap-type: x mandatory;
     }
@@ -74,7 +73,7 @@
       flex-shrink: 0;
       min-height: 2.2rem;
       padding: 0.45rem 0.7rem;
-      font-size: 0.68rem;
+      font-size: var(--od-font-size-xs);
       scroll-snap-align: start;
     }
   }

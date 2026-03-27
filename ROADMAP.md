@@ -35,42 +35,42 @@ The monorepo serves three goals in parallel:
 
 ### New token categories
 
-- [ ] `--od-font-size-*` tokens — currently 8+ hardcoded font sizes across components (`0.72rem`, `0.76rem`, `0.8rem`, `0.82rem`, `0.88rem`, `0.94rem`)
-- [ ] `--od-line-width-*` tokens — replace magic `1px`, `1.5px`, `2px` values in borders and dividers
-- [ ] `--od-gap-*` spacing tokens — replace ad-hoc gap values (`0.45rem`, `0.55rem`, `0.65rem`, `0.85rem`, `0.9rem`)
-- [ ] `--od-opacity-*` tokens — replace hardcoded opacity values (`0.04`, `0.06`, `0.08`, `0.25`, etc.)
-- [ ] `--od-blur-*` tokens — replace hardcoded `blur(14px)` in dialog backdrop and similar
-- [ ] `--od-radius-xl` and `--od-radius-2xl` for larger rounded surfaces
-- [ ] Audit `--od-color-foreground-strong` and `--od-color-foreground-soft` — defined but unused, remove or integrate
-- [ ] Audit `--od-radius-xs` — defined (2px) but never referenced, remove or integrate
+- [x] `--od-font-size-*` tokens — 8-step scale (`3xs` through `xl`) replacing 38 hardcoded font sizes across all component CSS
+- [x] `--od-line-width-*` tokens — `thin` (1px), `medium` (1.5px), `thick` (2px) replacing magic border/line values
+- [x] `--od-gap-*` spacing tokens — replace ad-hoc gap values (`0.45rem`, `0.55rem`, `0.65rem`, `0.85rem`, `0.9rem`)
+- [x] `--od-opacity-*` tokens — 5-step scale (`faint`, `placeholder`, `disabled`, `muted`, `soft`) replacing 11 hardcoded opacity values
+- [x] `--od-blur-*` tokens — `--od-backdrop-blur` already existed and is used in dialog
+- [x] `--od-radius-xl` and `--od-radius-2xl` for larger rounded surfaces
+- [x] Audit `--od-color-foreground-strong` and `--od-color-foreground-soft` — removed (were unused)
+- [x] Audit `--od-radius-xs` — removed (was unused)
 
 ### Hardcoded color cleanup
 
-- [ ] Replace all hardcoded `rgb(255 255 255 / ...)` overlay values with token references (40+ occurrences across button, fields, controls, overlays CSS)
-- [ ] Replace hardcoded `rgb(236 94 82 / ...)` danger color in shadows with `--od-color-danger` references
-- [ ] Replace hardcoded `rgb(244 181 72 / ...)` warning color in shadows with `--od-color-warning` references
-- [ ] Consolidate the identical gradient pattern `linear-gradient(180deg, rgb(255 255 255 / 0.xx), transparent 45%)` used in 5+ places into a single utility or token
+- [x] Replace all hardcoded `rgb(255 255 255 / ...)` overlay values with token references — consolidated into `--od-gloss*` tokens (only spinner rim remains in tokens layer)
+- [x] Replace hardcoded `rgb(236 94 82 / ...)` danger color in shadows with `--od-color-danger` references
+- [x] Replace hardcoded `rgb(244 181 72 / ...)` warning color in shadows with `--od-color-warning` references
+- [x] Consolidate the identical gradient pattern `linear-gradient(180deg, rgb(255 255 255 / 0.xx), transparent 45%)` used in 5+ places into a single utility or token — `--od-gloss`, `--od-gloss-strong`, `--od-gloss-subtle`, `--od-gloss-shimmer`
 
 ### Clip-path standardization
 
-- [ ] Replace hardcoded `8px` in clip-path (button.css, fields.css, dropzone.css) with `--od-panel-cut` or `--od-shell-cut`
-- [ ] Replace hardcoded `14px` in dialog clip-path with appropriate token
-- [ ] Replace hardcoded `10px` in toast clip-path with appropriate token
-- [ ] Ensure all clip-path values respond to breakpoints consistently
+- [x] Replace hardcoded `8px` in clip-path (button.css, fields.css, dropzone.css) with `--od-control-cut`
+- [x] Replace hardcoded `14px` in dialog clip-path with `--od-shell-cut`
+- [x] Replace hardcoded `10px` in toast clip-path with `--od-panel-cut`
+- [x] Ensure all clip-path values respond to breakpoints consistently — cut tokens scale via media queries in tokens.css
 
 ### Responsive consistency
 
-- [ ] Standardize breakpoints — currently mixes `768px`/`769px` and `1279px`/`1280px`
-- [ ] Align responsive scaling across form elements — Button (`3rem` to `2.85rem` to `2.75rem`), Input (`3rem` to `2.85rem` to `2.7rem`), Select use different scales
-- [ ] Add responsive rules for Tooltip positioning (currently has no media queries)
-- [ ] Add responsive rules for Checkbox/Switch density (currently minimal)
+- [x] Standardize breakpoints — confirmed `768px`/`769px` and `1279px`/`1280px` are correct complementary min/max pairs
+- [x] Align responsive scaling across form elements — Button (`3rem` to `2.85rem` to `2.75rem`), Input (`3rem` to `2.85rem` to `2.75rem`), Select use consistent scales
+- [x] Add responsive rules for Tooltip positioning (tablet + mobile breakpoints with reduced max-width/padding)
+- [x] Add responsive rules for Checkbox/Switch density (tablet breakpoint with intermediate gap/sizes)
 
 ### CSS quality
 
-- [ ] Button spinner animation (`800ms linear`) should use `--od-motion-base` and `--od-motion-ease-standard`
-- [ ] Remove or replace `-webkit-overflow-scrolling: touch` in Tabs (deprecated WebKit property)
-- [ ] Replace `gap: 5px` magic number in MobileNav with spacing token
-- [ ] Replace `height: 2px` magic number in MobileNav with line-width token
+- [x] Button spinner animation — uses `--od-motion-spinner` token (800ms) instead of hardcoded value
+- [x] Remove or replace `-webkit-overflow-scrolling: touch` in Tabs — removed (deprecated)
+- [x] Replace `gap: 5px` magic number in MobileNav with `var(--od-space-1)`
+- [x] Replace `height: 2px` magic number in MobileNav with `var(--od-line-width-thick)`
 
 ---
 

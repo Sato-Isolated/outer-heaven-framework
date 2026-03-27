@@ -5,7 +5,7 @@
     position: relative;
     display: inline-grid;
     grid-template-columns: auto 1fr;
-    gap: 0.85rem;
+    gap: var(--od-gap-6);
     align-items: start;
     color: var(--od-color-foreground);
     cursor: pointer;
@@ -61,12 +61,12 @@
 
   .od-checkbox-copy {
     display: grid;
-    gap: 0.22rem;
+    gap: var(--od-gap-1);
   }
 
   .od-checkbox-label,
   .od-switch-label {
-    font-size: 0.94rem;
+    font-size: var(--od-font-size-xl);
     font-weight: 600;
     color: var(--od-color-foreground);
   }
@@ -74,7 +74,7 @@
   .od-checkbox-description,
   .od-switch-description {
     color: var(--od-color-muted);
-    font-size: 0.8rem;
+    font-size: var(--od-font-size-base);
     line-height: 1.5;
   }
 
@@ -85,7 +85,7 @@
   }
 
   .od-checkbox[data-state="disabled"] {
-    opacity: 0.58;
+    opacity: var(--od-opacity-disabled);
     cursor: not-allowed;
   }
 
@@ -99,7 +99,7 @@
   .od-switch {
     display: inline-grid;
     grid-template-columns: auto 1fr;
-    gap: 0.9rem;
+    gap: var(--od-gap-7);
     align-items: center;
   }
 
@@ -152,7 +152,7 @@
   }
 
   .od-switch[data-state="disabled"] {
-    opacity: 0.58;
+    opacity: var(--od-opacity-disabled);
   }
 
   .od-switch[data-state="error"] .od-switch-control {
@@ -162,14 +162,14 @@
 
   .od-switch-copy {
     display: grid;
-    gap: 0.22rem;
+    gap: var(--od-gap-1);
   }
 
   /* ── Radio Group ── */
 
   .od-radio-group {
     display: flex;
-    gap: 0.85rem;
+    gap: var(--od-gap-6);
   }
 
   .od-radio-group[data-orientation="vertical"] {
@@ -185,7 +185,7 @@
     position: relative;
     display: inline-grid;
     grid-template-columns: auto 1fr;
-    gap: 0.85rem;
+    gap: var(--od-gap-6);
     align-items: start;
     color: var(--od-color-foreground);
     cursor: pointer;
@@ -242,18 +242,18 @@
 
   .od-radio-copy {
     display: grid;
-    gap: 0.22rem;
+    gap: var(--od-gap-1);
   }
 
   .od-radio-label {
-    font-size: 0.94rem;
+    font-size: var(--od-font-size-xl);
     font-weight: 600;
     color: var(--od-color-foreground);
   }
 
   .od-radio-description {
     color: var(--od-color-muted);
-    font-size: 0.8rem;
+    font-size: var(--od-font-size-base);
     line-height: 1.5;
   }
 
@@ -264,7 +264,7 @@
   }
 
   .od-radio[data-state="disabled"] {
-    opacity: 0.58;
+    opacity: var(--od-opacity-disabled);
     cursor: not-allowed;
   }
 
@@ -275,11 +275,31 @@
 
   /* ── Responsive ── */
 
+  @media (min-width: 769px) and (max-width: 1279px) {
+    .od-checkbox,
+    .od-radio {
+      gap: var(--od-gap-5);
+    }
+
+    .od-switch {
+      gap: var(--od-gap-6);
+    }
+
+    .od-switch-control {
+      width: 3.1rem;
+      height: 1.65rem;
+    }
+
+    .od-switch-control[data-checked="true"] .od-switch-thumb {
+      transform: translateX(1.35rem);
+    }
+  }
+
   @media (max-width: 768px) {
     .od-checkbox,
     .od-switch,
     .od-radio {
-      gap: 0.7rem;
+      gap: var(--od-gap-4);
     }
 
     .od-switch-control {

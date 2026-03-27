@@ -2,22 +2,20 @@
   .od-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: var(--od-gap-2);
     border: 1px solid var(--od-tone-border);
     background: color-mix(in oklab, var(--od-tone-bg) 80%, var(--od-surface-elevated));
     color: var(--od-tone-text);
     padding: 0.35rem 0.6rem;
     font-family: var(--od-font-mono);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-size: var(--od-font-size-sm);
     text-transform: uppercase;
     white-space: nowrap;
   }
 
   .od-badge[data-size="md"] {
     padding: 0.45rem 0.72rem;
-    font-size: 0.76rem;
+    font-size: var(--od-font-size-md);
   }
 
   .od-divider {
@@ -51,7 +49,7 @@
     color: var(--od-color-foreground);
     padding: 0.22rem 0.48rem;
     font-family: var(--od-font-mono);
-    font-size: 0.72rem;
+    font-size: var(--od-font-size-sm);
     box-shadow: var(--od-shadow-inset);
   }
 
@@ -60,19 +58,19 @@
   @media (max-width: 768px) {
     .od-badge {
       padding: 0.28rem 0.48rem;
-      font-size: 0.66rem;
-      gap: 0.35rem;
+      font-size: var(--od-font-size-2xs);
+      gap: var(--od-gap-2);
     }
 
     .od-badge[data-size="md"] {
       padding: 0.38rem 0.6rem;
-      font-size: 0.7rem;
+      font-size: var(--od-font-size-sm);
     }
 
     .od-kbd {
       min-width: 1.75rem;
       padding: 0.18rem 0.38rem;
-      font-size: 0.66rem;
+      font-size: var(--od-font-size-2xs);
     }
   }
 }

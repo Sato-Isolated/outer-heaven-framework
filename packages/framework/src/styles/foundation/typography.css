@@ -13,7 +13,7 @@
 
   .u-mono-label {
     font-family: var(--od-font-mono);
-    font-size: 0.72rem;
+    font-size: var(--od-font-size-sm);
     letter-spacing: 0.22em;
     text-transform: uppercase;
   }
@@ -24,7 +24,7 @@
     }
 
     .u-mono-label {
-      font-size: 0.66rem;
+      font-size: var(--od-font-size-2xs);
       letter-spacing: 0.18em;
     }
   }

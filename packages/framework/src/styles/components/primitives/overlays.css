@@ -15,7 +15,7 @@
       var(--od-gloss),
       var(--od-surface-panel);
     color: var(--od-color-foreground);
-    font-size: 0.8rem;
+    font-size: var(--od-font-size-base);
     line-height: 1.55;
     box-shadow: var(--od-shadow-inset), var(--od-shadow-panel);
     transform: var(--od-tooltip-translate);
@@ -110,6 +110,11 @@
   /* ── Responsive ── */
 
   @media (min-width: 769px) and (max-width: 1279px) {
+    .od-tooltip {
+      max-width: min(16rem, calc(100vw - 2rem));
+      padding: 0.55rem 0.7rem;
+    }
+
     .od-dialog {
       padding: var(--od-space-5);
     }
@@ -124,6 +129,12 @@
   }
 
   @media (max-width: 768px) {
+    .od-tooltip {
+      max-width: min(14rem, calc(100vw - 2rem));
+      padding: 0.5rem 0.6rem;
+      font-size: var(--od-font-size-sm);
+    }
+
     .od-dialog {
       padding: var(--od-space-4);
     }

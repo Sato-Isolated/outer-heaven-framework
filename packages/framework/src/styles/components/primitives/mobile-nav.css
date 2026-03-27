@@ -107,7 +107,7 @@
     border: 1px solid transparent;
     color: var(--od-color-muted);
     font-family: var(--od-font-mono);
-    font-size: 0.75rem;
+    font-size: var(--od-font-size-md);
     letter-spacing: 0.18em;
     text-transform: uppercase;
     text-decoration: none;
@@ -142,7 +142,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: var(--od-space-1);
     width: 2.75rem;
     height: 2.75rem;
     padding: 0;
@@ -165,7 +165,7 @@
   .od-mobile-nav-trigger__bar {
     display: block;
     width: 18px;
-    height: 2px;
+    height: var(--od-line-width-thick);
     background: var(--od-color-muted);
     transition: background var(--od-motion-fast) var(--od-motion-ease-standard);
   }

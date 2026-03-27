@@ -11,8 +11,6 @@
   --od-color-danger-foreground: oklch(0.97 0.01 28);
   --od-color-muted: oklch(0.63 0.02 92);
   --od-color-foreground: oklch(0.94 0.01 96);
-  --od-color-foreground-strong: oklch(0.98 0.004 99);
-  --od-color-foreground-soft: oklch(0.8 0.02 95);
 
   --od-surface-base: oklch(0.17 0.009 95);
   --od-surface-elevated: oklch(0.21 0.011 95);
@@ -24,25 +22,61 @@
   --od-border-strong: oklch(0.54 0.02 95);
   --od-border-accent: color-mix(in oklab, var(--od-color-primary) 72%, white 28%);
 
-  --od-radius-xs: 2px;
   --od-radius-sm: 4px;
   --od-radius-md: 8px;
   --od-radius-lg: 14px;
+  --od-radius-xl: 20px;
+  --od-radius-2xl: 28px;
 
   --od-shadow-panel: 0 14px 40px rgb(0 0 0 / 0.28);
   --od-shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.04);
-  --od-shadow-glow-primary: 0 0 0 1px rgb(232 197 84 / 0.26),
-    0 0 24px rgb(232 197 84 / 0.18);
-  --od-shadow-glow-success: 0 0 0 1px rgb(88 214 156 / 0.24),
-    0 0 22px rgb(88 214 156 / 0.14);
-  --od-shadow-glow-warning: 0 0 0 1px rgb(244 181 72 / 0.24),
-    0 0 22px rgb(244 181 72 / 0.14);
-  --od-shadow-glow-danger: 0 0 0 1px rgb(236 94 82 / 0.25),
-    0 0 24px rgb(236 94 82 / 0.14);
+  --od-shadow-glow-primary: 0 0 0 1px color-mix(in srgb, var(--od-color-primary) 26%, transparent),
+    0 0 24px color-mix(in srgb, var(--od-color-primary) 18%, transparent);
+  --od-shadow-glow-success: 0 0 0 1px color-mix(in srgb, var(--od-color-success) 24%, transparent),
+    0 0 22px color-mix(in srgb, var(--od-color-success) 14%, transparent);
+  --od-shadow-glow-warning: 0 0 0 1px color-mix(in srgb, var(--od-color-warning) 24%, transparent),
+    0 0 22px color-mix(in srgb, var(--od-color-warning) 14%, transparent);
+  --od-shadow-glow-danger: 0 0 0 1px color-mix(in srgb, var(--od-color-danger) 25%, transparent),
+    0 0 24px color-mix(in srgb, var(--od-color-danger) 14%, transparent);
 
   --od-font-sans: var(--font-outerhaven-sans, "IBM Plex Sans"), "Segoe UI", sans-serif;
   --od-font-display: var(--font-outerhaven-sans, "IBM Plex Sans"), "Segoe UI", sans-serif;
   --od-font-mono: var(--font-outerhaven-mono, "IBM Plex Mono"), "Consolas", monospace;
+
+  /* ── Font-size scale ────────────────────────────────── */
+
+  --od-font-size-3xs: 0.6rem;
+  --od-font-size-2xs: 0.65rem;
+  --od-font-size-xs: 0.68rem;
+  --od-font-size-sm: 0.72rem;
+  --od-font-size-md: 0.76rem;
+  --od-font-size-base: 0.8rem;
+  --od-font-size-lg: 0.88rem;
+  --od-font-size-xl: 0.95rem;
+
+  /* ── Line-width scale ───────────────────────────────── */
+
+  --od-line-width-thin: 1px;
+  --od-line-width-medium: 1.5px;
+  --od-line-width-thick: 2px;
+
+  /* ── Opacity scale ──────────────────────────────────── */
+
+  --od-opacity-faint: 0.48;
+  --od-opacity-placeholder: 0.5;
+  --od-opacity-disabled: 0.58;
+  --od-opacity-muted: 0.66;
+  --od-opacity-soft: 0.72;
+
+  /* ── Gap scale (component-internal spacing) ─────────── */
+
+  --od-gap-1: 0.2rem;
+  --od-gap-2: 0.35rem;
+  --od-gap-3: 0.5rem;
+  --od-gap-4: 0.65rem;
+  --od-gap-5: 0.8rem;
+  --od-gap-6: 0.85rem;
+  --od-gap-7: 0.9rem;
 
   --od-space-1: 4px;
   --od-space-2: 8px;
@@ -90,8 +124,8 @@
 
   /* ── Shadow ring variants (standalone, no glow) ─────── */
 
-  --od-shadow-ring-warning: 0 0 0 1px rgb(244 181 72 / 0.18);
-  --od-shadow-ring-danger: 0 0 0 1px rgb(236 94 82 / 0.2);
+  --od-shadow-ring-warning: 0 0 0 1px color-mix(in srgb, var(--od-color-warning) 18%, transparent);
+  --od-shadow-ring-danger: 0 0 0 1px color-mix(in srgb, var(--od-color-danger) 20%, transparent);
   --od-shadow-depth: 0 8px 30px rgb(0 0 0 / 0.35);
 
   /* ── Motion distances ───────────────────────────────── */
@@ -99,6 +133,7 @@
   --od-motion-rise-y: 20px;
   --od-motion-slide-x: 24px;
   --od-motion-fade-y: 8px;
+  --od-motion-spinner: 800ms;
 }
 
 @media (max-width: 1279px) {

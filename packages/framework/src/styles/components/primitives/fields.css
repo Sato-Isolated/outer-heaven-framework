@@ -38,7 +38,7 @@
   .od-select {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--od-gap-3);
     cursor: pointer;
     text-align: left;
   }
@@ -108,7 +108,7 @@
   }
 
   .od-select-option[data-disabled] {
-    opacity: 0.5;
+    opacity: var(--od-opacity-placeholder);
     cursor: not-allowed;
   }
 
@@ -138,7 +138,7 @@
   .od-input[data-state="disabled"],
   .od-select[data-state="disabled"],
   .od-textarea[data-state="disabled"] {
-    opacity: 0.58;
+    opacity: var(--od-opacity-disabled);
     cursor: not-allowed;
     background:
       var(--od-gloss-subtle),
@@ -163,7 +163,7 @@
 
   .od-field {
     display: grid;
-    gap: 0.5rem;
+    gap: var(--od-gap-3);
     width: 100%;
   }
 
@@ -183,8 +183,8 @@
     --od-field-pad-inline: 0.95rem;
     --od-field-pad-block: 0.75rem;
     --od-field-adornment-size: 1rem;
-    --od-field-adornment-gap: 0.8rem;
-    --od-field-label-font-size: 0.65rem;
+    --od-field-adornment-gap: var(--od-gap-5);
+    --od-field-label-font-size: var(--od-font-size-2xs);
     padding: var(--od-field-pad-block) var(--od-field-pad-inline);
   }
 
@@ -204,7 +204,7 @@
 
   .od-field-control:has(:disabled),
   .od-field-control:has([data-state="disabled"]) {
-    opacity: 0.58;
+    opacity: var(--od-opacity-disabled);
     cursor: not-allowed;
     background:
       var(--od-gloss-subtle),
@@ -308,13 +308,13 @@
 
   .od-field-meta {
     display: grid;
-    gap: 0.22rem;
+    gap: var(--od-gap-1);
   }
 
   .od-field-hint,
   .od-field-message {
     margin: 0;
-    font-size: 0.74rem;
+    font-size: var(--od-font-size-sm);
     line-height: 1.45;
   }
 
@@ -339,8 +339,8 @@
     .od-field-control {
       --od-field-pad-inline: 0.85rem;
       --od-field-pad-block: 0.68rem;
-      --od-field-adornment-gap: 0.75rem;
-      --od-field-label-font-size: 0.65rem;
+      --od-field-adornment-gap: var(--od-gap-5);
+      --od-field-label-font-size: var(--od-font-size-2xs);
       padding: var(--od-field-pad-block) var(--od-field-pad-inline);
     }
 
@@ -354,7 +354,7 @@
     .od-input,
     .od-select,
     .od-textarea {
-      min-height: 2.7rem;
+      min-height: 2.75rem;
       padding: 0.6rem 0.78rem;
     }
 
@@ -376,8 +376,8 @@
       --od-field-pad-inline: 0.78rem;
       --od-field-pad-block: 0.6rem;
       --od-field-adornment-size: 0.95rem;
-      --od-field-adornment-gap: 0.72rem;
-      --od-field-label-font-size: 0.6rem;
+      --od-field-adornment-gap: var(--od-gap-4);
+      --od-field-label-font-size: var(--od-font-size-3xs);
       padding: var(--od-field-pad-block) var(--od-field-pad-inline);
     }
 
@@ -387,7 +387,7 @@
     }
 
     .od-field {
-      gap: 0.4rem;
+      gap: var(--od-gap-2);
     }
   }
 }

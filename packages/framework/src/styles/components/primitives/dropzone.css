@@ -6,7 +6,7 @@
       linear-gradient(180deg, color-mix(in oklab, var(--od-tone-bg) 42%, transparent), transparent 34%),
       var(--od-surface-elevated);
     border-style: dashed;
-    border-width: 1.5px;
+    border-width: var(--od-line-width-medium);
     clip-path: polygon(0 0, calc(100% - var(--od-dropzone-cut)) 0, 100% var(--od-dropzone-cut), 100% 100%, 0 100%);
     transition:
       border-color var(--od-motion-base) var(--od-motion-ease-standard),
@@ -55,7 +55,7 @@
 
   .od-dropzone-copy {
     display: grid;
-    gap: 0.8rem;
+    gap: var(--od-gap-5);
   }
 
   .od-dropzone-title {
@@ -120,7 +120,7 @@
     }
 
     .od-dropzone-copy {
-      gap: 0.6rem;
+      gap: var(--od-gap-4);
     }
 
     .od-dropzone-side {
