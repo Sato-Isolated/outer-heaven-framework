@@ -13,7 +13,7 @@ describe("Overlays", () => {
     vi.useFakeTimers();
 
     render(
-      <Tooltip content="Compact hint" tone="primary">
+      <Tooltip content="Compact hint" tone="primary" size="xs">
         <button type="button">Hover me</button>
       </Tooltip>,
     );
@@ -25,6 +25,7 @@ describe("Overlays", () => {
       vi.advanceTimersByTime(130);
     });
     expect(screen.getByRole("tooltip")).toHaveTextContent("Compact hint");
+    expect(screen.getByRole("tooltip")).toHaveAttribute("data-size", "xs");
 
     fireEvent.keyDown(window, { key: "Escape" });
     expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
@@ -69,6 +70,7 @@ describe("Overlays", () => {
             initialFocusRef={closeTargetRef}
             open={open}
             onOpenChange={setOpen}
+            size="lg"
             title="Secure overlay"
             description="Dialog focus should stay inside the panel."
             footer={<Button>Confirm</Button>}
@@ -87,6 +89,7 @@ describe("Overlays", () => {
     const primaryTarget = screen.getByRole("button", {
       name: "Primary focus target",
     });
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-size", "lg");
     const innerAction = screen.getByRole("button", { name: "Inner action" });
     const confirmButton = screen.getByRole("button", { name: "Confirm" });
     const closeButton = screen.getByRole("button", { name: "Close dialog" });
@@ -205,6 +208,7 @@ describe("Overlays", () => {
             push({
               ...toneToast("success", "Signal routed", "Hover should pause dismissal."),
               duration: 100,
+              size: "xl",
             })
           }
         >
@@ -223,6 +227,7 @@ describe("Overlays", () => {
     const toast = screen.getByRole("status");
 
     expect(screen.getByText("Signal routed")).toBeInTheDocument();
+    expect(toast).toHaveAttribute("data-size", "xl");
 
     fireEvent.mouseEnter(toast);
     act(() => {

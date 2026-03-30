@@ -12,6 +12,7 @@ import {
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/cn";
 import {
+  type FieldSize,
   semanticDataAttributes,
   type SemanticProps,
   type State,
@@ -29,7 +30,7 @@ export interface SelectOption {
 }
 
 /** Props for the {@link Select} component. */
-export interface SelectProps extends SemanticProps {
+export interface SelectProps extends SemanticProps<FieldSize> {
   "aria-label"?: string;
   className?: string;
   /** Initial value (uncontrolled). */
@@ -119,7 +120,11 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     const selectedOption = options.find((o) => o.value === currentValue);
     const displayLabel = selectedOption?.label ?? placeholder;
 
-    const resolvedState: State = invalid ? "error" : state ?? "default";
+    const resolvedState: State = disabled
+      ? "disabled"
+      : invalid
+        ? "error"
+        : state ?? "default";
     const resolvedTone: Tone | undefined =
       resolvedState === "error"
         ? tone ?? "danger"
@@ -325,6 +330,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
               role="listbox"
               className="od-select-listbox"
               aria-label={ariaLabel}
+              {...semanticProps}
               style={{
                 position: "fixed",
                 top: pos.top,
@@ -406,11 +412,13 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         <FieldShell
           className={className}
           controlKind="select"
+          density={density}
           hint={hint}
           indicator={chevron}
           insetLabel={insetLabel}
           message={message}
           prefix={prefix}
+          size={size}
           tone={resolvedTone}
         >
           {({ hintId, messageId }) => {

@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import type { Tone } from "../../lib/data-attrs";
+import type { Density, FieldSize, Tone } from "../../lib/data-attrs";
 
 /** Props for the {@link FieldShell} internal wrapper. */
 export interface FieldShellProps {
@@ -16,6 +16,10 @@ export interface FieldShellProps {
   insetLabel?: string;
   /** Validation or status message below the control. */
   message?: string;
+  /** Shared density applied to the wrapper shell. */
+  density?: Density;
+  /** Shared size applied to the wrapper shell. */
+  size?: FieldSize;
   /** Leading adornment before the control (e.g. icon, currency symbol). */
   prefix?: ReactNode;
   /** Tone passed down for message colouring. */
@@ -43,11 +47,13 @@ export function FieldShell({
   children,
   className,
   controlKind,
+  density,
   hint,
   indicator,
   insetLabel,
   message,
   prefix,
+  size,
   tone,
 }: FieldShellProps) {
   const uid = useId();
@@ -55,13 +61,18 @@ export function FieldShell({
   const messageId = message ? `${uid}-message` : undefined;
 
   return (
-    <div className={cn("od-field", className)}>
+    <div
+      className={cn("od-field", className)}
+      data-density={density ?? "default"}
+      data-size={size}
+    >
       <div
         className="od-field-control"
         data-control-kind={controlKind}
         data-has-indicator={indicator ? "true" : undefined}
         data-has-label={insetLabel ? "true" : undefined}
         data-has-prefix={prefix ? "true" : undefined}
+        data-size={size}
       >
         {insetLabel ? (
           <span className="od-field-label">{insetLabel}</span>

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/cn";
+import type { Density } from "../../lib/data-attrs";
 import { Shell } from "../primitives/shell";
 
 /** Metadata label/value pair for the hero section. */
@@ -43,6 +44,8 @@ export interface CommandHeroProps {
   primaryAction?: ReactNode;
   secondaryAction?: ReactNode;
   metaItems?: CommandHeroMetaItem[];
+  /** Controls spacing in the hero copy and shell. */
+  density?: Density;
   /** Side info-panel configuration. */
   panel: CommandHeroPanel;
   className?: string;
@@ -60,6 +63,7 @@ export interface CommandHeroProps {
 export function CommandHero({
   badge,
   className,
+  density = "default",
   description,
   eyebrow,
   metaItems,
@@ -69,7 +73,7 @@ export function CommandHero({
   title,
 }: CommandHeroProps) {
   return (
-    <div className={cn("oh-command-hero", className)}>
+    <div className={cn("oh-command-hero", className)} data-density={density}>
       <div className="oh-command-hero__content">
         {badge ? <div className="oh-command-hero__badge">{badge}</div> : null}
         <div className="oh-command-hero__copy">
@@ -98,7 +102,12 @@ export function CommandHero({
       </div>
 
       <div className="oh-command-hero__visual">
-        <Shell tone="primary" state="active" className="oh-command-hero__panel">
+        <Shell
+          tone="primary"
+          state="active"
+          density={density}
+          className="oh-command-hero__panel"
+        >
           <div className="oh-command-hero__panel-grid" aria-hidden="true" />
           <div className="oh-command-hero__panel-beam" aria-hidden="true" />
 

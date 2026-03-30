@@ -2,13 +2,14 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
+  type BadgeSize,
   type SemanticProps,
 } from "../../lib/data-attrs";
 
 /** Props for the {@link Badge} component. */
 export interface BadgeProps
   extends HTMLAttributes<HTMLSpanElement>,
-    SemanticProps {}
+    SemanticProps<BadgeSize> {}
 
 /**
  * Inline status label rendered as a `<span>`.
@@ -34,4 +35,3 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
     />
   );
 });
-

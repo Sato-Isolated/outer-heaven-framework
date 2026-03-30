@@ -8,7 +8,7 @@ import {
 /** Props for the {@link Shell} component. */
 export interface ShellProps
   extends HTMLAttributes<HTMLDivElement>,
-    SemanticProps {}
+    Omit<SemanticProps, "size"> {}
 
 /**
  * High-level surface wrapper rendered as a `<div>` with `clip-path`
@@ -20,16 +20,15 @@ export interface ShellProps
  * ```
  */
 export const Shell = forwardRef<HTMLDivElement, ShellProps>(function Shell(
-  { className, tone, size, state, density, ...props },
+  { className, tone, state, density, ...props },
   ref,
 ) {
   return (
     <div
       ref={ref}
       className={cn("od-shell", className)}
-      {...semanticDataAttributes({ tone, size, state, density })}
+      {...semanticDataAttributes({ tone, state, density })}
       {...props}
     />
   );
 });
-

@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsPanel, TabsTrigger } from "../tabs";
 describe("Tabs", () => {
   it("switches tabs and renders only the active panel by default", () => {
     render(
-      <Tabs defaultValue="alpha" tone="primary">
+      <Tabs defaultValue="alpha" tone="primary" size="xl">
         <TabsList>
           <TabsTrigger value="alpha">Alpha</TabsTrigger>
           <TabsTrigger value="beta">Beta</TabsTrigger>
@@ -18,7 +18,11 @@ describe("Tabs", () => {
       "aria-selected",
       "true",
     );
+    expect(document.querySelector(".od-tabs")).toHaveAttribute("data-size", "xl");
+    expect(screen.getByRole("tablist")).toHaveAttribute("data-size", "xl");
+    expect(screen.getByRole("tab", { name: "Alpha" })).toHaveAttribute("data-size", "xl");
     expect(screen.getByText("Alpha panel")).toBeInTheDocument();
+    expect(screen.getByText("Alpha panel")).toHaveAttribute("data-size", "xl");
     expect(screen.queryByText("Beta panel")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("tab", { name: "Beta" }));

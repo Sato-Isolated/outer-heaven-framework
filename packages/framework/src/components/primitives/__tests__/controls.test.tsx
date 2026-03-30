@@ -49,6 +49,15 @@ describe("Controls", () => {
     expect(checkbox.closest(".od-checkbox")).toHaveAttribute("data-state", "disabled");
   });
 
+  it("keeps checkbox accessible with aria-label only and propagates density", () => {
+    render(<Checkbox aria-label="Silent checkbox" density="roomy" size="xl" />);
+
+    const checkbox = screen.getByRole("checkbox", { name: "Silent checkbox" });
+
+    expect(checkbox.closest(".od-checkbox")).toHaveAttribute("data-density", "roomy");
+    expect(checkbox.closest(".od-checkbox")).toHaveAttribute("data-size", "xl");
+  });
+
   /* ─── Switch ─── */
 
   it("supports controlled switch toggling and aria semantics", () => {
@@ -99,6 +108,25 @@ describe("Controls", () => {
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-checked", "true");
 
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-checked", "false");
+  });
+
+  it("supports uncontrolled switch state and density metadata", () => {
+    render(
+      <Switch
+        label="Fallback uplink"
+        defaultChecked
+        density="compact"
+        size="xs"
+      />,
+    );
+
+    const toggle = screen.getByRole("switch", { name: "Fallback uplink" });
+
+    expect(toggle).toHaveAttribute("aria-checked", "true");
+    expect(toggle.closest(".od-switch")).toHaveAttribute("data-density", "compact");
+    expect(toggle.closest(".od-switch")).toHaveAttribute("data-size", "xs");
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-checked", "false");
   });
@@ -211,13 +239,20 @@ describe("Controls", () => {
 
   it("uses horizontal arrow keys when orientation is horizontal", () => {
     render(
-      <RadioGroup name="horiz-test" defaultValue="a" orientation="horizontal">
+      <RadioGroup
+        name="horiz-test"
+        defaultValue="a"
+        orientation="horizontal"
+        density="roomy"
+        size="lg"
+      >
         <RadioGroupItem value="a">Alpha</RadioGroupItem>
         <RadioGroupItem value="b">Beta</RadioGroupItem>
       </RadioGroup>,
     );
 
     const radios = screen.getAllByRole("radio");
+    const group = document.querySelector(".od-radio-group");
 
     radios[0].focus();
 
@@ -226,5 +261,9 @@ describe("Controls", () => {
 
     fireEvent.keyDown(radios[1], { key: "ArrowLeft" });
     expect(radios[0]).toHaveFocus();
+    expect(group).toHaveAttribute("data-density", "roomy");
+    expect(group).toHaveAttribute("data-size", "lg");
+    expect(radios[0].closest(".od-radio")).toHaveAttribute("data-density", "roomy");
+    expect(radios[0].closest(".od-radio")).toHaveAttribute("data-size", "lg");
   });
 });

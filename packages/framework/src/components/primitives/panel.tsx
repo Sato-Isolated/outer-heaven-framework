@@ -3,12 +3,13 @@ import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
   type SemanticProps,
+  type StandardSize,
 } from "../../lib/data-attrs";
 
 /** Props for the {@link Panel} component. */
 export interface PanelProps
   extends HTMLAttributes<HTMLDivElement>,
-    SemanticProps {}
+    SemanticProps<StandardSize> {}
 
 /**
  * Bordered surface container rendered as a `<section>`.
@@ -23,18 +24,11 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(function Panel(
   { className, tone, size, state, density, ...props },
   ref,
 ) {
-  if (
-    process.env.NODE_ENV !== "production" &&
-    !props["aria-label"] &&
-    !props["aria-labelledby"]
-  ) {
-    console.warn(
-      "Outer Haven Framework Panel: `<section>` elements should have an accessible name via `aria-label` or `aria-labelledby`.",
-    );
-  }
+  const hasAccessibleName = Boolean(props["aria-label"] || props["aria-labelledby"]);
+  const Tag = hasAccessibleName ? "section" : "div";
 
   return (
-    <section
+    <Tag
       ref={ref}
       className={cn("od-panel", className)}
       {...semanticDataAttributes({ tone, size, state, density })}
@@ -42,4 +36,3 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(function Panel(
     />
   );
 });
-

@@ -64,11 +64,16 @@ export type {
   SelectProps,
 } from "./components/primitives/select";
 export type {
+  BadgeSize,
+  ButtonSize,
   Density,
+  FieldSize,
   SemanticProps,
   Size,
+  StandardSize,
   State,
   Tone,
+  VisualSize,
 } from "./lib/data-attrs";
 export type { SwitchProps } from "./components/primitives/switch";
 export type {

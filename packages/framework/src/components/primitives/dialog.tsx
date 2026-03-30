@@ -15,6 +15,7 @@ import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
   type SemanticProps,
+  type VisualSize,
 } from "../../lib/data-attrs";
 import { Button } from "./button";
 
@@ -40,7 +41,7 @@ function getFocusableElements(container: HTMLElement | null) {
 /** Props for the {@link Dialog} component. */
 export interface DialogProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** Whether the dialog is visible. */
   open: boolean;
   /** Callback when the dialog requests a close (Escape, backdrop). */
@@ -175,13 +176,13 @@ export function Dialog({
         {...props}
       >
         <div className="od-dialog-header">
-          <div className="space-y-2">
+          <div className="od-dialog-copy">
             <p className="u-mono-label text-primary">Authenticated Overlay</p>
-            <h2 id={titleId} className="text-2xl font-semibold text-foreground">
+            <h2 id={titleId} className="od-dialog-title">
               {title}
             </h2>
             {description ? (
-              <p id={descriptionId} className="max-w-2xl text-sm text-muted">
+              <p id={descriptionId} className="od-dialog-description">
                 {description}
               </p>
             ) : null}

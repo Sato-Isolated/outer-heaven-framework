@@ -1,5 +1,6 @@
+import { useId } from "react";
 import { cn } from "../../lib/cn";
-import type { Tone } from "../../lib/data-attrs";
+import type { Density, Tone } from "../../lib/data-attrs";
 import { Badge } from "../primitives/badge";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
@@ -20,6 +21,8 @@ export interface ActivityFeedProps {
   title: string;
   /** Feed entries. */
   items: ActivityFeedItem[];
+  /** Controls internal spacing rhythm. */
+  density?: Density;
   className?: string;
 }
 
@@ -35,15 +38,24 @@ export interface ActivityFeedProps {
  */
 export function ActivityFeed({
   className,
+  density = "default",
   eyebrow,
   items,
   title,
 }: ActivityFeedProps) {
+  const titleId = useId();
+
   return (
-    <Panel tone="warning" className={cn("oh-activity-feed", className)}>
+    <Panel
+      tone="warning"
+      density={density}
+      className={cn("oh-activity-feed", className)}
+      data-density={density}
+      aria-labelledby={titleId}
+    >
       <div className="oh-activity-feed__header">
         {eyebrow ? <p className="oh-activity-feed__eyebrow">{eyebrow}</p> : null}
-        <h2 className="oh-activity-feed__title">{title}</h2>
+        <h2 id={titleId} className="oh-activity-feed__title">{title}</h2>
       </div>
       <Divider tone="warning" />
       <div className="oh-activity-feed__items">

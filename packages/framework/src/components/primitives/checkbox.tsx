@@ -10,12 +10,13 @@ import {
   type SemanticProps,
   type State,
   type Tone,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
 /** Props for the {@link Checkbox} component. */
 export interface CheckboxProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** Mark the checkbox as invalid — auto-sets `tone="danger"` and `aria-invalid`. */
   invalid?: boolean;
   /** Secondary description rendered below the label. */

@@ -8,6 +8,7 @@ describe("Dropzone", () => {
       <Dropzone
         tone="success"
         state="success"
+        size="xl"
         eyebrow="Upload lane"
         title="Payload accepted"
         description="The structured API should render copy, status, and body areas."
@@ -21,6 +22,7 @@ describe("Dropzone", () => {
     const dropzone = screen.getByText("Payload accepted").closest(".od-dropzone");
 
     expect(dropzone).toHaveAttribute("data-state", "success");
+    expect(dropzone).toHaveAttribute("data-size", "xl");
     expect(screen.getByText("Upload lane")).toBeInTheDocument();
     expect(screen.getByText("Status block")).toBeInTheDocument();
     expect(screen.getByText("Body slot")).toBeInTheDocument();

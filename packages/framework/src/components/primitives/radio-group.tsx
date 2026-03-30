@@ -17,11 +17,12 @@ import {
   type SemanticProps,
   type State,
   type Tone,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
 /* ─── Context ─── */
 
-interface RadioGroupContextValue extends SemanticProps {
+interface RadioGroupContextValue extends SemanticProps<VisualSize> {
   name: string;
   value: string;
   onValueChange: (value: string) => void;
@@ -47,7 +48,7 @@ function useRadioGroupContext() {
 /** Props for the {@link RadioGroup} component. */
 export interface RadioGroupProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** HTML name shared by all child radio inputs. */
   name: string;
   /** Controlled value. */
@@ -173,7 +174,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
 /** Props for the {@link RadioGroupItem} component. */
 export interface RadioGroupItemProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** The value this option represents. */
   value: string;
   /** Mark as invalid — auto-sets `tone="danger"`. */

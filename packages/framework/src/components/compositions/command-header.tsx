@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
+import type { Density } from "../../lib/data-attrs";
 
 /** A label/value pair rendered in the header's metadata strip. */
 export interface CommandHeaderMetaItem {
@@ -21,6 +22,8 @@ export interface CommandHeaderProps {
   actions?: ReactNode;
   /** Definition-list metadata below the title area. */
   metaItems?: CommandHeaderMetaItem[];
+  /** Controls internal spacing rhythm. */
+  density?: Density;
   className?: string;
 }
 
@@ -37,18 +40,25 @@ export function CommandHeader({
   actions,
   badge,
   className,
+  density = "default",
   description,
   eyebrow,
   metaItems,
   title,
 }: CommandHeaderProps) {
+  const titleId = useId();
+
   return (
-    <section className={cn("oh-command-header", className)}>
+    <section
+      className={cn("oh-command-header", className)}
+      data-density={density}
+      aria-labelledby={titleId}
+    >
       <div className="oh-command-header__lead">
         <div className="oh-command-header__copy">
           {badge ? <div className="oh-command-header__badge">{badge}</div> : null}
           {eyebrow ? <p className="oh-command-header__eyebrow">{eyebrow}</p> : null}
-          <h1 className="oh-command-header__title">{title}</h1>
+          <h1 id={titleId} className="oh-command-header__title">{title}</h1>
           {description ? (
             <p className="oh-command-header__description">{description}</p>
           ) : null}

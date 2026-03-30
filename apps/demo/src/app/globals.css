@@ -11,3 +11,9 @@ body {
     radial-gradient(circle at bottom left, rgb(65 130 111 / 0.1), transparent 22%),
     var(--od-surface-base);
 }
+
+@layer components {
+  .oh-density-sweep__metric-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

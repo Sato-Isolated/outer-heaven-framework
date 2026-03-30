@@ -13,9 +13,19 @@
     white-space: nowrap;
   }
 
+  .od-badge[data-size="xs"] {
+    padding: 0.24rem 0.42rem;
+    font-size: var(--od-font-size-2xs);
+  }
+
   .od-badge[data-size="md"] {
     padding: 0.45rem 0.72rem;
     font-size: var(--od-font-size-md);
+  }
+
+  .od-badge[data-size="lg"] {
+    padding: 0.55rem 0.82rem;
+    font-size: var(--od-font-size-base);
   }
 
   .od-divider {
@@ -53,6 +63,30 @@
     box-shadow: var(--od-shadow-inset);
   }
 
+  .od-kbd[data-size="xs"] {
+    min-width: 1.6rem;
+    padding: 0.16rem 0.34rem;
+    font-size: var(--od-font-size-2xs);
+  }
+
+  .od-kbd[data-size="md"] {
+    min-width: 2.2rem;
+    padding: 0.28rem 0.56rem;
+    font-size: var(--od-font-size-base);
+  }
+
+  .od-kbd[data-size="lg"] {
+    min-width: 2.45rem;
+    padding: 0.34rem 0.64rem;
+    font-size: var(--od-font-size-lg);
+  }
+
+  .od-kbd[data-size="xl"] {
+    min-width: 2.7rem;
+    padding: 0.42rem 0.72rem;
+    font-size: 1rem;
+  }
+
   /* ── Responsive ── */
 
   @media (max-width: 768px) {
@@ -62,15 +96,49 @@
       gap: var(--od-gap-2);
     }
 
+    .od-badge[data-size="xs"] {
+      padding: 0.22rem 0.38rem;
+      font-size: var(--od-font-size-3xs);
+    }
+
     .od-badge[data-size="md"] {
       padding: 0.38rem 0.6rem;
       font-size: var(--od-font-size-sm);
+    }
+
+    .od-badge[data-size="lg"] {
+      padding: 0.45rem 0.68rem;
+      font-size: var(--od-font-size-base);
     }
 
     .od-kbd {
       min-width: 1.75rem;
       padding: 0.18rem 0.38rem;
       font-size: var(--od-font-size-2xs);
+    }
+
+    .od-kbd[data-size="xs"] {
+      min-width: 1.45rem;
+      padding: 0.14rem 0.3rem;
+      font-size: var(--od-font-size-3xs);
+    }
+
+    .od-kbd[data-size="md"] {
+      min-width: 1.95rem;
+      padding: 0.2rem 0.42rem;
+      font-size: var(--od-font-size-sm);
+    }
+
+    .od-kbd[data-size="lg"] {
+      min-width: 2.1rem;
+      padding: 0.24rem 0.48rem;
+      font-size: var(--od-font-size-base);
+    }
+
+    .od-kbd[data-size="xl"] {
+      min-width: 2.3rem;
+      padding: 0.28rem 0.56rem;
+      font-size: var(--od-font-size-lg);
     }
   }
 }

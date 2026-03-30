@@ -65,12 +65,19 @@ describe("Compositions", () => {
           eyebrow="Workspace"
           title="Mission intake"
           description="Composition surface"
+          density="roomy"
           metaItems={[{ label: "Layer", value: "Framework" }]}
         />
-        <FilterStrip eyebrow="Filters" title="Search queue" description="Shared section">
+        <FilterStrip
+          eyebrow="Filters"
+          title="Search queue"
+          description="Shared section"
+          density="compact"
+        >
           <Input aria-label="Mission query" />
         </FilterStrip>
         <StatGrid
+          density="roomy"
           items={[
             {
               label: "Queued",
@@ -79,15 +86,26 @@ describe("Compositions", () => {
               tone: "primary",
               icon: <span aria-hidden="true">!</span>,
             },
+            {
+              label: "Review",
+              value: "07",
+              detail: "Needs manual check",
+              tone: "warning",
+            },
           ]}
         />
         <ActivityFeed
           eyebrow="Feed"
           title="Signals"
-          items={[{ title: "Relay sync complete", note: "Healthy", tone: "success" }]}
+          density="compact"
+          items={[
+            { title: "Relay sync complete", note: "Healthy", tone: "success" },
+            { title: "Watchpoint raised", note: "Pending review", tone: "warning" },
+          ]}
         />
         <MissionQueue
           title="Queue"
+          density="roomy"
           items={[
             {
               name: "Archive-17.tar",
@@ -95,19 +113,35 @@ describe("Compositions", () => {
               status: "Encrypted",
               tone: "success",
             },
+            {
+              name: "relay-index.csv",
+              detail: "Owner FIELD-12",
+              status: "Review",
+              tone: "warning",
+            },
           ]}
         />
-        <InspectorPanel title="Toolkit">Inspector body</InspectorPanel>
+        <InspectorPanel title="Toolkit" density="compact">Inspector body</InspectorPanel>
       </div>,
     );
 
     expect(document.querySelector(".oh-command-header")).not.toBeNull();
     expect(document.querySelector(".oh-command-header__lead")).not.toBeNull();
     expect(document.querySelector(".oh-filter-strip")).not.toBeNull();
+    expect(document.querySelector(".oh-filter-strip")).toHaveAttribute("data-density", "compact");
     expect(document.querySelector(".oh-stat-grid")).not.toBeNull();
+    expect(document.querySelector(".oh-stat-grid")).toHaveAttribute("data-density", "roomy");
+    expect(document.querySelector(".oh-stat-grid__item")).not.toHaveAttribute("data-size");
+    expect(document.querySelector(".oh-stat-grid__body")).not.toBeNull();
+    expect(document.querySelectorAll(".oh-stat-grid__item")).toHaveLength(2);
     expect(document.querySelector(".oh-activity-feed")).not.toBeNull();
+    expect(document.querySelector(".oh-activity-feed")).toHaveAttribute("data-density", "compact");
+    expect(document.querySelectorAll(".oh-activity-feed__item")).toHaveLength(2);
     expect(document.querySelector(".oh-mission-queue")).not.toBeNull();
+    expect(document.querySelector(".oh-mission-queue")).toHaveAttribute("data-density", "roomy");
+    expect(document.querySelectorAll(".oh-mission-queue__item")).toHaveLength(2);
     expect(document.querySelector(".oh-inspector-panel")).not.toBeNull();
+    expect(document.querySelector(".oh-inspector-panel")).toHaveAttribute("data-density", "compact");
     expect(document.querySelector(".oh-stat-grid__icon.oh-icon-slot")).not.toBeNull();
     expect(screen.getByText("Inspector body")).toBeInTheDocument();
   });

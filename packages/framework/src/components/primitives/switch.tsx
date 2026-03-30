@@ -14,12 +14,13 @@ import {
   type SemanticProps,
   type State,
   type Tone,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
 /** Props for the {@link Switch} component. */
 export interface SwitchProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children" | "onChange">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** Controlled checked state. */
   checked?: boolean;
   /** Initial checked state (uncontrolled). */

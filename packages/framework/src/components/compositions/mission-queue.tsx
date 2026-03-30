@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import type { Tone } from "../../lib/data-attrs";
+import type { Density, Tone } from "../../lib/data-attrs";
 import { Badge } from "../primitives/badge";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
@@ -26,6 +26,8 @@ export interface MissionQueueProps {
   badge?: ReactNode;
   /** Queue entries. */
   items: MissionQueueItem[];
+  /** Controls internal spacing rhythm. */
+  density?: Density;
   className?: string;
 }
 
@@ -41,16 +43,24 @@ export interface MissionQueueProps {
 export function MissionQueue({
   badge,
   className,
+  density = "default",
   eyebrow,
   items,
   title,
 }: MissionQueueProps) {
+  const titleId = useId();
+
   return (
-    <Panel className={cn("oh-mission-queue", className)}>
+    <Panel
+      density={density}
+      className={cn("oh-mission-queue", className)}
+      data-density={density}
+      aria-labelledby={titleId}
+    >
       <div className="oh-mission-queue__header">
         <div>
           {eyebrow ? <p className="oh-mission-queue__eyebrow">{eyebrow}</p> : null}
-          <h2 className="oh-mission-queue__title">{title}</h2>
+          <h2 id={titleId} className="oh-mission-queue__title">{title}</h2>
         </div>
         {badge ? <div className="oh-mission-queue__badge">{badge}</div> : null}
       </div>

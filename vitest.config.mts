@@ -5,7 +5,15 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
-    include: ["packages/framework/src/components/primitives/__tests__/**/*.test.tsx"],
+    include: ["packages/framework/src/components/**/__tests__/**/*.test.tsx"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html"],
+      include: ["packages/framework/src/components/**/*.{ts,tsx}"],
+      exclude: ["packages/framework/src/components/**/__tests__/**"],
+      thresholds: {
+        lines: 90,
+      },
+    },
   },
 });
-

@@ -53,6 +53,39 @@
     gap: var(--od-space-5);
   }
 
+  .od-dropzone[data-size="xs"] {
+    padding: var(--od-space-4);
+  }
+
+  .od-dropzone[data-size="xs"] .od-dropzone-content {
+    gap: var(--od-space-3);
+  }
+
+  .od-dropzone[data-size="xs"] .od-dropzone-copy {
+    gap: var(--od-gap-3);
+  }
+
+  .od-dropzone[data-size="xs"] .od-dropzone-title {
+    font-size: 1.15rem;
+  }
+
+  .od-dropzone[data-size="xs"] .od-dropzone-description,
+  .od-dropzone[data-size="xs"] .od-dropzone-hint {
+    font-size: var(--od-font-size-sm);
+  }
+
+  .od-dropzone[data-size="sm"] {
+    padding: var(--od-space-5);
+  }
+
+  .od-dropzone[data-size="sm"] .od-dropzone-content {
+    gap: var(--od-space-4);
+  }
+
+  .od-dropzone[data-size="sm"] .od-dropzone-title {
+    font-size: 1.35rem;
+  }
+
   .od-dropzone-copy {
     display: grid;
     gap: var(--od-gap-5);
@@ -84,6 +117,59 @@
     align-items: center;
     justify-content: center;
     color: var(--od-tone-text);
+  }
+
+  .od-dropzone-icon > :where(svg, img) {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  .od-dropzone[data-size="lg"] {
+    padding: 2.5rem;
+  }
+
+  .od-dropzone[data-size="lg"] .od-dropzone-content {
+    gap: var(--od-space-6);
+  }
+
+  .od-dropzone[data-size="lg"] .od-dropzone-title {
+    font-size: clamp(1.8rem, 2.2vw, 2.3rem);
+  }
+
+  .od-dropzone[data-size="lg"] .od-dropzone-description,
+  .od-dropzone[data-size="lg"] .od-dropzone-hint {
+    font-size: var(--od-font-size-lg);
+  }
+
+  .od-dropzone[data-size="lg"] .od-dropzone-icon > :where(svg, img) {
+    width: 1.55rem;
+    height: 1.55rem;
+  }
+
+  .od-dropzone[data-size="xl"] {
+    padding: 3rem;
+  }
+
+  .od-dropzone[data-size="xl"] .od-dropzone-content {
+    gap: var(--od-space-7);
+  }
+
+  .od-dropzone[data-size="xl"] .od-dropzone-copy {
+    gap: var(--od-gap-6);
+  }
+
+  .od-dropzone[data-size="xl"] .od-dropzone-title {
+    font-size: clamp(2rem, 2.4vw, 2.6rem);
+  }
+
+  .od-dropzone[data-size="xl"] .od-dropzone-description,
+  .od-dropzone[data-size="xl"] .od-dropzone-hint {
+    font-size: 1rem;
+  }
+
+  .od-dropzone[data-size="xl"] .od-dropzone-icon > :where(svg, img) {
+    width: 1.8rem;
+    height: 1.8rem;
   }
 
   .od-dropzone-status,

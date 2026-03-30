@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import type { Tone } from "../../lib/data-attrs";
+import type { Density, Tone } from "../../lib/data-attrs";
 import { Panel } from "../primitives/panel";
 
 /** A single metric card in a {@link StatGrid}. */
@@ -17,6 +17,8 @@ export interface StatGridItem {
 export interface StatGridProps {
   /** Metric cards to render. */
   items: StatGridItem[];
+  /** Controls panel density for each metric card. */
+  density?: Density;
   className?: string;
 }
 
@@ -29,15 +31,20 @@ export interface StatGridProps {
  * <StatGrid items={[{ label: "Ops", value: "12" }]} />
  * ```
  */
-export function StatGrid({ className, items }: StatGridProps) {
+export function StatGrid({
+  className,
+  density = "compact",
+  items,
+}: StatGridProps) {
   return (
-    <section className={cn("oh-stat-grid", className)}>
+    <section className={cn("oh-stat-grid", className)} data-density={density}>
       {items.map((item) => (
         <Panel
           key={`${item.label}-${item.value}`}
           tone={item.tone ?? "muted"}
-          density="compact"
+          density={density}
           className="oh-stat-grid__item"
+          aria-label={`${item.label} metric`}
         >
           <div className="oh-stat-grid__head">
             <p className="oh-stat-grid__label">{item.label}</p>
@@ -45,8 +52,10 @@ export function StatGrid({ className, items }: StatGridProps) {
               <div className="oh-stat-grid__icon oh-icon-slot">{item.icon}</div>
             ) : null}
           </div>
-          <p className="oh-stat-grid__value">{item.value}</p>
-          {item.detail ? <p className="oh-stat-grid__detail">{item.detail}</p> : null}
+          <div className="oh-stat-grid__body">
+            <p className="oh-stat-grid__value">{item.value}</p>
+            {item.detail ? <p className="oh-stat-grid__detail">{item.detail}</p> : null}
+          </div>
         </Panel>
       ))}
     </section>

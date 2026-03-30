@@ -13,9 +13,10 @@ import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
   type SemanticProps,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
-interface TabsContextValue extends SemanticProps {
+interface TabsContextValue extends SemanticProps<VisualSize> {
   activeValue: string;
   baseId: string;
   setActiveValue: (value: string) => void;
@@ -36,7 +37,7 @@ function useTabsContext() {
 /** Props for the {@link Tabs} container. */
 export interface TabsProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** Controlled active tab value. */
   value?: string;
   /** Initial value (uncontrolled). */
@@ -167,7 +168,7 @@ export function TabsList({
 /** Props for the {@link TabsTrigger} button. */
 export interface TabsTriggerProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** The value this trigger activates. */
   value: string;
 }
@@ -210,7 +211,7 @@ export function TabsTrigger({
 /** Props for the {@link TabsPanel} content area. */
 export interface TabsPanelProps
   extends HTMLAttributes<HTMLDivElement>,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** The value this panel corresponds to. */
   value: string;
   /** Keep the panel in the DOM even when inactive. */

@@ -3,12 +3,13 @@ import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
   type SemanticProps,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
 /** Props for the {@link Kbd} component. */
 export interface KbdProps
   extends HTMLAttributes<HTMLElement>,
-    SemanticProps {}
+    SemanticProps<VisualSize> {}
 
 /**
  * Keyboard shortcut indicator rendered as a `<kbd>` element.
@@ -32,4 +33,3 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(function Kbd(
     />
   );
 });
-

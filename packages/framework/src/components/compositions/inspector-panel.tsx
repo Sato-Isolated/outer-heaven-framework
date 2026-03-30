@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import type { Tone } from "../../lib/data-attrs";
+import type { Density, Tone } from "../../lib/data-attrs";
 import { Divider } from "../primitives/divider";
 import { Panel } from "../primitives/panel";
 
@@ -18,6 +18,8 @@ export interface InspectorPanelProps {
   children: ReactNode;
   /** Footer slot (below divider). */
   footer?: ReactNode;
+  /** Controls internal spacing rhythm. */
+  density?: Density;
   className?: string;
 }
 
@@ -35,18 +37,27 @@ export interface InspectorPanelProps {
 export function InspectorPanel({
   children,
   className,
+  density = "default",
   eyebrow,
   footer,
   icon,
   title,
   tone = "muted",
 }: InspectorPanelProps) {
+  const titleId = useId();
+
   return (
-    <Panel tone={tone} className={cn("oh-inspector-panel", className)}>
+    <Panel
+      tone={tone}
+      density={density}
+      className={cn("oh-inspector-panel", className)}
+      data-density={density}
+      aria-labelledby={titleId}
+    >
       <div className="oh-inspector-panel__header">
         <div>
           {eyebrow ? <p className="oh-inspector-panel__eyebrow">{eyebrow}</p> : null}
-          <h2 className="oh-inspector-panel__title">{title}</h2>
+          <h2 id={titleId} className="oh-inspector-panel__title">{title}</h2>
         </div>
         {icon ? <div className="oh-inspector-panel__icon oh-icon-slot">{icon}</div> : null}
       </div>

@@ -7,6 +7,7 @@ import {
 import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
+  type ButtonSize,
   type SemanticProps,
   type State,
 } from "../../lib/data-attrs";
@@ -15,7 +16,7 @@ import { Slot } from "../../lib/slot";
 /** Props for the {@link Button} component. */
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    SemanticProps {
+    SemanticProps<ButtonSize> {
   /** Render as child element via the {@link Slot} pattern. */
   asChild?: boolean;
   /** Remove background — text-only button. */

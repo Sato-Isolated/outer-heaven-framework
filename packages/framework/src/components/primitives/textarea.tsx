@@ -5,6 +5,7 @@ import {
 } from "react";
 import { cn } from "../../lib/cn";
 import {
+  type FieldSize,
   semanticDataAttributes,
   type SemanticProps,
   type State,
@@ -15,7 +16,7 @@ import { FieldShell } from "./field-shell";
 /** Props for the {@link Textarea} component. */
 export interface TextareaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">,
-    SemanticProps {
+    SemanticProps<FieldSize> {
   /** Mark as invalid — auto-sets `tone="danger"` and `aria-invalid`. */
   invalid?: boolean;
   /** Leading adornment (icon, symbol). */
@@ -42,6 +43,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     {
       className,
+      disabled,
       density,
       hint,
       insetLabel,
@@ -55,7 +57,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) {
-    const resolvedState: State = invalid ? "error" : state ?? "default";
+    const resolvedState: State = disabled
+      ? "disabled"
+      : invalid
+        ? "error"
+        : state ?? "default";
     const resolvedTone: Tone | undefined =
       resolvedState === "error"
         ? tone ?? "danger"
@@ -87,10 +93,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <FieldShell
         className={className}
         controlKind="textarea"
+        density={density}
         hint={hint}
         insetLabel={insetLabel}
         message={message}
         prefix={prefix}
+        size={size}
         tone={resolvedTone}
       >
         {({ hintId, messageId }) => {
@@ -102,6 +110,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               aria-invalid={invalid || undefined}
               aria-required={props.required || undefined}
               aria-describedby={describedBy}
+              disabled={disabled}
               {...semanticProps}
               {...props}
             />

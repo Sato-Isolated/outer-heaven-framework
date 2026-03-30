@@ -8,7 +8,7 @@ import {
 /** Props for the {@link Divider} component. */
 export interface DividerProps
   extends HTMLAttributes<HTMLDivElement>,
-    SemanticProps {
+    Omit<SemanticProps, "size"> {
   /** Axis of the divider line. @defaultValue `"horizontal"` */
   orientation?: "horizontal" | "vertical";
   /** Visual weight. @defaultValue `"subtle"` */
@@ -30,7 +30,6 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(function Divider
     contrast = "subtle",
     density,
     orientation = "horizontal",
-    size,
     state,
     tone,
     ...props
@@ -45,9 +44,8 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(function Divider
       className={cn("od-divider", className)}
       data-orientation={orientation}
       data-contrast={contrast}
-      {...semanticDataAttributes({ tone, size, state, density })}
+      {...semanticDataAttributes({ tone, state, density })}
       {...props}
     />
   );
 });
-

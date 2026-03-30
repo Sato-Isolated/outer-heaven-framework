@@ -20,6 +20,7 @@ import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
   type SemanticProps,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
 type TooltipSide = "top" | "bottom";
@@ -37,7 +38,7 @@ function composeHandler<E>(
 /** Props for the {@link Tooltip} component. */
 export interface TooltipProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "content" | "children">,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** The trigger element the tooltip anchors to. */
   children: ReactElement;
   /** Tooltip content (text or JSX). */

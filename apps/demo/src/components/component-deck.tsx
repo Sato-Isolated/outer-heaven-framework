@@ -11,30 +11,109 @@ import {
   Upload,
 } from "lucide-react";
 import {
+  ActivityFeed,
   Badge,
   Button,
   Checkbox,
   CommandHeader,
+  Dialog,
+  Divider,
   FilterStrip,
   Input,
+  InspectorPanel,
+  Kbd,
+  MissionQueue,
   Panel,
   RadioGroup,
   RadioGroupItem,
   Select,
+  Shell,
+  StatGrid,
   Switch,
   Tabs,
   TabsList,
   TabsPanel,
   TabsTrigger,
   Textarea,
+  Toast,
   Tooltip,
+  Dropzone,
 } from "@outerhaven/framework";
 
 export function ComponentDeck() {
   const [switchEnabled, setSwitchEnabled] = useState(true);
+  const [dialogSize, setDialogSize] = useState<"xs" | "sm" | "md" | "lg" | "xl" | null>(null);
+  const visualSizes = ["xs", "sm", "md", "lg", "xl"] as const;
+  const fieldSizes = ["xs", "sm", "md", "lg", "xl"] as const;
+  const badgeSizes = ["xs", "sm", "md", "lg"] as const;
+  const densityModes = ["compact", "default", "roomy"] as const;
+  const fieldOptions = [
+    { value: "active", label: "Active lane" },
+    { value: "review", label: "Review lane" },
+    { value: "archive", label: "Archive lane" },
+  ];
+  const densityStatItems = [
+    {
+      label: "Queued",
+      value: "18",
+      detail: "Card padding should step visibly across densities.",
+      tone: "primary" as const,
+      icon: <Activity className="h-4 w-4" />,
+    },
+    {
+      label: "Review",
+      value: "07",
+      detail: "Item rhythm should open up without changing hierarchy.",
+      tone: "warning" as const,
+      icon: <Info className="h-4 w-4" />,
+    },
+    {
+      label: "Cleared",
+      value: "26",
+      detail: "Roomy should feel broader, not just slightly taller.",
+      tone: "success" as const,
+      icon: <CheckCircle2 className="h-4 w-4" />,
+    },
+  ];
+  const densityFeedItems = [
+    {
+      title: "Relay sweep complete",
+      note: "Item rhythm should separate updates into readable slices.",
+      tone: "success" as const,
+      meta: "02m ago",
+    },
+    {
+      title: "Manual review required",
+      note: "Header spacing and item spacing should both grow with density.",
+      tone: "warning" as const,
+      meta: "11m ago",
+    },
+  ];
+  const densityQueueItems = [
+    {
+      name: "Archive-17.tar",
+      detail: "Owner NEST-04 / card padding reference",
+      status: "Ready",
+      tone: "success" as const,
+      action: <Button size="sm">Inspect</Button>,
+    },
+    {
+      name: "relay-index.csv",
+      detail: "Owner FIELD-12 / action gap reference",
+      status: "Review",
+      tone: "warning" as const,
+      action: <Button size="sm" tone="muted" ghost>Queue</Button>,
+    },
+  ];
+  const densityLabelCopy = {
+    compact: "Tightest rhythm",
+    default: "Balanced baseline",
+    roomy: "Most open rhythm",
+  } as const;
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
+    <main className="flex w-full flex-col gap-8 py-10">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
       <CommandHeader
         badge={<Badge tone="primary">Component Deck</Badge>}
         eyebrow="Framework Surface Index"
@@ -200,87 +279,218 @@ export function ComponentDeck() {
       </div>
 
       <Panel className="gap-6">
-        <div className="grid gap-2">
-          <p className="u-mono-label text-primary">Field Matrix</p>
-          <p className="max-w-3xl text-sm leading-7 text-muted">
-            Input, Select, and Textarea should now read as one field family. This matrix
-            keeps their label lane, prefix lane, and hint or message rhythm visible in one place.
-          </p>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="grid gap-2">
+            <p className="u-mono-label text-primary">Field Size Lab</p>
+            <p className="max-w-3xl text-sm leading-7 text-muted">
+              Input, Select, and Textarea now share a full `xs` to `xl` ladder.
+              This lab keeps content constant so the size changes stay visible in both native and wrapped modes.
+            </p>
+          </div>
+          <Badge tone="primary">FieldSize xs-sm-md-lg-xl</Badge>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-3">
-          <Panel tone="primary" density="compact" className="gap-4">
-            <p className="u-mono-label text-primary">Input</p>
-            <Input
-              aria-label="Input baseline"
-              insetLabel="Query"
-              placeholder="Search relay, payload, operator"
-            />
-            <Input
-              aria-label="Input with prefix"
-              insetLabel="Prefix lane"
-              prefix={<FileSearch />}
-              placeholder="Prefix and text should share one lane"
-              hint="Framework-owned icon sizing, no local h-4 w-4 override."
-            />
-            <Input
-              aria-label="Input watchpoint"
-              insetLabel="Watchpoint"
-              prefix={<Info />}
-              state="warning"
-              placeholder="Review before routing"
-              message="Warning state keeps copy and chrome aligned."
-            />
+        <Panel tone="primary" className="gap-5">
+          <div className="grid gap-2">
+            <p className="u-mono-label text-primary">Bare fields</p>
+            <p className="text-sm leading-6 text-muted">
+              Native field chrome only. Same copy, same options, same placeholder, different scale.
+            </p>
+          </div>
+
+          <div className="grid gap-6 xl:grid-cols-3">
+            <Panel tone="muted" density="compact" className="gap-4">
+              <p className="u-mono-label text-primary">Input</p>
+              {fieldSizes.map((size) => (
+                <div key={`bare-input-${size}`} className="grid gap-2">
+                  <p className="u-mono-label text-muted">{size}</p>
+                  <Input
+                    aria-label={`Bare input ${size}`}
+                    size={size}
+                    placeholder="Track relay or operator"
+                  />
+                </div>
+              ))}
+            </Panel>
+
+            <Panel tone="muted" density="compact" className="gap-4">
+              <p className="u-mono-label text-warning">Select</p>
+              {fieldSizes.map((size) => (
+                <div key={`bare-select-${size}`} className="grid gap-2">
+                  <p className="u-mono-label text-muted">{size}</p>
+                  <Select
+                    aria-label={`Bare select ${size}`}
+                    size={size}
+                    defaultValue="active"
+                    options={fieldOptions}
+                  />
+                </div>
+              ))}
+            </Panel>
+
+            <Panel tone="muted" density="compact" className="gap-4">
+              <p className="u-mono-label text-success">Textarea</p>
+              {fieldSizes.map((size) => (
+                <div key={`bare-textarea-${size}`} className="grid gap-2">
+                  <p className="u-mono-label text-muted">{size}</p>
+                  <Textarea
+                    aria-label={`Bare textarea ${size}`}
+                    size={size}
+                    placeholder="Extended operator note"
+                  />
+                </div>
+              ))}
+            </Panel>
+          </div>
+        </Panel>
+
+        <Panel tone="warning" className="gap-5">
+          <div className="grid gap-2">
+            <p className="u-mono-label text-warning">Wrapped fields</p>
+            <p className="text-sm leading-6 text-muted">
+              Same ladder, but through the actual product shell: inset label, prefix, helper copy, and textarea rhythm.
+            </p>
+          </div>
+
+          <div className="grid gap-6 xl:grid-cols-3">
+            <Panel tone="muted" density="compact" className="gap-4">
+              <p className="u-mono-label text-primary">Input shell</p>
+              {fieldSizes.map((size) => (
+                <div key={`wrapped-input-${size}`} className="grid gap-2">
+                  <p className="u-mono-label text-muted">{size}</p>
+                  <Input
+                    aria-label={`Wrapped input ${size}`}
+                    size={size}
+                    insetLabel="Query"
+                    prefix={<FileSearch />}
+                    placeholder="Track relay or operator"
+                    hint="Shared hint copy for shell comparison."
+                  />
+                </div>
+              ))}
+            </Panel>
+
+            <Panel tone="muted" density="compact" className="gap-4">
+              <p className="u-mono-label text-warning">Select shell</p>
+              {fieldSizes.map((size) => (
+                <div key={`wrapped-select-${size}`} className="grid gap-2">
+                  <p className="u-mono-label text-muted">{size}</p>
+                  <Select
+                    aria-label={`Wrapped select ${size}`}
+                    size={size}
+                    insetLabel="Lane"
+                    prefix={<Activity />}
+                    defaultValue="active"
+                    hint="Chevron, prefix, and text should keep one optical line."
+                    options={fieldOptions}
+                  />
+                </div>
+              ))}
+            </Panel>
+
+            <Panel tone="muted" density="compact" className="gap-4">
+              <p className="u-mono-label text-success">Textarea shell</p>
+              {fieldSizes.map((size) => (
+                <div key={`wrapped-textarea-${size}`} className="grid gap-2">
+                  <p className="u-mono-label text-muted">{size}</p>
+                  <Textarea
+                    aria-label={`Wrapped textarea ${size}`}
+                    size={size}
+                    insetLabel="Operator note"
+                    prefix={<Bell />}
+                    placeholder="Extended operator note"
+                    hint="Same copy, different shell rhythm."
+                  />
+                </div>
+              ))}
+            </Panel>
+          </div>
+        </Panel>
+
+        <div className="grid gap-6 xl:grid-cols-2">
+          <Panel tone="success" density="compact" className="gap-5">
+            <div className="grid gap-2">
+              <p className="u-mono-label text-success">State and density</p>
+              <p className="text-sm leading-6 text-muted">
+                Density should adjust rhythm, not erase the scale. Warning, error, and disabled states should remain legible at larger sizes.
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="grid gap-4">
+                <p className="u-mono-label text-primary">Density sweep</p>
+                {densityModes.map((density) => (
+                  <Input
+                    key={`density-field-${density}`}
+                    aria-label={`Density ${density} input`}
+                    size="lg"
+                    density={density}
+                    insetLabel={density.toUpperCase()}
+                    prefix={<FileSearch />}
+                    placeholder="Search relay"
+                    hint="Compare spacing without changing scale."
+                  />
+                ))}
+              </div>
+
+              <div className="grid gap-4">
+                <p className="u-mono-label text-warning">State sweep</p>
+                <Input
+                  aria-label="State warning input"
+                  size="xl"
+                  insetLabel="Warning"
+                  prefix={<Info />}
+                  state="warning"
+                  placeholder="Review before routing"
+                  message="Warning should stay visible at xl."
+                />
+                <Select
+                  aria-label="State error select"
+                  size="xl"
+                  insetLabel="Approval"
+                  prefix={<Shield />}
+                  invalid
+                  message="Error state should keep the same field shell geometry."
+                  defaultValue="review"
+                  options={fieldOptions}
+                />
+                <Textarea
+                  aria-label="State disabled textarea"
+                  size="lg"
+                  insetLabel="Disabled"
+                  disabled
+                  defaultValue="Awaiting upstream confirmation."
+                />
+              </div>
+            </div>
           </Panel>
 
-          <Panel tone="warning" density="compact" className="gap-4">
-            <p className="u-mono-label text-warning">Select</p>
-            <Select aria-label="Select baseline" insetLabel="Sector" defaultValue="all" options={[
-              { value: "all", label: "All sectors" },
-              { value: "north", label: "North relay" },
-              { value: "south", label: "South relay" },
-            ]} />
-            <Select
-              aria-label="Select with prefix"
-              insetLabel="Lane"
-              prefix={<Activity />}
-              defaultValue="active"
-              hint="Chevron and prefix should sit on the same optical line as the value."
-              options={[
-                { value: "active", label: "Active lane" },
-                { value: "review", label: "Review lane" },
-                { value: "archive", label: "Archive lane" },
-              ]}
-            />
-            <Select
-              aria-label="Select approval"
-              insetLabel="Approval"
-              prefix={<Shield />}
-              defaultValue="blocked"
-              invalid
-              message="Approval lane must be resolved before export."
-              options={[
-                { value: "blocked", label: "Blocked" },
-                { value: "review", label: "Review" },
-                { value: "approved", label: "Approved" },
-              ]}
-            />
-          </Panel>
+          <Panel tone="muted" density="compact" className="gap-5">
+            <div className="grid gap-2">
+              <p className="u-mono-label text-primary">Contract note</p>
+              <p className="text-sm leading-6 text-muted">
+                The field family now has one explicit public ladder: `xs`, `sm`, `md`, `lg`, `xl`.
+                The demo keeps placeholder, label, prefix, and helper copy stable so visual differences can be judged at a glance.
+              </p>
+            </div>
 
-          <Panel tone="success" density="compact" className="gap-4">
-            <p className="u-mono-label text-success">Textarea</p>
-            <Textarea
-              aria-label="Textarea baseline"
-              insetLabel="Mission note"
-              placeholder="Long-form notes keep the same shell while using a different text rhythm."
-            />
-            <Textarea
-              aria-label="Textarea with prefix"
-              insetLabel="Operator handoff"
-              prefix={<Bell />}
-              placeholder="Prefix should align to the first reading lane, not the vertical center of the whole box."
-              hint="Textarea stays in-family without forcing single-line optics."
-            />
+            <div className="grid gap-4">
+              <Input
+                aria-label="Contract reference input"
+                size="md"
+                insetLabel="Reference"
+                prefix={<FileSearch />}
+                placeholder="Use md as the baseline reading size."
+                hint="All other field sizes should read as a clear step away from this baseline."
+              />
+              <div className="flex flex-wrap gap-3">
+                {fieldSizes.map((size) => (
+                  <Badge key={`field-contract-${size}`} tone="primary">
+                    {size}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           </Panel>
         </div>
       </Panel>
@@ -411,6 +621,463 @@ export function ComponentDeck() {
         </div>
       </Panel>
 
+      <Panel className="gap-6">
+        <div className="grid gap-2">
+          <p className="u-mono-label text-primary">Variant Completion</p>
+          <p className="max-w-3xl text-sm leading-7 text-muted">
+            v0.4 closes the remaining size gaps so micro-actions, compact forms, and hero-grade
+            calls to action all stay inside the same semantic contract.
+          </p>
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-2">
+          <Panel tone="primary" density="compact" className="gap-4">
+            <p className="u-mono-label text-primary">Button sizes</p>
+            <div className="flex flex-wrap gap-3">
+              {visualSizes.map((size) => (
+                <Button key={size} tone="primary" size={size}>
+                  {size.toUpperCase()} action
+                </Button>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {visualSizes.map((size) => (
+                <Button
+                  key={`icon-${size}`}
+                  tone="warning"
+                  size={size}
+                  iconOnly
+                  aria-label={`${size} icon action`}
+                >
+                  <Bell className="h-4 w-4" />
+                </Button>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel tone="warning" density="compact" className="gap-4">
+            <p className="u-mono-label text-warning">Badge sizes</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {badgeSizes.map((size) => (
+                <Badge key={size} tone="warning" size={size}>
+                  {size}
+                </Badge>
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              {visualSizes.map((size) => (
+                <Kbd key={`variant-kbd-${size}`} size={size}>
+                  {size.toUpperCase()}
+                </Kbd>
+              ))}
+            </div>
+          </Panel>
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-2">
+          <Panel tone="primary" density="compact" className="gap-4">
+            <p className="u-mono-label text-primary">Control sizes</p>
+            <div className="grid gap-4">
+              {visualSizes.map((size) => (
+                <Panel key={`controls-${size}`} tone="muted" density="compact" className="gap-3">
+                  <p className="u-mono-label text-primary">{size}</p>
+                  <div className="grid gap-4 lg:grid-cols-3">
+                    <Checkbox size={size}>Checkpoint sync</Checkbox>
+                    <Switch size={size} label={`${size.toUpperCase()} monitor`} defaultChecked />
+                    <RadioGroup
+                      name={`control-size-${size}`}
+                      size={size}
+                      defaultValue="primary"
+                      orientation="horizontal"
+                    >
+                      <RadioGroupItem value="primary">Primary</RadioGroupItem>
+                      <RadioGroupItem value="fallback">Fallback</RadioGroupItem>
+                    </RadioGroup>
+                  </div>
+                </Panel>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel tone="warning" density="compact" className="gap-4">
+            <p className="u-mono-label text-warning">Tabs sizes</p>
+            <div className="grid gap-4">
+              {visualSizes.map((size) => (
+                <Tabs
+                  key={`tabs-${size}`}
+                  defaultValue="signal"
+                  size={size}
+                  tone={size === "xl" ? "warning" : "primary"}
+                >
+                  <TabsList>
+                    <TabsTrigger value="signal">{size.toUpperCase()}</TabsTrigger>
+                    <TabsTrigger value="relay">Relay</TabsTrigger>
+                  </TabsList>
+                  <TabsPanel value="signal">
+                    <p className="text-sm leading-6 text-muted">
+                      Trigger height, internal padding, and panel rhythm scale with <strong>{size}</strong>.
+                    </p>
+                  </TabsPanel>
+                  <TabsPanel value="relay">
+                    <p className="text-sm leading-6 text-muted">
+                      Shared metadata stays stable while the visual ladder changes.
+                    </p>
+                  </TabsPanel>
+                </Tabs>
+              ))}
+            </div>
+          </Panel>
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-2">
+          <Panel tone="success" density="compact" className="gap-4">
+            <p className="u-mono-label text-success">Overlay sizes</p>
+            <div className="flex flex-wrap gap-3">
+              {visualSizes.map((size) => (
+                <Tooltip
+                  key={`tooltip-${size}`}
+                  size={size}
+                  tone="primary"
+                  content={`${size.toUpperCase()} tooltip spacing and copy width`}
+                >
+                  <Button size="sm" tone="primary" ghost>
+                    {size.toUpperCase()} tip
+                  </Button>
+                </Tooltip>
+              ))}
+            </div>
+            <div className="grid gap-3">
+              {visualSizes.map((size) => (
+                <Toast
+                  key={`toast-${size}`}
+                  size={size}
+                  tone={size === "xs" ? "muted" : size === "xl" ? "warning" : "success"}
+                  title={`${size.toUpperCase()} relay notice`}
+                  description="Toast sizing changes width, padding, and the content hierarchy without changing tone semantics."
+                  showProgress={false}
+                />
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {visualSizes.map((size) => (
+                <Button
+                  key={`dialog-${size}`}
+                  size="sm"
+                  tone="warning"
+                  ghost
+                  onClick={() => setDialogSize(size)}
+                >
+                  Open {size.toUpperCase()} dialog
+                </Button>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel tone="danger" density="compact" className="gap-4">
+            <p className="u-mono-label text-danger">Kbd and Dropzone sizes</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {visualSizes.map((size) => (
+                <Kbd key={`kbd-${size}`} size={size}>
+                  {size.toUpperCase()}
+                </Kbd>
+              ))}
+            </div>
+            <div className="grid gap-4">
+              {(["xs", "md", "xl"] as const).map((size) => (
+                <Dropzone
+                  key={`dropzone-${size}`}
+                  size={size}
+                  tone={size === "xl" ? "warning" : "primary"}
+                  state={size === "xs" ? "default" : "active"}
+                  eyebrow={`${size.toUpperCase()} upload`}
+                  title={`${size.toUpperCase()} payload lane`}
+                  description="Dropzone padding, copy hierarchy, and sidecar action area all scale with size."
+                  hint="PNG, PDF, TAR"
+                  icon={<Upload className="h-5 w-5" />}
+                  status={<Badge tone="success">Ready</Badge>}
+                  actions={<Button size="sm">Browse</Button>}
+                >
+                  <p className="text-sm leading-6 text-muted">
+                    Operators can inspect the upload contract without guessing which sizes are actually supported.
+                  </p>
+                </Dropzone>
+              ))}
+            </div>
+          </Panel>
+        </div>
+      </Panel>
+
+      </div>
+
+      <section className="mx-auto w-full max-w-[112rem] px-4 sm:px-6 lg:px-8">
+        <Panel className="gap-6">
+          <div className="grid gap-2">
+            <p className="u-mono-label text-primary">Density Sweep</p>
+            <p className="max-w-3xl text-sm leading-7 text-muted">
+              Compact, default, and roomy now behave as first-class presentation choices across
+              primitives and compositions instead of existing only on select surfaces.
+            </p>
+          </div>
+
+          <div className="hidden items-start gap-4 xl:grid xl:grid-cols-[14rem_repeat(3,minmax(0,1fr))]">
+            <div />
+            {densityModes.map((density) => (
+              <div
+                key={`density-header-${density}`}
+                className="grid gap-1 rounded-md border border-border/60 bg-background/35 px-4 py-3"
+              >
+                <p className="u-mono-label text-primary">{density}</p>
+                <p className="text-sm leading-6 text-muted">{densityLabelCopy[density]}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-8">
+            <div className="grid items-start gap-4 xl:grid-cols-[14rem_repeat(3,minmax(0,1fr))]">
+              <div className="grid gap-2 xl:pt-3">
+                <p className="u-mono-label text-primary">Primitive baseline</p>
+                <p className="text-sm leading-6 text-muted">
+                  One compact control stack to compare base rhythm before heavier compositions.
+                </p>
+              </div>
+              {densityModes.map((density) => (
+                <div key={`baseline-${density}`} className="grid min-w-0 gap-4">
+                  <div className="grid gap-1 xl:hidden">
+                    <p className="u-mono-label text-primary">{density}</p>
+                    <p className="text-sm leading-6 text-muted">{densityLabelCopy[density]}</p>
+                  </div>
+                  <Shell density={density} className="grid gap-4">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Button tone="primary" density={density} size="sm">Action</Button>
+                      <Badge tone="success" size="sm">Live</Badge>
+                      <Kbd>F</Kbd>
+                    </div>
+                    <Divider />
+                    <Input
+                      aria-label={`${density} density query`}
+                      density={density}
+                      insetLabel="Query"
+                      placeholder="Search relay"
+                    />
+                    <Checkbox density={density}>Track this route</Checkbox>
+                    <Switch density={density} label="Relay monitor" defaultChecked />
+                  </Shell>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid items-start gap-4 border-t border-border/60 pt-6 xl:grid-cols-[14rem_repeat(3,minmax(0,1fr))]">
+              <div className="grid gap-2 xl:pt-3">
+                <p className="u-mono-label text-primary">Header and controls</p>
+                <p className="text-sm leading-6 text-muted">
+                  Compare title rhythm first, then the filter body and control spacing below it.
+                </p>
+              </div>
+              {densityModes.map((density) => (
+                <div key={`header-controls-${density}`} className="grid min-w-0 gap-4">
+                  <div className="grid gap-1 xl:hidden">
+                    <p className="u-mono-label text-primary">{density}</p>
+                    <p className="text-sm leading-6 text-muted">{densityLabelCopy[density]}</p>
+                  </div>
+                  <CommandHeader
+                    density={density}
+                    eyebrow="Header spacing"
+                    title={`${density} command rhythm`}
+                    description="Spacing changes should stay structural, not decorative."
+                    actions={<Button size="sm">Queue</Button>}
+                    metaItems={[{ label: "Density", value: density }]}
+                  />
+                  <FilterStrip
+                    density={density}
+                    eyebrow="Header + controls"
+                    title="Lane filters"
+                    description="Header spacing and controls rhythm should visibly scale."
+                    shortcuts={
+                      <div className="flex flex-wrap gap-2">
+                        <Badge tone="primary" size="xs">Header spacing</Badge>
+                        <Badge tone="muted" size="xs">Controls rhythm</Badge>
+                      </div>
+                    }
+                  >
+                    <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+                      <Input
+                        aria-label={`${density} filter query`}
+                        size="xs"
+                        insetLabel="Query"
+                        placeholder="Search relay"
+                      />
+                      <Select
+                        aria-label={`${density} filter lane`}
+                        size="xs"
+                        insetLabel="Lane"
+                        defaultValue="active"
+                        options={fieldOptions}
+                      />
+                      <Button size="sm" tone="muted" ghost>
+                        Apply
+                      </Button>
+                    </div>
+                  </FilterStrip>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid items-start gap-4 border-t border-border/60 pt-6 xl:grid-cols-[14rem_repeat(3,minmax(0,1fr))]">
+              <div className="grid gap-2 xl:pt-3">
+                <p className="u-mono-label text-primary">Metric cards</p>
+                <p className="text-sm leading-6 text-muted">
+                  The same three stats should show card padding and value hierarchy changes immediately.
+                </p>
+              </div>
+              {densityModes.map((density) => (
+                <div key={`metrics-${density}`} className="grid min-w-0 gap-4">
+                  <div className="grid gap-1 xl:hidden">
+                    <p className="u-mono-label text-primary">{density}</p>
+                    <p className="text-sm leading-6 text-muted">{densityLabelCopy[density]}</p>
+                  </div>
+                  <StatGrid
+                    density={density}
+                    items={densityStatItems}
+                    className="oh-density-sweep__metric-grid"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="grid items-start gap-4 border-t border-border/60 pt-6 xl:grid-cols-[14rem_repeat(3,minmax(0,1fr))]">
+              <div className="grid gap-2 xl:pt-3">
+                <p className="u-mono-label text-primary">List rhythm</p>
+                <p className="text-sm leading-6 text-muted">
+                  Feed and queue stay paired so item spacing reads as one family across densities.
+                </p>
+              </div>
+              {densityModes.map((density) => (
+                <div key={`lists-${density}`} className="grid min-w-0 gap-4">
+                  <div className="grid gap-1 xl:hidden">
+                    <p className="u-mono-label text-primary">{density}</p>
+                    <p className="text-sm leading-6 text-muted">{densityLabelCopy[density]}</p>
+                  </div>
+                  <ActivityFeed
+                    density={density}
+                    eyebrow="Item rhythm"
+                    title="Signals"
+                    items={densityFeedItems}
+                  />
+                  <MissionQueue
+                    density={density}
+                    eyebrow="Queue spacing"
+                    title="Queue"
+                    badge={<Badge tone="primary" size="xs">item rhythm</Badge>}
+                    items={densityQueueItems}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="grid items-start gap-4 border-t border-border/60 pt-6 xl:grid-cols-[14rem_repeat(3,minmax(0,1fr))]">
+              <div className="grid gap-2 xl:pt-3">
+                <p className="u-mono-label text-primary">Detail surface</p>
+                <p className="text-sm leading-6 text-muted">
+                  The inspector closes the sweep with body and footer spacing only.
+                </p>
+              </div>
+              {densityModes.map((density) => (
+                <div key={`inspector-${density}`} className="grid min-w-0 gap-4">
+                  <div className="grid gap-1 xl:hidden">
+                    <p className="u-mono-label text-primary">{density}</p>
+                    <p className="text-sm leading-6 text-muted">{densityLabelCopy[density]}</p>
+                  </div>
+                  <InspectorPanel
+                    density={density}
+                    title="Inspector"
+                    eyebrow="Footer spacing"
+                    footer={
+                      <div className="flex flex-wrap gap-3">
+                        <Button size="sm">Promote</Button>
+                        <Button size="sm" tone="muted" ghost>Close</Button>
+                      </div>
+                    }
+                  >
+                    <div className="grid gap-3">
+                      <p className="u-mono-label text-primary">Body spacing</p>
+                      <p className="text-sm leading-6 text-muted">
+                        Footer spacing, body rhythm, and header separation should all respond to the same density selection.
+                      </p>
+                    </div>
+                  </InspectorPanel>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Panel>
+      </section>
+
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
+        <Panel className="gap-6">
+          <div className="grid gap-2">
+            <p className="u-mono-label text-primary">State Audit</p>
+            <p className="max-w-3xl text-sm leading-7 text-muted">
+              Disabled, loading, warning, and error paths should stay legible whether the state is
+              applied directly or inherited through a disabled fieldset.
+            </p>
+          </div>
+
+        <div className="grid gap-6 xl:grid-cols-3">
+          <Panel tone="primary" density="compact" className="gap-4">
+            <p className="u-mono-label text-primary">Button states</p>
+            <Button tone="primary" loading>Encrypting payload</Button>
+            <Button tone="muted" disabled>Disabled action</Button>
+            <Button tone="warning" ghost>
+              <Info className="h-4 w-4" />
+              Review state
+            </Button>
+          </Panel>
+
+          <Panel tone="warning" density="compact" className="gap-4">
+            <p className="u-mono-label text-warning">Field states</p>
+            <Input
+              aria-label="Error field"
+              insetLabel="Compromised"
+              invalid
+              message="This route needs manual review."
+            />
+            <Select
+              aria-label="Warning field"
+              insetLabel="Escalation"
+              state="warning"
+              defaultValue="review"
+              options={[
+                { value: "review", label: "Review lane" },
+                { value: "hold", label: "Hold lane" },
+              ]}
+            />
+            <Textarea
+              aria-label="Disabled field"
+              insetLabel="Readonly handoff"
+              disabled
+              defaultValue="Awaiting upstream confirmation."
+            />
+          </Panel>
+
+          <Panel tone="danger" density="compact" className="gap-4">
+            <p className="u-mono-label text-danger">Fieldset cascade</p>
+            <fieldset disabled className="grid gap-4 border border-border/60 p-4">
+              <Input
+                aria-label="Cascade input"
+                insetLabel="Inherited disable"
+                placeholder="This should dim without local props."
+              />
+              <Checkbox>Inherited checkbox</Checkbox>
+              <Switch label="Inherited switch" defaultChecked />
+            </fieldset>
+            <p className="text-sm leading-6 text-muted">
+              Wrapper chrome should dim when the browser disables descendants through fieldset
+              inheritance, not only when each child gets a local prop.
+            </p>
+          </Panel>
+        </div>
+      </Panel>
+
       <Panel className="gap-5">
         <p className="u-mono-label text-primary">Adoption note</p>
         <p className="max-w-3xl text-sm leading-7 text-muted">
@@ -428,6 +1095,35 @@ export function ComponentDeck() {
           </Button>
         </div>
       </Panel>
+
+      <Dialog
+        open={dialogSize !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDialogSize(null);
+          }
+        }}
+        size={dialogSize ?? "md"}
+        tone="warning"
+        title={`${(dialogSize ?? "md").toUpperCase()} secure overlay`}
+        description="Dialog sizing now affects width, header rhythm, and copy hierarchy instead of being a no-op."
+        footer={
+          <div className="flex flex-wrap gap-3">
+            <Button size="sm" tone="warning">
+              Confirm route
+            </Button>
+            <Button size="sm" tone="muted" ghost onClick={() => setDialogSize(null)}>
+              Cancel
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-sm leading-6 text-muted">
+          The overlay keeps the same semantic contract while changing its visual scale from
+          compact review prompts to broader briefing surfaces.
+        </p>
+      </Dialog>
+      </div>
     </main>
   );
 }

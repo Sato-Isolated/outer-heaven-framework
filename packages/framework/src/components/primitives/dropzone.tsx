@@ -7,12 +7,13 @@ import { cn } from "../../lib/cn";
 import {
   semanticDataAttributes,
   type SemanticProps,
+  type VisualSize,
 } from "../../lib/data-attrs";
 
 /** Props for the {@link Dropzone} component. */
 export interface DropzoneProps
   extends HTMLAttributes<HTMLDivElement>,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** Mono-label eyebrow text above the title. */
   eyebrow?: string;
   /** Heading for the drop area. */

@@ -18,6 +18,7 @@ import {
   semanticDataAttributes,
   type SemanticProps,
   type Tone,
+  type VisualSize,
 } from "../../lib/data-attrs";
 import { DEFAULT_TOAST_DURATION, TOAST_DISMISS_ANIMATION_MS } from "../../lib/constants";
 import { Button } from "./button";
@@ -25,7 +26,7 @@ import { Button } from "./button";
 /** Props for the {@link Toast} component. */
 export interface ToastProps
   extends HTMLAttributes<HTMLDivElement>,
-    SemanticProps {
+    SemanticProps<VisualSize> {
   /** Toast heading. */
   title: string;
   /** Secondary descriptive text. */
@@ -127,12 +128,12 @@ export function Toast({
       {...semanticDataAttributes({ tone, size, state, density })}
       {...props}
     >
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-2">
+      <div className="od-toast-content">
+        <div className="od-toast-copy">
           <p className="u-mono-label u-tone-text">Signal Relay</p>
-          <p className="text-sm font-semibold text-foreground">{title}</p>
-          {description ? <p className="text-sm text-muted">{description}</p> : null}
-          {action ? <div className="pt-1">{action}</div> : null}
+          <p className="od-toast-title">{title}</p>
+          {description ? <p className="od-toast-description">{description}</p> : null}
+          {action ? <div className="od-toast-action">{action}</div> : null}
         </div>
         {onDismiss ? (
           <Button
